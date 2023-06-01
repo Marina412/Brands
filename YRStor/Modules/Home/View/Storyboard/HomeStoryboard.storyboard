@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Home View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="Y6W-OH-hqX" customClass="HomeViewController" customModule="YRStor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rko-lO-8yr">
+                                <rect key="frame" x="25" y="79" width="343" height="168"/>
+                                <color key="backgroundColor" red="0.95294117649999999" green="0.39607843139999999" blue="0.08235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="168" id="mga-RJ-4z9"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="4OF-ed-9KH">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brands" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UaT-NL-hvo">
+                                <rect key="frame" x="25" y="277" width="343" height="34"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <color key="textColor" red="0.4431372549" green="0.16078431369999999" blue="0.42352941179999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cxK-za-F2s">
+                                <rect key="frame" x="25" y="331" width="343" height="467"/>
+                                <color key="backgroundColor" systemColor="systemPurpleColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Dun-76-KKh">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="cxK-za-F2s" secondAttribute="trailing" constant="25" id="3j5-Q6-Di5"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="cxK-za-F2s" secondAttribute="bottom" constant="20" id="Iru-FS-DdX"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="UaT-NL-hvo" secondAttribute="trailing" constant="25" id="Q9J-eH-lqW"/>
+                            <constraint firstItem="rko-lO-8yr" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="25" id="R1o-Bh-8kH"/>
+                            <constraint firstItem="UaT-NL-hvo" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="25" id="YTp-8S-S5F"/>
+                            <constraint firstItem="UaT-NL-hvo" firstAttribute="top" secondItem="rko-lO-8yr" secondAttribute="bottom" constant="30" id="dwP-dz-hZT"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="rko-lO-8yr" secondAttribute="trailing" constant="25" id="lLQ-rT-AHh"/>
+                            <constraint firstItem="cxK-za-F2s" firstAttribute="top" secondItem="UaT-NL-hvo" secondAttribute="bottom" constant="20" id="lkN-Ew-zNj"/>
+                            <constraint firstItem="cxK-za-F2s" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="25" id="rCy-eS-0Cy"/>
+                            <constraint firstItem="rko-lO-8yr" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="vgk-IE-kc1"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="adsCollectionView" destination="rko-lO-8yr" id="d6c-op-SwE"/>
+                        <outlet property="brandsCollectionView" destination="cxK-za-F2s" id="bSi-69-ouT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="23.664122137404579" y="-34.507042253521128"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemPurpleColor">
+            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
