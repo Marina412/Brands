@@ -7,11 +7,6 @@
 
 import Foundation
 class HomeViewModel{
-    let repo:RepoProtocol
-        var ads:[HomeAd]=[]
-        var brands:[HomeBrand]=[]
-        init(repo:RepoProtocol) {
-            self.repo = repo
-        }
+   
 
 }
