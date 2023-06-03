@@ -12,6 +12,8 @@ target 'YRStor' do
 	pod 'Kingfisher'
 	pod 'ReachabilitySwift'
 	pod 'Alamofire'
+	pod 'WMSegmentControl'
+	pod 'Floaty', '~> 4.1.0'
 
   # Pods for YRStor
 

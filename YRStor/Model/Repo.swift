@@ -8,6 +8,7 @@
 import Foundation
 protocol RepoProtocol{
     func getAllProducts(completion: @escaping (AllProudects?)->())
+    func getAllCollections(completion: @escaping ([Collection]?)->())
 }
 class Repo : RepoProtocol{
     
@@ -19,6 +20,10 @@ class Repo : RepoProtocol{
         networkManager?.getDataFromApi(apiUrl: Constant.ALL_PRODUCTS_URL, val: AllProudects.self, completion: { res in
             completion(res)
         })
-        
+    }
+    func getAllCollections(completion: @escaping ([Collection]?)->()){
+        networkManager?.getDataFromApi(apiUrl: Constant.COLECTIONS_URL, val: Collections.self, completion: {res in
+            completion(res?.collection_listings)
+        })
     }
 }
