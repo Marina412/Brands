@@ -84,7 +84,7 @@ extension SearchViewController : UISearchResultsUpdating {
         //allProductsTable.isHidden = false
         if let searchText = searchController.searchBar.text, !searchText.isEmpty {
             let filteredItems = allProductsArr.value.filter { item in
-                return item.title.lowercased().contains(searchText.lowercased())
+                return (item.title?.lowercased().contains(searchText.lowercased()) != nil)
             }
             filteredProductsArr.accept(filteredItems)
             allProductsTable.reloadData()

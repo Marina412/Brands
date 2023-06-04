@@ -47,7 +47,7 @@
                 <outlet property="brandImg" destination="jPb-hW-eQA" id="T91-Sn-yOV"/>
                 <outlet property="brandName" destination="5ol-7R-seG" id="BbB-we-DYn"/>
             </connections>
-            <point key="canvasLocation" x="134.35114503816794" y="-8.4507042253521139"/>
+            <point key="canvasLocation" x="133.58778625954199" y="-8.4507042253521139"/>
         </collectionViewCell>
     </objects>
 </document>

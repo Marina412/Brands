@@ -37,6 +37,13 @@ class HomeViewController: UIViewController {
     }
 }
 extension HomeViewController{
+    private func registerXibCells(){
+        adsCollectionView.register(UINib(nibName: "AdsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AdsCollectionViewCell")
+        
+        brandsCollectionView.register(UINib(nibName: "BrandCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BrandCollectionViewCell")
+    }
+}
+extension HomeViewController{
     func navigationBarButtons(){
         
         let searchBtn = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(self.navToFavoriteScreen))
@@ -44,13 +51,6 @@ extension HomeViewController{
         let shoppingBagBtn = UIBarButtonItem(image: UIImage(systemName: "bag.fill"), style: .plain, target: self, action: #selector(self.navToShoppingBagScreen))
         
         navigationItem.rightBarButtonItems = [searchBtn, shoppingBagBtn]
-        
-    }
-    private func registerXibCells(){
-        adsCollectionView.register(UINib(nibName: "AdsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AdsCollectionViewCell")
-        
-        brandsCollectionView.register(UINib(nibName: "BrandCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BrandCollectionViewCell")
-        
     }
 }
 extension HomeViewController{
@@ -60,7 +60,6 @@ extension HomeViewController{
     @objc func navToShoppingBagScreen(){
         print("go to bag ")
     }
-    
 }
 extension HomeViewController : UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -72,10 +71,11 @@ extension HomeViewController : UICollectionViewDelegate{
         case brandsCollectionView:
             let categoryVC = self.storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
             categoryVC.brandId = homeVM.brands[indexPath.row].collectionID
+            categoryVC.brandTitle = homeVM.brands[indexPath.row].title
             categoryVC.modalPresentationStyle = .fullScreen
             categoryVC.modalTransitionStyle = .flipHorizontal
             self.present(categoryVC, animated: true)
-    
+            
         default:
             print("")
             
