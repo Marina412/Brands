@@ -1,0 +1,6 @@
+framework module Pods_YRStor {
+  umbrella header "Pods-YRStor-umbrella.h"
+
+  export *
+  module * { export * }
+}
