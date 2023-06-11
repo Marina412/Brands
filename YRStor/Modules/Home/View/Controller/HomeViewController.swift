@@ -9,18 +9,34 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    @IBOutlet weak var adsCollectionView: UICollectionView!
+    @IBOutlet weak var adsCollectionV: UICollectionView!
     @IBOutlet weak var brandsCollectionView: UICollectionView!
+   
+    @IBOutlet weak var pageControl: UIPageControl!
+    
     var homeVM:HomeViewModel!
+//    var currentPage = 0{
+//        didSet{
+//            if currentPage == homeVM.homeAdvertisment.count-1{
+//                currentPage = 0
+//            }
+//            DispatchQueue.main.asyncAfter(deadline:DispatchTime.now()+2) {
+//                self.currentPage += 1
+//            }
+//        }
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("hello from home")
+        pageControl.currentPage = 0
+        pageControl.numberOfPages = 3
+        
         let remote = NetworkManager()
         //let local = DataBaseManager()
         let repo = Repo(networkManager: remote)
         homeVM = HomeViewModel(repo: repo)
-        [adsCollectionView,brandsCollectionView].forEach {
+        [brandsCollectionView].forEach {
             $0?.delegate   = self
             $0?.dataSource = self
         }
@@ -38,9 +54,7 @@ class HomeViewController: UIViewController {
 }
 extension HomeViewController{
     private func registerXibCells(){
-        adsCollectionView.register(UINib(nibName: "AdsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "AdsCollectionViewCell")
-        
-        brandsCollectionView.register(UINib(nibName: "BrandCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BrandCollectionViewCell")
+               brandsCollectionView.register(UINib(nibName: "BrandCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BrandCollectionViewCell")
     }
 }
 extension HomeViewController{
@@ -62,11 +76,14 @@ extension HomeViewController{
     }
 }
 extension HomeViewController : UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        pageControl.currentPage = indexPath.row
+    }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         switch collectionView{
-        case adsCollectionView:
-            print("")
+//        case adsCollectionView:
+//            print("")
             
         case brandsCollectionView:
             let categoryVC = self.storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
@@ -84,11 +101,12 @@ extension HomeViewController : UICollectionViewDelegate{
     }
 }
 extension HomeViewController : UICollectionViewDataSource{
+   
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView{
-        case adsCollectionView:
-            return homeVM.ads.count
+        case adsCollectionV:
+            return homeVM.homeAdvertisment.count
         case brandsCollectionView:
             return homeVM.brands.count
         default:
@@ -98,10 +116,10 @@ extension HomeViewController : UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView{
-        case adsCollectionView:
-            
+        case adsCollectionV:
             let adsCell = collectionView.dequeueReusableCell(withReuseIdentifier: "AdsCollectionViewCell", for: indexPath) as? AdsCollectionViewCell
-            adsCell?.cellSetUp(ad: homeVM.ads[indexPath.row])
+            adsCell?.adsImage.image = UIImage(named: homeVM.homeAdvertisment[indexPath.row])
+            adsCell?.adsImage.layer.cornerRadius = 50.0
             return adsCell ?? AdsCollectionViewCell()
             
         case brandsCollectionView:
@@ -120,16 +138,18 @@ extension HomeViewController : UICollectionViewDataSource{
 }
 
 extension HomeViewController : UICollectionViewDelegateFlowLayout{
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView{
-        case adsCollectionView:
-            return CGSize(width: collectionView.frame.width , height: collectionView.frame.height)
         case brandsCollectionView:
             return CGSize(width: collectionView.frame.width * 0.50 , height: collectionView.frame.height * 0.50)
         default:
             return CGSize(width: 0, height: 0)
         }
     }
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        let width = scrollView.frame.width
+//        currentPage=Int(scrollView.contentOffset.x / width)
+//        homePageControl.currentPage = currentPage
+//    }
 }
 

@@ -14,5 +14,5 @@ let profileData:[Data]=[
     Data(title: "My Orders"),
     Data(title: "My Address"),
     Data(title: "Currency"),
-    Data(title: "About us"),
+    Data(title: "Terms of Service"),
 ]

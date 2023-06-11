@@ -8,11 +8,11 @@
 import Foundation
 class HomeViewModel{
     let repo:RepoProtocol
-        var ads:[HomeAd]=[]
-        var brands:[Collection]=[]
-        init(repo:RepoProtocol) {
-            self.repo = repo
-        }
+    let homeAdvertisment:[String]=["home1","home2","home3"]
+    var brands:[Collection]=[]
+    init(repo:RepoProtocol) {
+        self.repo = repo
+    }
     func getAllCategoriesFromApi(completion: @escaping ()->()){
         repo.getAllCollections { [weak self] collectionsResult in
             guard let self else { return }
