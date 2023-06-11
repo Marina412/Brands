@@ -8,9 +8,7 @@
 import Foundation
 import UIKit
 
-class HelperFunction{
-    
-    func circleImage(image : UIImageView){
+func circleImage(image : UIImageView){
         image.layer.cornerRadius = image.frame.height / 2
         image.clipsToBounds = true
     }
@@ -20,4 +18,4 @@ class HelperFunction{
 //        alert.addAction(UIAlertAction(title: "OK", style: .default))
 //        present(alert, animated: true)
 //    }
-}
+

@@ -15,6 +15,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Profile"
+        circleImage(image :userImage)
         registerCells()
     }
     private func registerCells(){
@@ -46,30 +47,26 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         
         switch (indexPath.row){
         case 0:
-            //My Orders
-            let onboarding = self.storyboard?.instantiateViewController(withIdentifier: "onboardingViewController") as! onboardingViewController
-            onboarding.modalPresentationStyle = .fullScreen
-            onboarding.modalTransitionStyle = .flipHorizontal
-            self.present(onboarding, animated: true)
+            let myOrders = self.storyboard?.instantiateViewController(withIdentifier: "MyOrderViewController") as! MyOrderViewController
+            myOrders.modalPresentationStyle = .fullScreen
+            myOrders.modalTransitionStyle = .flipHorizontal
+            self.present(myOrders, animated: true)
         case 1:
-            //My Address
             let location = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
             location.modalPresentationStyle = .fullScreen
             location.modalTransitionStyle = .flipHorizontal
             self.present(location, animated: true)
             
         case 2:
-            //Currency
-            let onboarding = self.storyboard?.instantiateViewController(withIdentifier: "onboardingViewController") as! onboardingViewController
-            onboarding.modalPresentationStyle = .fullScreen
-            onboarding.modalTransitionStyle = .flipHorizontal
-            self.present(onboarding, animated: true)
+            let currency = self.storyboard?.instantiateViewController(withIdentifier: "CurrencyViewController") as! CurrencyViewController
+            currency.modalPresentationStyle = .fullScreen
+            currency.modalTransitionStyle = .flipHorizontal
+            self.present(currency, animated: true)
         default:
-            //About us
-            let onboarding = self.storyboard?.instantiateViewController(withIdentifier: "onboardingViewController") as! onboardingViewController
-            onboarding.modalPresentationStyle = .fullScreen
-            onboarding.modalTransitionStyle = .flipHorizontal
-            self.present(onboarding, animated: true)
+            // Todo call global alert notice that is appear from bottom
+            let alert = UIAlertController(title: "Shopify", message: "Welcome to Shopify. We provide service to subject to notices, terms and condition. By shopping on this  application, you agree to all the terms and conditions in this agreement", preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
         }
     }
 }
