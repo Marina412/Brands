@@ -1,13 +1,14 @@
 //
-//  CategoryViewModel.swift
+//  BrandProductsViewModel.swift
 //  YRStor
 //
-//  Created by marina on 02/06/2023.
+//  Created by marina on 06/06/2023.
 //
 
 import Foundation
 import RxSwift
-class CategoryViewModel{
+
+class BrandProductsViewModel{
     let repo:RepoProtocol
     var allProducts:[Product]=[]
     var allProductsIDs:[Int]=[]
@@ -17,12 +18,14 @@ class CategoryViewModel{
     init(repo:RepoProtocol) {
         self.repo = repo
     }
-    func getAllProductsFromApiByCategorry(completion: @escaping ()->()){
+    
+    func getAllProductsFromApiByCategorry(collectionId:Int,completion: @escaping ()->()){
         allProductsIDs.removeAll()
-        repo.getAllProducts() {
+        repo.getProductsByCollectionId(collectionId: collectionId) {
             [weak self] productsResult in
             guard let self else { return }
             guard let productsResult else {return}
+            print(productsResult.count)
             for product in productsResult{
                 self.allProductsIDs.append(product.id ?? 0)
             }
@@ -31,6 +34,7 @@ class CategoryViewModel{
     }
     func getAllPoductsPricesFromApi(){
         allProducts.removeAll()
+        print("\n\n getAllPoductPiceFromApi here \n\n")
         repo.getAllProductsPrice(productIds:allProductsIDs){[weak self] productsResult in
             guard let self else { return }
             guard let productsResult else {return}
@@ -40,38 +44,15 @@ class CategoryViewModel{
             self.poductsObservablRS.onNext(self.allProducts)
         }
     }
-    func setUpData(){
-        getAllProductsFromApiByCategorry{
+    func setUpData(brandId:Int){
+        getAllProductsFromApiByCategorry(collectionId:brandId){
             [weak self ]  in
             guard let self else {return}
             self.getAllPoductsPricesFromApi()
         }
     }
-    func filterProudactsByMainCategory(categoryName:String){
-        if categoryName != ""
-        {
-            let filteredProducts : [Product] = allProducts.filter({
-                $0.tags?.lowercased().contains(categoryName.lowercased()) == true
-            })
-            poductsObservablRS.onNext(filteredProducts)
-        }
-        else{
-            poductsObservablRS.onNext(allProducts)
-        }
-    }
-    func filterProudactsBySubCategory(categoryName:String){
-        if categoryName != ""
-        {
-            let filteredProducts : [Product] = allProducts.filter({
-                $0.productType?.lowercased() == categoryName.lowercased()
-            })
-            poductsObservablRS.onNext(filteredProducts)
-        }
-        else{
-            poductsObservablRS.onNext(allProducts)
-        }
-    }
     func filterProudacts(searchText:String){
+        print("\n\n\n\n\n\(searchText)\n\n\n brand \n\n\n\n")
         if searchText != ""
         {
             let filteredProducts : [Product] = allProducts.filter({
@@ -86,5 +67,4 @@ class CategoryViewModel{
             poductsObservablRS.onNext(allProducts)
         }
     }
-    
 }

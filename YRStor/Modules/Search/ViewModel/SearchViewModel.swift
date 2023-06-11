@@ -21,7 +21,7 @@ class SearchViewModel{
     }
     func getAllProducts(){
         repo?.getAllProducts{ res in
-            guard let AllProducts = res?.products else{return}
+            guard let AllProducts = res else{return}
             self.viewModelResult = AllProducts
             
         }

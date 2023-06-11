@@ -6,120 +6,99 @@
 //
 
 import UIKit
-import Floaty
 import WMSegmentControl
+import Floaty
+import RxSwift
+import RxCocoa
 class CategoryViewController: UIViewController {
     
     @IBOutlet weak var categoryWMSegment: WMSegment!
-    @IBOutlet weak var brandName: UILabel!
+    @IBOutlet weak var categoriesLab: UILabel!
     @IBOutlet weak var filterFloaty: Floaty!
     @IBOutlet weak var productsCollectionView: UICollectionView!
-    
-    var brandId:Int?
-    var brandTitle:String?
-    var isFloatyPressed = false
-    var isSegmentPressed  = false
-    var filteredProductsByCategory : [Product] = []
+    @IBOutlet weak var searchBar: UISearchBar!
     var catigoryVM:CategoryViewModel!
-    
+    let disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
         
         print("help")
-        productsCollectionView.delegate = self
-        productsCollectionView.dataSource = self
-        renderWMSegmentUI()
+        renderUI()
         registerXibCells()
         navigationBarButtons()
         let remote = NetworkManager()
-        //let local = DataBaseManager()
         let repo = Repo(networkManager: remote)
         catigoryVM = CategoryViewModel(repo: repo)
-        catigoryVM.getAllProductsFromApi(collectionId:brandId ?? 0){
-            //[weak self]
-            //            guard let self else { return }
-            DispatchQueue.main.async {
-                self.productsCollectionView.reloadData()
-            }
-        }
+        setUpProductsCollectionView()
+        setUpSearchBar()
+        catigoryVM.setUpData()
+        
         filterFloaty.openAnimationType = .fade
         filterFloaty.addItem(Constant.ACCESSORIES, icon: UIImage(named: "accessory")){
             [weak self]
             item in
             guard let self else { return }
-            self.isFloatyPressed = true
-            self.filterProductsByCategory( filterBy: Constant.ACCESSORIES)  }
+            self.catigoryVM.filterProudactsBySubCategory(categoryName: Constant.ACCESSORIES)
+        }
         filterFloaty.addItem(Constant.T_SHIRTS, icon: UIImage(named: "tShirt")){
             [weak self]
             item in
             guard let self else { return }
-            self.isFloatyPressed = true
-            self.filterProductsByCategory(filterBy: Constant.T_SHIRTS)
+            self.catigoryVM.filterProudactsBySubCategory(categoryName: Constant.T_SHIRTS)
         }
         filterFloaty.addItem(Constant.SHOES, icon: UIImage(named: "shoe")){
             [weak self]
             item in
             guard let self else { return }
-            self.isFloatyPressed = true
-            self.filterProductsByCategory( filterBy: Constant.SHOES)
+            self.catigoryVM.filterProudactsBySubCategory(categoryName: Constant.SHOES)
         }
         filterFloaty.addItem("No Filter", icon: UIImage(systemName: "nosign")){
             [weak self]
             item in
             guard let self else { return }
-            self.isFloatyPressed = false
-            self.isSegmentPressed = false
-            self.productsCollectionView.reloadData()
+            self.catigoryVM.filterProudactsBySubCategory(categoryName: "")
         }
     }
     
     @IBAction func filterCategoryWMSegment(_ sender: WMSegment) {
-        isSegmentPressed = true
-        print("selected index = \(sender.selectedSegmentIndex) if press  \(isSegmentPressed)")
+        
+        print("selected index = \(sender.selectedSegmentIndex)")
         switch sender.selectedSegmentIndex{
         case 0:
-            catigoryVM.getAllProductsFromApiAndFilterByMainCategorry(categoryId: Constant.WOMEN_COLLECTION_ID, brandName: brandTitle ?? "" ){
-                self.filterProductsByMainCategory()
-            }
+            catigoryVM.filterProudactsByMainCategory(categoryName: Constant.WOMEN)
         case 1:
-            catigoryVM.getAllProductsFromApiAndFilterByMainCategorry(categoryId: Constant.MEN_COLLECTION_ID, brandName: brandTitle ?? "" ){
-                self.filterProductsByMainCategory()
-            }
+            catigoryVM.filterProudactsByMainCategory(categoryName: Constant.MEN)
         case 2:
-            catigoryVM.getAllProductsFromApiAndFilterByMainCategorry(categoryId: Constant.KID_COLLECTION_ID, brandName: brandTitle ?? "" ){
-                self.filterProductsByMainCategory()
-            }
+            catigoryVM.filterProudactsByMainCategory(categoryName: Constant.KID)
         case 3:
-            catigoryVM.getAllProductsFromApiAndFilterByMainCategorry(categoryId: Constant.ON_SALE_COLLECTION_ID, brandName: brandTitle ?? "" ){
-                self.filterProductsByMainCategory()
-            }
+            catigoryVM.filterProudactsByMainCategory(categoryName: Constant.SALE)
         default :
             print("")
         }
     }
 }
-
 extension CategoryViewController{
-    func filterProductsByCategory(filterBy:String){
-        filteredProductsByCategory.removeAll()
-        filteredProductsByCategory = catigoryVM.allProducts.filter({ product in
-            product.productType?.lowercased() == filterBy.lowercased()
-        })
-        productsCollectionView.reloadData()
+    func setUpProductsCollectionView(){
+        catigoryVM.poductsObservablRS.bind(to: productsCollectionView.rx.items){
+            collectionView, index, item in
+            let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewCell", for: IndexPath(row: index, section: 0)) as! ProductCollectionViewCell
+            productCell.cellSetUp(product:item)
+            return productCell
+        }.disposed(by:disposeBag)
     }
-    
-    func filterProductsByMainCategory(){
-        filteredProductsByCategory.removeAll()
-        filteredProductsByCategory = catigoryVM.filteredMainCategoryProduct.filter({ product in
-            product.vendor?.lowercased() == brandTitle?.lowercased()
-        })
-        productsCollectionView.reloadData()
+}
+
+extension CategoryViewController: UISearchBarDelegate{
+    func setUpSearchBar() {
+        searchBar.delegate = self
+        searchBar.rx.text.subscribe { textQuery in
+            self.catigoryVM.filterProudacts(searchText: textQuery ?? "")
+        }.disposed(by: disposeBag)
     }
 }
 extension CategoryViewController{
-    func renderWMSegmentUI(){
-        brandName.text = brandTitle
-        //categoryWMSegment.isRounded = true
+    func renderUI(){
+        categoriesLab.text = "Categories"
         categoryWMSegment.buttonTitles = " Woman,Man,Kid,Sale"
         categoryWMSegment.buttonImages = "woman,man,kid,sale"
         categoryWMSegment.buttonImagesSelected = "selected,selected,selected,selected"
@@ -131,64 +110,17 @@ extension CategoryViewController{
 }
 extension CategoryViewController{
     func navigationBarButtons(){
+        self.navigationController?.navigationBar.tintColor =  #colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)
+        let profilBtn = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(self.navToProfil))
         let searchBtn = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(self.navToFavoriteScreen))
-        let shoppingBagBtn = UIBarButtonItem(image: UIImage(systemName: "bag.fill"), style: .plain, target: self, action: #selector(self.navToShoppingBagScreen))
-        navigationItem.rightBarButtonItems = [searchBtn, shoppingBagBtn]
+        navigationItem.rightBarButtonItems = [profilBtn,searchBtn]
     }
-}
-extension CategoryViewController{
+    
     @objc func navToFavoriteScreen(){
         print("go to fav ")
     }
-    @objc func navToShoppingBagScreen(){
-        print("go to bag ")
+    @objc func navToProfil(){
+        print("go to profil ")
     }
 }
-extension CategoryViewController: UICollectionViewDelegate{
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("klike cell")
-        //        let productInfoVC = self.storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
-        //        productInfoVC.brandId = homeVM.brands[indexPath.row].collectionID
-        //
-        //        productInfoVC.modalPresentationStyle = .fullScreen
-        //        productInfoVC.modalTransitionStyle = .flipHorizontal
-        //        self.present(categoryVC, animated: true)
-        
-    }
-}
-extension CategoryViewController: UICollectionViewDataSource{
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if isSegmentPressed || isFloatyPressed{
-           return  filteredProductsByCategory.count
-        }
-        else{
-            return catigoryVM.allProducts.count
-        }
-    }
-   
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewCell", for: indexPath) as? ProductCollectionViewCell
-        productCell?.layer.borderWidth = 1
-        productCell?.layer.cornerRadius = 25
-        productCell?.layer.borderColor = UIColor.black.cgColor
-        
-        if isSegmentPressed || isFloatyPressed{
-            
-            productCell?.cellSetUp(product:filteredProductsByCategory[indexPath.row])
-            return productCell ?? BrandCollectionViewCell()
-        }
-        else {
-            productCell?.cellSetUp(product:catigoryVM.allProducts[indexPath.row])
-            return productCell ?? BrandCollectionViewCell()
-        }
-    }
-}
-extension CategoryViewController: UICollectionViewDelegateFlowLayout{
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width * 0.50 , height: collectionView.frame.height * 0.50)
-        
-    }
-}
+

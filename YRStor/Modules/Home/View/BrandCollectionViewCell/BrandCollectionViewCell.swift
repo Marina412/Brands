@@ -14,12 +14,6 @@ class BrandCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var brandName: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        
-//        brandImg.layer.borderWidth = 1
-//        brandImg.layer.borderColor = UIColor.black.cgColor
-//        brandImg.layer.cornerRadius = 20
-        //brandName.layer.cornerRadius = 20
     }
     func cellSetUp(brand:Collection){
         brandImg.kf.setImage(with: URL(string:brand.collectionImage?.src ?? ""), placeholder: UIImage(named: ""))
