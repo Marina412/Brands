@@ -10,7 +10,7 @@ import Alamofire
 import RxCocoa
 import RxSwift
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController ,UISearchBarDelegate {
     @IBOutlet weak var allProductsTable: UITableView!
     
     var productsIds : [String] = []
@@ -19,16 +19,18 @@ class SearchViewController: UIViewController {
     let disBag = DisposeBag()
     let repo = Repo(networkManager: NetworkManager())
     let searchViewModel = SearchViewModel(repo: Repo(networkManager: NetworkManager()))
+    let authViewModel = AuthViewModel(repo: Repo(networkManager: NetworkManager()))
+    let searchBar = UISearchBar()
     
-    let searchController = UISearchController(searchResultsController: nil)
-    
+    let networkManager = NetworkManager()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // allProductsTable.isHidden = true
-        createSearchBar()
-        setSearchBarConstarnits()
+        allProductsTable.isHidden = true
+        self.navigationItem.setHidesBackButton(true, animated: false)
+        selectedItem()
+        setUpSearcBar()
         searchViewModel.getAllProducts()
         searchViewModel.bindResult = {() in
             let res = self.searchViewModel.viewModelResult
@@ -36,61 +38,61 @@ class SearchViewController: UIViewController {
             self.allProductsArr.accept(allproducts)
             self.filteredProductsArr.accept(allproducts)
             self.rxTabelViewHandel()
-            
         }
         
+        authViewModel.getAllCustomers()
+        authViewModel.bindResult = {() in
+            let res = self.authViewModel.viewModelResult
+            guard let allCustomers = res else {return}
+        }
         
-    }
-    func createSearchBar(){
-        allProductsTable.tableHeaderView = searchController.searchBar
-        
-        // Set the search controller's searchResultsUpdater property to self.
-        searchController.searchResultsUpdater = self
-        
-        // Configure the search controller.
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Products"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
+    
     }
     func rxTabelViewHandel(){
         
         filteredProductsArr.bind(to: allProductsTable
-            .rx
-            .items(cellIdentifier: "productCell")) {
-                (tv,item,cell) in
-                cell.textLabel?.text = item.title
-            }
+                    .rx
+                    .items(cellIdentifier: "productCell")) {
+            (tv,item,cell) in
+                        cell.textLabel?.text = item.title
+        }
         
-            .disposed(by: disBag)
-    }
-    func setSearchBarConstarnits(){
-        
-        
-        view.addSubview( searchController.searchBar)
-        
-        //        searchController.searchBar.translatesAutoresizingMaskIntoConstraints = false
-        //        let searchBarLeadingConstraint =  searchController.searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        //        let searchBarTrailingConstraint =  searchController.searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        //        let topConstraint = searchController.searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10)
-        //
-        //        NSLayoutConstraint.activate([topConstraint,searchBarLeadingConstraint, searchBarTrailingConstraint])
+                    .disposed(by: disBag)
     }
     
-}
-
-extension SearchViewController : UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
+    func setUpSearcBar(){
+      // searchStackView.insertArrangedSubview(searchBar, at: 0)
+        searchBar.delegate = self
+        searchBar.placeholder = "Products Search"
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         //allProductsTable.isHidden = false
-        if let searchText = searchController.searchBar.text, !searchText.isEmpty {
+        if !searchText.isEmpty {
             let filteredItems = allProductsArr.value.filter { item in
-                return (item.title?.lowercased().contains(searchText.lowercased()) != nil)
+                return item.title?.lowercased().contains(searchText.lowercased()) ?? false
             }
+            
+            allProductsTable.isHidden = false
             filteredProductsArr.accept(filteredItems)
             allProductsTable.reloadData()
         } else {
-            filteredProductsArr.accept(allProductsArr.value)
+            filteredProductsArr.accept([])
         }
+       
     }
+    func selectedItem(){
+        allProductsTable.rx
+            .modelSelected(Product.self)
+            .subscribe(onNext: {
+                txt in
+                let productVc = self.storyboard?.instantiateViewController(withIdentifier: "productInfoVC")
+                as! ProductInfoViewController
+                productVc.product = txt
+                self.navigationController?.pushViewController(productVc, animated: true)
+            }).disposed(by: disBag)
+
+    }
+    
 }
 
