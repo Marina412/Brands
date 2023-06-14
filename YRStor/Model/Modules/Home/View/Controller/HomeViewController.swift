@@ -1,0 +1,169 @@
+//
+//  HomeViewController.swift
+//  Shopify
+//
+//  Created by marina on 01/06/2023.
+//
+
+import UIKit
+
+class HomeViewController: UIViewController {
+    
+    @IBOutlet weak var adsCollectionView: UICollectionView!{
+        didSet{
+            adsCollectionView.delegate = self
+            adsCollectionView.dataSource = self
+        }
+    }
+    @IBOutlet weak var brandsCollectionView: UICollectionView!
+    @IBOutlet weak var pageControl: UIPageControl!
+    var curentPage = 0
+    var timer:Timer?
+    var homeAdvertismentPhoto:[String]=["home2","home1","home3"]
+    var homeVM:HomeViewModel!
+    let userDefaults = UserDefaults.standard
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("hello from home")
+        let remote = NetworkManager()
+        let repo = Repo(networkManager: remote)
+        homeVM = HomeViewModel(repo: repo)
+        brandsCollectionView.delegate = self
+        brandsCollectionView.dataSource = self
+        setTimer()
+        registerXibCells()
+        navigationBarButtons()
+        homeVM.getAllCategoriesFromApi {
+            [weak self] in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.brandsCollectionView.reloadData()
+            }
+        }
+    }
+    func setTimer(){
+        timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(increaseCurrentPage), userInfo: nil, repeats: true)
+        pageControl.numberOfPages = homeAdvertismentPhoto.count
+    }
+    
+    @objc func increaseCurrentPage(){
+        if curentPage < homeAdvertismentPhoto.count - 1 {
+            curentPage += 1
+        }else{
+            curentPage = 0
+        }
+        
+        adsCollectionView.scrollToItem(at: IndexPath(row: curentPage, section: 0), at: .centeredHorizontally, animated: true)
+        pageControl.currentPage = curentPage
+    }
+    
+}
+extension HomeViewController{
+    private func registerXibCells(){
+        brandsCollectionView.register(UINib(nibName: "BrandCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "BrandCollectionViewCell")
+    }
+}
+extension HomeViewController{
+    func navigationBarButtons(){
+        self.navigationController?.navigationBar.tintColor =  #colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)
+        let profilBtn = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(self.navToProfile))
+        let searchBtn = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(self.navToSearchScreen))
+        navigationItem.rightBarButtonItems = [profilBtn,searchBtn]
+    }
+}
+extension HomeViewController{
+    @objc func navToSearchScreen(){
+        let search = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
+        self.navigationController?.pushViewController(search, animated: true)
+        
+    }
+    @objc func navToProfile(){
+        let profile = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+        self.navigationController?.pushViewController(profile, animated: true)    }
+}
+extension HomeViewController : UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        pageControl.currentPage = indexPath.row
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        switch collectionView{
+        case adsCollectionView:
+            if indexPath.row == homeAdvertismentPhoto.count - 1{
+                if (homeVM.cupons == []){
+                    let alert = UIAlertController(title: "Shopify", message: "Sorry you donn't have cupons", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default))
+                    self.present(alert,animated: true)
+                }else{
+                    let alert = UIAlertController(title: "Shopify", message: "Added your coupon \(homeVM.cupons[0]) you can use it when you Payed", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Yes", style: .default,handler: {  action in
+                        self.userDefaults.set(self.homeVM.cupons[0], forKey: Constant.CUPON_CODE)
+                    }))
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                    self.present(alert,animated: true)
+                }
+            }
+        case brandsCollectionView:
+            print("klick cell ")
+            let brandProductsVC = self.storyboard?.instantiateViewController(withIdentifier: "BrandProductsViewController") as! BrandProductsViewController
+            brandProductsVC.brandId = homeVM.brands[indexPath.row].collectionID
+            brandProductsVC.brandTitle = homeVM.brands[indexPath.row].title
+            self.navigationController?.pushViewController(brandProductsVC, animated: true)
+            //    brandProductsVC.modalPresentationStyle = .fullScreen
+            //    brandProductsVC.modalTransitionStyle = .flipHorizontal
+            //    self.present(brandProductsVC, animated: true)
+        default:
+            print("")
+            
+        }
+    }
+}
+extension HomeViewController : UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch collectionView{
+        case adsCollectionView:
+            return homeAdvertismentPhoto.count
+        case brandsCollectionView:
+            return homeVM.brands.count
+        default:
+            return 1
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch collectionView{
+        case adsCollectionView:
+            let adsCell = collectionView.dequeueReusableCell(withReuseIdentifier: "AdsCollectionViewCell", for: indexPath) as? AdsCollectionViewCell
+            adsCell?.adsImage.image = UIImage(named: homeAdvertismentPhoto[indexPath.row])
+            adsCell?.adsImage.layer.cornerRadius = 50.0
+            return adsCell ?? AdsCollectionViewCell()
+        case brandsCollectionView:
+            let brandCell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandCollectionViewCell", for: indexPath) as? BrandCollectionViewCell
+            brandCell?.cellSetUp(brand: homeVM.brands[indexPath.row])
+            brandCell?.layer.borderWidth = 1
+            brandCell?.layer.cornerRadius = 25
+            brandCell?.layer.borderColor = UIColor.black.cgColor
+            return brandCell ?? BrandCollectionViewCell()
+            
+        default:
+            return UICollectionViewCell()
+            
+        }
+    }
+}
+
+extension HomeViewController : UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        switch collectionView{
+        case adsCollectionView:
+            return CGSize(width: collectionView.frame.width - 10, height: collectionView.frame.height - 10)
+            
+        case brandsCollectionView:
+            return CGSize(width: collectionView.frame.width * 0.50 , height: collectionView.frame.height * 0.50)
+        default:
+            return CGSize(width: 0, height: 0)
+        }
+    }
+    
+}
+
