@@ -89,3 +89,6 @@ fastlane/test_output
 
 iOSInjectionProject/
 YRStor.xcworkspace/xcuserdata/aya.xcuserdatad/UserInterfaceState.xcuserstate
+*.xcworkspace
+*.xcuserdatad
+*.xcuserstate

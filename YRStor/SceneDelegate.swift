@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         var controller: UIViewController
         if UserDefaults.standard.onboarded{
             let storyboard = UIStoryboard(name: "HomeStoryboard", bundle: nil)
-            controller = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as! UIViewController
+            controller = storyboard.instantiateViewController(withIdentifier: "TabBar") as! UITabBarController
             
         }else{
             controller = SplashViewController.instantiate()

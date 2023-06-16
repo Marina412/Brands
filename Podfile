@@ -25,5 +25,4 @@ target 'YRStor' do
   target 'YRStorUITests' do
     # Pods for testing
   end
-
 end

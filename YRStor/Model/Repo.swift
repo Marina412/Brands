@@ -14,14 +14,24 @@ protocol RepoProtocol{
     
     func saveCustomerToDatabas(customer : Customer)
     func getCustomersFromDatabase(completion: @escaping (AllCustomers?)->())
-
+    
     func saveFavProductToDatabase(favProduct : FavProduct)
     func getAllFav(completion: @escaping (FavProducts?)->())
-    func deleteFavProductListInDatabase(draftId : String)
+    func deleteFavProductListInDatabase(draftId: String,completion: @escaping ()->())
     func getAllFavProducts( ids : String , completion: @ escaping(AllProudects?)->())
+    
+    func saveAddressToDatabase(address:CustomerAddress, customerId : String)
+    func getAllAddressFromDatabase(customerId:String,completion: @escaping (AllAddress?)->())
+    func getONEAddressFromDatabase(customerId:String,completion: @escaping ([Address]?)->())
+    
+    func deleteAddreesInDatabase(customerId : Int , addressId : Int)
+    func editShoppingCartInDatabase(draftOrder: Drafts,draftId : String)
+    func saveShoppingCartInDatabase(apiUrl: String, favProduct: FavProduct, completion: @escaping (Drafts?) -> ())
+    
+    
 }
 class Repo : RepoProtocol{
-    
+   
     let networkManager : NetworkManagerProtocol?
     init(networkManager:NetworkManagerProtocol) {
         self.networkManager = networkManager
@@ -72,13 +82,44 @@ class Repo : RepoProtocol{
             completion(result)
         })
     }
-    func deleteFavProductListInDatabase(draftId: String) {
-        networkManager?.deleteFavProductListInDatabase(draftId: draftId)
+    func deleteFavProductListInDatabase(draftId: String,completion: @escaping ()->()) {
+        networkManager?.deleteFavProductListInDatabase(draftId: draftId, completion: completion)
     }
+    
     
     func getAllFavProducts( ids : String = "0" , completion: @escaping(AllProudects?)->()){
         networkManager?.getDataFromApi(apiUrl : Constant.PRODUCTS_BY_ID_URL + ids  , val: AllProudects.self, completion: { res in
             completion(res)
         })
     }
+    
+    func saveAddressToDatabase(address: CustomerAddress,customerId:String) {
+        networkManager?.saveAddressInDatabase(apiUrl: Constant.POST_ADDRESS_URL+customerId+"/addresses.json", address:address)
+
+    }
+    
+    func getAllAddressFromDatabase(customerId:String,completion: @escaping (AllAddress?) -> ()) {
+        networkManager?.getAllAddressFromApi(apiUrl: Constant.POST_ADDRESS_URL+customerId+"/addresses.json", val:AllAddress.self, completion: { res in
+            completion(res)
+        })
+    }
+    func getONEAddressFromDatabase(customerId:String,completion: @escaping ([Address]?) -> ()) {
+        networkManager?.getAllAddressFromApi(apiUrl: Constant.POST_ADDRESS_URL+customerId+"/addresses.json"+"?limit=1", val:[Address].self, completion: { res in
+                   completion(res)
+               })
+       }
+    
+    func deleteAddreesInDatabase(customerId : Int , addressId : Int) {
+        networkManager?.deleteAddressInDatabase(customerId: customerId, addressId: addressId)
+    }
+    func editShoppingCartInDatabase(draftOrder: Drafts,draftId : String) {
+        networkManager?.editShoppingCartInDatabase(apiUrl: Constant.PUT_FAV_PRODUCT_URL, draftOrder: draftOrder, draftId: draftId)
+    }
+    
+    func saveShoppingCartInDatabase(apiUrl: String, favProduct: FavProduct, completion: @escaping (Drafts?) -> ()) {
+        networkManager?.saveShoppingCartInDataBase(apiUrl: apiUrl, favProduct: favProduct, completion: { res in
+            completion(res)
+        })
+    }
+
 }
