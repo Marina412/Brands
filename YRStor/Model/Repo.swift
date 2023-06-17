@@ -7,6 +7,7 @@
 
 import Foundation
 protocol RepoProtocol{
+    func postOrderToApi(order: Order)
     func getAllProducts(completion: @escaping ([Product]?)->())
     func getAllCollections(completion: @escaping ([Collection]?)->())
     func getProductsByCollectionId(collectionId:Int ,completion: @escaping ([Product]?)->())
@@ -28,7 +29,7 @@ protocol RepoProtocol{
     func editShoppingCartInDatabase(draftOrder: Drafts,draftId : String)
     func saveShoppingCartInDatabase(apiUrl: String, favProduct: FavProduct, completion: @escaping (Drafts?) -> ())
     
-    
+    func getCurrency(completion: @escaping (Rates?)->())
 }
 class Repo : RepoProtocol{
    
@@ -124,5 +125,15 @@ class Repo : RepoProtocol{
             completion(res)
         })
     }
-
+    func getCurrency(completion: @escaping (Rates?)->()){
+        networkManager?.getDataFromApi(apiUrl: Constant.CURRENCY_EXCHANGE_API_URL +  Constant.CURRENCY_EXCHANGE_API_KEY, val: Exchange.self, completion: { res in
+            completion(res?.rates)
+        })
+    }
+    func postOrderToApi(order: Order){
+        networkManager?.postOrder(apiUrl: Constant.POST_ORDERS_URL, order: order){
+            res in
+            print(res)
+        }
+    }
 }

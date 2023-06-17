@@ -28,7 +28,6 @@ class BrandProductsViewController: UIViewController {
         productsCollectionView.delegate = nil
         productsCollectionView.dataSource = nil
         brandName.text = brandTitle
-        print("hello from brand products view controller ")
         navigationBarButtons()
         let remote = NetworkManager()
         let repo = Repo(networkManager: remote)
@@ -45,14 +44,9 @@ extension BrandProductsViewController{
         brandProductsVM.poductsObservablRS.bind(to: productsCollectionView.rx.items){
             collectionView, index, item in
             let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewCell", for: IndexPath(row: index, section: 0)) as! ProductCollectionViewCell
-            productCell.cellSetUp(product:item)
+            productCell.cellSetUp(product:item,currency: self.brandProductsVM.curencyType)
             return productCell
         }.disposed(by:disposeBag)
-        productsCollectionView.rx.itemSelected.subscribe(onNext:{
-            index in
-            print("is selectedd rx ")
-
-         }).disposed(by: disposeBag)
     }
 }
 extension BrandProductsViewController: UISearchBarDelegate{

@@ -34,14 +34,14 @@ class ProductCollectionViewCell: UICollectionViewCell {
     }
     
     
-    func cellSetUp(product:Product){// ,currency:String){
+    func cellSetUp(product:Product,currency:String){
         self.product = product
         
         productImage.kf.setImage(with: URL(string:product.image?.src ?? ""), placeholder: UIImage(named: "man"))
         productTitle.text = product.title?.localizedCapitalized
         productType.text = product.productType?.localizedCapitalized
         productPrice.text = product.variants?[0].price
-        currencyLab.text = "EPY"//currency
+        currencyLab.text = currency
         getDraftId()
     }
     @IBAction func addToShoppingCartBtn(_ sender: Any) {

@@ -18,7 +18,7 @@ protocol NetworkManagerProtocol{
     func deleteAddressInDatabase(customerId : Int , addressId : Int)
     func editShoppingCartInDatabase(apiUrl: String, draftOrder: Drafts , draftId : String)
     func saveShoppingCartInDataBase(apiUrl: String,favProduct: FavProduct,completion: @escaping (Drafts?)->())
-    
+    func postOrder(apiUrl: String,order:Order,completion: @escaping (String?)->())
     
 }
 
@@ -73,26 +73,26 @@ class NetworkManager : NetworkManagerProtocol{
         
         AF.request(request).responseDecodable(of: CustomerResponse.self) { (response) in
             print("--- API Call Details ---")
-                       print("Endpoint:", newURL)
-                       print("Request Body:", parameters)
-                       if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
-                           print("Response:", responseString)
-                       } else {
-                           print("Response: No Data")
-                       }
-                       print("-----------------------")
-                  switch response.result {
-                  case .success(let data):
-                      print("--- Success ---")
-                       print(data)
-                      completion(data)
-                      
-                  case .failure(let error):
-                      print("--- Failure ---")
-                      print(error)
-                     
-                  }
-              }
+            print("Endpoint:", newURL)
+            print("Request Body:", parameters)
+            if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
+                print("Response:", responseString)
+            } else {
+                print("Response: No Data")
+            }
+            print("-----------------------")
+            switch response.result {
+            case .success(let data):
+                print("--- Success ---")
+                print(data)
+                completion(data)
+                
+            case .failure(let error):
+                print("--- Failure ---")
+                print(error)
+                
+            }
+        }
     }
     func saveFavProductInDatabase(apiUrl : String ,favProduct: FavProduct) {
         
@@ -270,31 +270,31 @@ class NetworkManager : NetworkManagerProtocol{
         print("deleteNetwork")
         let url = URL(string:Constant(customerId: customerId, addressId: addressId ).DELETE_ADDRESS)
         
-            let headers = [
+        let headers = [
             "Content-Type": "application/json"
         ]
-    guard let url else{return}
-    var request = URLRequest(url:url)
-    request.httpMethod = HTTPMethod.delete.rawValue
-    request.allHTTPHeaderFields = headers
-    request.httpShouldHandleCookies = false
-    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    
-    AF.request(request).validate().response{ response in
-        print("Endpoint:",url)
-        if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
-            print("Response:", responseString)
-        } else {
-            print("Response: No Data")
-        }
-        switch response.result {
-        case .success(let value):
-            print(value)
-        case .failure(let error):
-            print(error)
+        guard let url else{return}
+        var request = URLRequest(url:url)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        request.allHTTPHeaderFields = headers
+        request.httpShouldHandleCookies = false
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        AF.request(request).validate().response{ response in
+            print("Endpoint:",url)
+            if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
+                print("Response:", responseString)
+            } else {
+                print("Response: No Data")
+            }
+            switch response.result {
+            case .success(let value):
+                print(value)
+            case .failure(let error):
+                print(error)
+            }
         }
     }
-}
     func editShoppingCartInDatabase(apiUrl: String, draftOrder: Drafts , draftId : String) {
         // var urlString = apiUrl + draftId + ".json"
         let url = URL(string: apiUrl + draftId + ".json" )
@@ -389,6 +389,27 @@ class NetworkManager : NetworkManagerProtocol{
             }
         }
     }
+}
+    extension NetworkManager{
+    func postOrder(apiUrl: String,order:Order,completion: @escaping (String?)->()){
+        let url = URL(string: apiUrl)
+        guard let url else{return}
+        AF.request(url,method: .post,parameters: HelperFunctions.orderToParameters(order: order),encoding: JSONEncoding.default, headers: HTTPHeaders([Constant.HEADER])).validate().response{
+            response in
+            switch response.result {
+            case .success(_):
+                if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
+                    completion(responseString)
+                } else {
+                    print("Response: No Data")
+                }
+            case .failure(let error):
+                print("error here \n \n \(String(describing:error)) \n\n ")
+                completion(nil)
+            }
+        }
+    }
+    
 }
 
 

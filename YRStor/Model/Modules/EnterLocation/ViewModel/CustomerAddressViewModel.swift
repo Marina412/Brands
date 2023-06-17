@@ -40,4 +40,8 @@ class CustomerAddressViewModel {
     func deleteAddress(customerId: Int , addressId : Int){
         repo?.deleteAddreesInDatabase(customerId: customerId, addressId: addressId)
     }
+    
+    func postOrder(order:Order){
+        repo?.postOrderToApi(order: order)
+    }
 }

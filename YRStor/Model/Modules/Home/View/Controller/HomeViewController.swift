@@ -105,14 +105,10 @@ extension HomeViewController : UICollectionViewDelegate{
                 }
             }
         case brandsCollectionView:
-            print("klick cell ")
             let brandProductsVC = self.storyboard?.instantiateViewController(withIdentifier: "BrandProductsViewController") as! BrandProductsViewController
             brandProductsVC.brandId = homeVM.brands[indexPath.row].collectionID
             brandProductsVC.brandTitle = homeVM.brands[indexPath.row].title
             self.navigationController?.pushViewController(brandProductsVC, animated: true)
-            //    brandProductsVC.modalPresentationStyle = .fullScreen
-            //    brandProductsVC.modalTransitionStyle = .flipHorizontal
-            //    self.present(brandProductsVC, animated: true)
         default:
             print("")
             

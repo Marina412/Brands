@@ -32,7 +32,10 @@ class CategoryViewController: UIViewController {
         setUpProductsCollectionView()
         setUpSearchBar()
         catigoryVM.setUpData()
-        
+        filterFloaty.frame = CGRect(x: 310,
+                                    y: 660,
+                                    width: 70,
+                                    height: 70)
         filterFloaty.openAnimationType = .fade
         filterFloaty.addItem(Constant.ACCESSORIES, icon: UIImage(named: "accessory")){
             [weak self]
@@ -82,7 +85,7 @@ extension CategoryViewController{
         catigoryVM.poductsObservablRS.bind(to: productsCollectionView.rx.items){
             collectionView, index, item in
             let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewCell", for: IndexPath(row: index, section: 0)) as! ProductCollectionViewCell
-            productCell.cellSetUp(product:item)
+            productCell.cellSetUp(product:item,currency:self.catigoryVM.curencyType)
             return productCell
         }.disposed(by:disposeBag)
     }
@@ -99,6 +102,9 @@ extension CategoryViewController: UISearchBarDelegate{
 extension CategoryViewController{
     func renderUI(){
         categoriesLab.text = "Categories"
+        categoryWMSegment.borderColor = .lightGray
+        categoryWMSegment.borderWidth = 2
+        
         categoryWMSegment.buttonTitles = " Woman,Man,Kid,Sale"
         categoryWMSegment.buttonImages = "woman,man,kid,sale"
         categoryWMSegment.buttonImagesSelected = "selected,selected,selected,selected"
@@ -123,4 +129,5 @@ extension CategoryViewController{
         print("go to profil ")
     }
 }
+
 

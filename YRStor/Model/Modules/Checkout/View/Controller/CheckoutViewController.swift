@@ -117,6 +117,11 @@ class CheckoutViewController: UIViewController{
                 present(controller!,animated:true,completion: nil)
             }
         }
+      
+        addressViewModel.postOrder(order: Order(
+        created_at: String?, currency: <#T##String?#>, email: <#T##String?#>, current_total_price: <#T##String?#>, line_items: <#T##[OrderProductItems]?#>, reference: <#T##String?#>, note: <#T##String?#>
+        ))
+        
     }
 }
 

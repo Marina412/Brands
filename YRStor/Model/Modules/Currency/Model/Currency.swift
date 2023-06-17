@@ -8,21 +8,20 @@
 import Foundation
 
 struct Exchange: Codable {
-    let success: Bool
-    let timestamp: Int
-    let base: String
-    let date: String
-    let rates: Rates
+    var success: Bool?
+    var timestamp: Int?
+    var base: String?
+    var date: String?
+    var rates: Rates?
+}
+struct Rates: Codable {
+    var EGP: Double?
+    var USD: Double?
+    var EUR: Double?
+    var SAR: Double?
+    var AED: Double?
 }
 
-struct Rates: Codable {
-    let EGP: Double
-    let USD: Double
-    let EUR: Double
-    let SAR: Double
-    let AED: Double
-    
-}
 
 struct Currency{
     let flagImage:String

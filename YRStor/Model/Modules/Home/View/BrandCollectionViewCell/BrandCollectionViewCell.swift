@@ -16,7 +16,7 @@ class BrandCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
     func cellSetUp(brand:Collection){
-        brandImg.kf.setImage(with: URL(string:brand.collectionImage?.src ?? ""), placeholder: UIImage(named: ""))
+        brandImg.kf.setImage(with: URL(string:brand.collectionImage?.src ?? ""), placeholder: UIImage(named: "logo"))
         brandName.text = brand.title
         
     }

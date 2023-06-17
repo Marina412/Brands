@@ -171,7 +171,7 @@
                 <viewControllerPlaceholder storyboardIdentifier="BrandProductsViewController" storyboardName="BrandProductsStoryboard" referencedIdentifier="BrandProductsViewController" id="fdV-F9-5ME" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AYg-p3-7Tp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4645" y="137"/>
+            <point key="canvasLocation" x="4677" y="142"/>
         </scene>
         <!--Home-->
         <scene sceneID="lbf-37-R7r">
