@@ -10,7 +10,7 @@ import Foundation
 struct AllCustomers : Decodable{
     let customers : [Customer]
 }
-struct Customer : Decodable{
+struct Customer : Decodable , Encodable{
     var id : Int?
     var firstName : String?
     var lastName : String?
@@ -26,7 +26,13 @@ struct Customer : Decodable{
         case email = "email"
        case password = "note"
         case phone = "phone"
-    
-        
     }
+    
+  
 }
+struct CustomerResponse : Decodable, Encodable{
+      var customer : Customer
+      enum CodingKeys: String,CodingKey{
+          case customer = "customer"
+      }
+  }

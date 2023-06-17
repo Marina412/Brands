@@ -13,6 +13,7 @@ class FavViewModel {
     var customerFavList : [FavProduct] = []
     var productIds : [String] = []
     
+    
     let repo : RepoProtocol
     init(repo: RepoProtocol) {
         self.repo = repo
@@ -38,7 +39,7 @@ class FavViewModel {
     func deleteFavListInDatabase(draftId : String , indexPath : Int? ,  completion : (()->())?){
         repo.deleteFavProductListInDatabase(draftId: draftId, completion: { [weak self] in
             guard let index = indexPath else {return}
-            self?.customerFavList.remove(at: index)
+            //self?.customerFavList.remove(at: index)
             completion?()
             
             

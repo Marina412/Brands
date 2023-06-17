@@ -12,7 +12,7 @@ protocol RepoProtocol{
     func getProductsByCollectionId(collectionId:Int ,completion: @escaping ([Product]?)->())
     func getAllProductsPrice(productIds: [Int] , completion: @escaping ([Product]?)->())
     
-    func saveCustomerToDatabas(customer : Customer)
+    func saveCustomerToDatabas(customer : Customer , completion: @escaping (CustomerResponse?) -> ())
     func getCustomersFromDatabase(completion: @escaping (AllCustomers?)->())
     
     func saveFavProductToDatabase(favProduct : FavProduct)
@@ -63,8 +63,11 @@ class Repo : RepoProtocol{
         })
     }
     
-    func saveCustomerToDatabas(customer: Customer) {
-        networkManager?.saveCustomerInDatabase(apiUrl: Constant.POST_CUSTOMER_URL,customer: customer)
+    func saveCustomerToDatabas(customer: Customer, completion: @escaping (CustomerResponse?) -> ()) {
+        networkManager?.saveCustomerInDatabase(apiUrl: Constant.POST_CUSTOMER_URL,customer: customer, completion: { res in
+            completion(res)
+            
+        })
     }
     func getCustomersFromDatabase(completion: @escaping (AllCustomers?)->()){
         networkManager?.getDataFromApi(apiUrl: Constant.GET_CUSTOMERS_URL, val:AllCustomers.self, completion: { res in

@@ -27,7 +27,7 @@ class FavouritesViewController: UIViewController {
             let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
             self.navigationController?.pushViewController(register, animated: true)
         }
-        else{
+        else if (isLoggin == true){
             setUpView()
             getDrafts()
         }
@@ -93,7 +93,7 @@ class FavouritesViewController: UIViewController {
     }
     func noFavImage(){
         // edit the image
-        let imageView = UIImageView(image: UIImage(named: "NoFavImage"))
+        let imageView = UIImageView(image: UIImage(named: "noShoppingBag"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
@@ -133,6 +133,7 @@ extension FavouritesViewController : UITableViewDelegate , UITableViewDataSource
                 
                 
                 self.viewModel.deleteFavListInDatabase(draftId: String(product.draftId ?? 0),indexPath: indexPath.row,completion: {
+                    self.viewModel.customerFavList.remove(at: indexPath.row)
                     self.favTable.reloadData()
                     if(self.viewModel.customerFavList.count == 0){
                         self.noFavImage()

@@ -147,6 +147,9 @@
                                 <buttonConfiguration key="configuration" style="filled" image="cart" catalog="system" title="    Add To Cart">
                                     <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="addToCartBtn:" destination="sxu-4z-oms" eventType="touchUpInside" id="U7O-gu-IuU"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="productName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gdv-Hz-MVz">
                                 <rect key="frame" x="10" y="59" width="300" height="80"/>

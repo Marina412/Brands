@@ -17,11 +17,16 @@ class RegisterViewController: UIViewController {
     var customer = Customer()
     var authViewModel = AuthViewModel(repo: Repo(networkManager: NetworkManager()))
     let defaults = UserDefaults.standard
+    var customerId = 0
+    var customers :[Customer] = []
+    var alreadyHaveAcc :Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
+        haveEmail()
         
+    }
+    
     func setUpEmail(){
         
         if(isValidEmail(emailTx.text!)){
@@ -68,21 +73,46 @@ class RegisterViewController: UIViewController {
     func validateData()-> Bool{
         var isValidate = false
         if(!firstNameTx.text!.isEmpty && !lastNameTx.text!.isEmpty && !emailTx.text!.isEmpty && !phoneTx.text!.isEmpty && !passwordTx.text!.isEmpty && !passwordConfirmationTx.text!.isEmpty ){
-            customer.firstName = firstNameTx.text
-            customer.lastName = lastNameTx.text
-            customer.phone = phoneTx.text
-            setUpEmail()
-            setUpPassword()
-            authViewModel.saveCustomerInDatabase(customer: customer)
-            self.defaults.set(emailTx.text, forKey: "email")
-            self.defaults.set(passwordTx.text, forKey: "password")
-            print("Registed Success")
-            isValidate = true
             
+            if(alreadyHaveAcc == true){
+                let alert = UIAlertController(title: "Shopify", message: "This email is already have an account! ", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                
+            }
+            else{
+                customer.firstName = firstNameTx.text
+                customer.lastName = lastNameTx.text
+                setUpEmail()
+                setUpPassword()
+                validateNumber()
+                authViewModel.saveCustomerInDatabase(customer: customer)
+                authViewModel.bindCustomerResult = { ()
+                    let res = self.authViewModel.viewModelCustomerResult
+                    guard let customer = res else {return}
+                    print("customer id \(customer.id)")
+                    self.customerId = customer.id ?? 0
+                    self.defaults.set(self.customerId, forKey: "customerId")
+                    print((self.defaults.value(forKey: "customerId")))
+                }
+                self.defaults.set(emailTx.text, forKey: "email")
+                self.defaults.set(passwordTx.text, forKey: "password")
+                print("Registed Success")
+                isValidate = true
+            }
         }
         return isValidate
     }
     
+    func validateNumber(){
+        if(Int(phoneTx.text ?? "") == 11){
+            customer.phone = phoneTx.text
+        }else{
+            let alert = UIAlertController(title: "Shopify", message: "Please enter a valid phone number", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        self.present(alert, animated: true)
+        }
+    }
     @IBAction func RegisterBtn(_ sender: Any) {
         
         if(validateData()){
@@ -104,6 +134,21 @@ class RegisterViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true)
         }
+    }
+    func haveEmail(){
+         alreadyHaveAcc = false
+        authViewModel.getAllCustomers()
+        authViewModel.bindResult = {() in
+            let res = self.authViewModel.viewModelResult
+            guard let allCustomers = res?.customers else {return}
+            self.customers = allCustomers
+            for customer in self.customers {
+                if(self.emailTx.text == customer.email ){
+                    self.alreadyHaveAcc = true
+                }
+            }
+        }
+        
     }
     
     @IBAction func AlreadyHaveAccount(_ sender: Any) {

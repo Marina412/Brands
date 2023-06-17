@@ -21,17 +21,24 @@ class BrandProductsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        productsCollectionView.delegate = nil
+        productsCollectionView.dataSource = nil
         brandName.text = brandTitle
         print("hello from brand products view controller ")
-        registerXibCells()
         navigationBarButtons()
         let remote = NetworkManager()
         let repo = Repo(networkManager: remote)
         brandProductsVM = BrandProductsViewModel(repo: repo)
         setUpProductsCollectionView()
         setUpSearchBar()
+        registerXibCells()
         brandProductsVM.setUpData(brandId:brandId ?? 0)
     }
+    
 }
 extension BrandProductsViewController{
     func setUpProductsCollectionView(){
@@ -41,6 +48,11 @@ extension BrandProductsViewController{
             productCell.cellSetUp(product:item)
             return productCell
         }.disposed(by:disposeBag)
+        productsCollectionView.rx.itemSelected.subscribe(onNext:{
+            index in
+            print("is selectedd rx ")
+
+         }).disposed(by: disposeBag)
     }
 }
 extension BrandProductsViewController: UISearchBarDelegate{

@@ -32,6 +32,7 @@ class ProfileViewController: UIViewController {
             self.defaults.set("", forKey: "password")
             self.defaults.set(0, forKey: "customerId")
             self.defaults.set(false, forKey: "isLogging")
+            self.defaults.set("", forKey: "isFavOrCart")
             self.emailLbl.text = ""
             
         }

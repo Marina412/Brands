@@ -10,7 +10,7 @@ import Alamofire
 
 protocol NetworkManagerProtocol{
     func getDataFromApi<T: Decodable>(apiUrl: String, val: T.Type,completion: @escaping (T?)->())
-    func saveCustomerInDatabase(apiUrl : String ,customer : Customer)
+    func saveCustomerInDatabase(apiUrl : String ,customer : Customer, completion : @escaping(CustomerResponse?)->())
     func saveFavProductInDatabase(apiUrl : String ,favProduct : FavProduct)
     func deleteFavProductListInDatabase(draftId : String,completion: @escaping ()->())
     func getAllAddressFromApi<T: Decodable>(apiUrl: String, val: T.Type,completion: @escaping (T?)->())
@@ -44,7 +44,7 @@ class NetworkManager : NetworkManagerProtocol{
             }
     }
     
-    func saveCustomerInDatabase(apiUrl : String , customer : Customer) {
+    func saveCustomerInDatabase(apiUrl : String , customer : Customer , completion : @escaping(CustomerResponse?)->()) {
         
         let url = URL(string: apiUrl)
         
@@ -71,29 +71,28 @@ class NetworkManager : NetworkManagerProtocol{
         request.allHTTPHeaderFields = headers
         request.httpShouldHandleCookies = false
         
-        AF.request(request).validate().response{ response in
+        AF.request(request).responseDecodable(of: CustomerResponse.self) { (response) in
             print("--- API Call Details ---")
-            print("Endpoint:", newURL)
-            print("Request Body:", parameters)
-            if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
-                print("Response:", responseString)
-            } else {
-                print("Response: No Data")
-            }
-            print("-----------------------")
-            
-            // Handle the response
-            switch response.result {
-            case .success(let value):
-                // Handle the success response
-                print("--- Success ---")
-                print(value)
-            case .failure(let error):
-                // Handle the failure response
-                print("--- Failure ---")
-                print(error)
-            }
-        }
+                       print("Endpoint:", newURL)
+                       print("Request Body:", parameters)
+                       if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
+                           print("Response:", responseString)
+                       } else {
+                           print("Response: No Data")
+                       }
+                       print("-----------------------")
+                  switch response.result {
+                  case .success(let data):
+                      print("--- Success ---")
+                       print(data)
+                      completion(data)
+                      
+                  case .failure(let error):
+                      print("--- Failure ---")
+                      print(error)
+                     
+                  }
+              }
     }
     func saveFavProductInDatabase(apiUrl : String ,favProduct: FavProduct) {
         
@@ -105,13 +104,14 @@ class NetworkManager : NetworkManagerProtocol{
         
         let parameters: [String: Any] = [
             "draft_order": [
-                "email": favProduct.email,
+                "email": favProduct.email,"note" : favProduct.favOrShopping,
                 "line_items": [
                     [
                         "title": favProduct.lineItems?[0].productTitle,
                         "sku": favProduct.lineItems?[0].productId,
                         "price": favProduct.lineItems?[0].productPrice,
-                        "quantity": favProduct.lineItems?[0].quantity
+                        "quantity": favProduct.lineItems?[0].quantity,
+                        
                     ]
                 ]
             ]

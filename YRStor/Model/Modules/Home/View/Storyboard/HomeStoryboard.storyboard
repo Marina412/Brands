@@ -165,6 +165,14 @@
             </objects>
             <point key="canvasLocation" x="4610" y="-485"/>
         </scene>
+        <!--BrandProductsViewController-->
+        <scene sceneID="S5v-yk-Ld1">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="BrandProductsViewController" storyboardName="BrandProductsStoryboard" referencedIdentifier="BrandProductsViewController" id="fdV-F9-5ME" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AYg-p3-7Tp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4645" y="137"/>
+        </scene>
         <!--Home-->
         <scene sceneID="lbf-37-R7r">
             <objects>

@@ -16,11 +16,21 @@ class AuthViewModel{
         }
     }
     
+    var bindCustomerResult : (()->()) = {}
+       var viewModelCustomerResult :Customer?{
+           didSet{
+               bindCustomerResult()
+           }
+       }
     init(repo: RepoProtocol?) {
         self.repo = repo
     }
     func saveCustomerInDatabase(customer : Customer){
-        repo?.saveCustomerToDatabas(customer: customer)
+        repo?.saveCustomerToDatabas(customer: customer){
+            res in
+            guard let customer = res?.customer else {return}
+            self.viewModelCustomerResult = customer
+        }
         print("customer Created in view model \(customer.firstName)")
     }
     func getAllCustomers(){
