@@ -22,14 +22,15 @@ struct Product: Codable {
         case bodyHTML = "body_html"
         case vendor
         case productType = "product_type"
-        case tags, variants, image
+        case variants,  images, image
+       
     }
 }
 struct ProductImage: Codable {
     var src: String?
-    enum CodingKeys: String, CodingKey {
-        case  src
-    }
+         enum CodingKeys: String, CodingKey {
+             case src
+         }
 }
 struct Variant: Codable {
     var price: String?

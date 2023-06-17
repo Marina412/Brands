@@ -237,7 +237,7 @@ class ProductInfoViewController: UIViewController {
     }
     
     @IBAction func reviewsBtn(_ sender: Any) {
-        let reviewVC = self.storyboard?.instantiateViewController(withIdentifier: "reviewsVC")
+        let reviewVC = self.storyboard?.instantiateViewController(withIdentifier: "ReviewViewController")
         as! ReviewsViewController
         self.navigationController?.pushViewController(reviewVC, animated: true)
     }

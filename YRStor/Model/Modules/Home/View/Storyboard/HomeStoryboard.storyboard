@@ -241,10 +241,10 @@
             </objects>
             <point key="canvasLocation" x="7390" y="248"/>
         </scene>
-        <!--ShoppingBagViewController-->
+        <!--ShoppingCartViewController-->
         <scene sceneID="Lrs-BW-weK">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="ShoppingBagViewController" storyboardName="ShoppingBag" referencedIdentifier="ShoppingBagViewController" id="2Kd-8N-3nH" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="ShoppingCartViewController" storyboardName="ShoppingBag" referencedIdentifier="ShoppingCartViewController" id="2Kd-8N-3nH" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Xq0-ut-dCe"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w1x-eG-DiV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

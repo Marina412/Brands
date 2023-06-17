@@ -17,15 +17,11 @@ class RegisterViewController: UIViewController {
     var customer = Customer()
     var authViewModel = AuthViewModel(repo: Repo(networkManager: NetworkManager()))
     let defaults = UserDefaults.standard
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
-    func createCustomer(){
-        validateData()
-    }
-    
+        
     func setUpEmail(){
         
         if(isValidEmail(emailTx.text!)){
@@ -69,7 +65,8 @@ class RegisterViewController: UIViewController {
         return emailPredicate.evaluate(with: email)
     }
     
-    func validateData(){
+    func validateData()-> Bool{
+        var isValidate = false
         if(!firstNameTx.text!.isEmpty && !lastNameTx.text!.isEmpty && !emailTx.text!.isEmpty && !phoneTx.text!.isEmpty && !passwordTx.text!.isEmpty && !passwordConfirmationTx.text!.isEmpty ){
             customer.firstName = firstNameTx.text
             customer.lastName = lastNameTx.text
@@ -77,12 +74,31 @@ class RegisterViewController: UIViewController {
             setUpEmail()
             setUpPassword()
             authViewModel.saveCustomerInDatabase(customer: customer)
-//            let searchVc = self.storyboard?.instantiateViewController(withIdentifier: "searchVc")
-//            as! SearchViewController
-//            self.navigationController?.pushViewController(searchVc, animated: true)
+            self.defaults.set(emailTx.text, forKey: "email")
+            self.defaults.set(passwordTx.text, forKey: "password")
             print("Registed Success")
+            isValidate = true
             
-        }else
+        }
+        return isValidate
+    }
+    
+    @IBAction func RegisterBtn(_ sender: Any) {
+        
+        if(validateData()){
+            defaults.set(true, forKey: "isLogging")
+            if(defaults.value(forKey: "isFavOrCart") as! String == Constant.IS_FAV){
+                let fav = self.storyboard?.instantiateViewController(withIdentifier: "FavouritesViewController") as! FavouritesViewController
+                self.navigationController?.pushViewController(fav, animated: true)
+                
+            }else{
+                let shoppingBag = self.storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as! ShoppingCartViewController
+                self.navigationController?.pushViewController(shoppingBag, animated: true)
+                
+            }
+            
+        }
+        else
         {
             let alert = UIAlertController(title: "Invaild Data", message: "Please Confirm All Data", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -90,9 +106,9 @@ class RegisterViewController: UIViewController {
         }
     }
     
-    @IBAction func RegisterBtn(_ sender: Any) {
-        defaults.set(true, forKey: "isLogging")
-
+    @IBAction func AlreadyHaveAccount(_ sender: Any) {
+        
+        let LoginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as! LogInViewController
+        self.navigationController?.pushViewController(LoginVC, animated: true)
     }
-    
 }

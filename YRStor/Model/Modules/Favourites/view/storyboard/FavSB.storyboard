@@ -38,10 +38,10 @@
             </objects>
             <point key="canvasLocation" x="140" y="-2"/>
         </scene>
-        <!--Storyboard Reference-->
+        <!--RegisterViewController-->
         <scene sceneID="OSf-kS-RrT">
             <objects>
-                <viewControllerPlaceholder id="3JL-XC-5id" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="RegisterViewController" storyboardName="RegisterSB" referencedIdentifier="RegisterViewController" id="3JL-XC-5id" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Esm-IY-fhH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="793" y="-37"/>

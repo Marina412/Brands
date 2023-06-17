@@ -17,7 +17,7 @@ class CustomerAddressViewModel {
         }
     }
     var bindOneResult : (()->()) = {}
-    var viewModelOneResult :[Address]?{
+    var viewModelOneResult :AllAddress??{
         didSet{
             bindOneResult()
         }
@@ -35,12 +35,6 @@ class CustomerAddressViewModel {
         repo?.getAllAddressFromDatabase(customerId:customerId,completion: { res in
             guard let allAddress = res else {return}
             self.viewModelResult = allAddress
-        })
-    }
-    func getOneAddress(customerId:String){
-        repo?.getONEAddressFromDatabase(customerId: customerId, completion: { res in
-            guard let oneAddress = res else {return}
-            self.viewModelOneResult = oneAddress
         })
     }
     func deleteAddress(customerId: Int , addressId : Int){

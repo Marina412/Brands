@@ -9,20 +9,39 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     @IBOutlet weak var dataCollectionView: UICollectionView!
-    
+    let defaults = UserDefaults.standard
+    @IBOutlet weak var emailLbl: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Profile"
         registerCells()
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        emailLbl.text = defaults.string(forKey: "email")
+        
     }
     private func registerCells(){
         dataCollectionView.register(UINib(nibName: "DataCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "DataCollectionViewCell")
     }
     @IBAction func signOutBtn(_ sender: Any) {
+        let alertController = UIAlertController(title: "Shopify", message: "Are you sure you want to sign out? ", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "No", style: .cancel)
+        let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) in
+            self.defaults.set("", forKey: "email")
+            self.defaults.set("", forKey: "password")
+            self.defaults.set(0, forKey: "customerId")
+            self.defaults.set(false, forKey: "isLogging")
+            self.emailLbl.text = ""
+            
+        }
+        alertController.addAction(yesAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        
-    }
+    
+    
+    
 }
 extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -44,8 +63,8 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
         
         switch (indexPath.row){
         case 0:
-           self.performSegue(withIdentifier: "profileMyOrderSegue", sender: self)
-
+            self.performSegue(withIdentifier: "profileMyOrderSegue", sender: self)
+            
         case 1:
             self.performSegue(withIdentifier: "profileLocationSegue", sender: self)
             

@@ -36,7 +36,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="trash.fill" catalog="system"/>
                                 <connections>
-                                    <action selector="garbagde:" destination="gTV-IL-0wX" eventType="touchUpInside" id="71Y-0t-0lK"/>
+                                    <action selector="garbagde:" destination="gTV-IL-0wX" eventType="touchUpInside" id="fOi-4b-BPJ"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o4P-Xx-d15">

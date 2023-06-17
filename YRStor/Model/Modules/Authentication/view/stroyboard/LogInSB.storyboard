@@ -10,7 +10,7 @@
         <!--Log In View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" customClass="LogInViewController" customModule="YRStor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LogInViewController" id="Y6W-OH-hqX" customClass="LogInViewController" customModule="YRStor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -41,11 +41,6 @@
                                     <action selector="showPassBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="G92-gW-DwB"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Tsm-rw-aVO">
-                                <rect key="frame" x="186" y="427" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FFK-fA-jiR">
                                 <rect key="frame" x="10" y="472" width="373" height="35"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -55,6 +50,15 @@
                                     <action selector="logInBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="b4h-p8-1c0"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4xf-Xs-inS">
+                                <rect key="frame" x="106" y="522" width="181" height="35"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Create New Account"/>
+                                <connections>
+                                    <action selector="createNewAccountBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Kkq-mf-gI2"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -62,19 +66,21 @@
                             <constraint firstItem="Dt4-Q5-apC" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="BRq-WX-QKm"/>
                             <constraint firstItem="FFK-fA-jiR" firstAttribute="leading" secondItem="hdX-mU-Bd6" secondAttribute="leading" id="Hze-bw-dMN"/>
                             <constraint firstItem="hdX-mU-Bd6" firstAttribute="trailing" secondItem="Dt4-Q5-apC" secondAttribute="trailing" id="Mbs-so-USF"/>
+                            <constraint firstItem="4xf-Xs-inS" firstAttribute="top" secondItem="FFK-fA-jiR" secondAttribute="bottom" constant="15" id="NQr-Zk-MN4"/>
                             <constraint firstItem="hdX-mU-Bd6" firstAttribute="leading" secondItem="Dt4-Q5-apC" secondAttribute="leading" id="Ura-yY-V7g"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="GEv-sw-0qc" secondAttribute="trailing" constant="100" id="cjg-Yv-pjd"/>
                             <constraint firstItem="FFK-fA-jiR" firstAttribute="top" secondItem="hdX-mU-Bd6" secondAttribute="bottom" constant="116" id="hSv-19-6pK"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Dt4-Q5-apC" secondAttribute="trailing" constant="10" id="j3m-PS-wnk"/>
                             <constraint firstItem="Dt4-Q5-apC" firstAttribute="top" secondItem="GEv-sw-0qc" secondAttribute="bottom" constant="150" id="lT9-oX-qCL"/>
                             <constraint firstItem="GEv-sw-0qc" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="100" id="qff-u7-mGI"/>
+                            <constraint firstItem="4xf-Xs-inS" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="106" id="xGb-KX-Dqv"/>
                             <constraint firstItem="GEv-sw-0qc" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="10" id="xms-tT-EuB"/>
                             <constraint firstItem="FFK-fA-jiR" firstAttribute="trailing" secondItem="hdX-mU-Bd6" secondAttribute="trailing" id="yF5-Sc-RP2"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="4xf-Xs-inS" secondAttribute="trailing" constant="106" id="yK7-cf-WT7"/>
                             <constraint firstItem="hdX-mU-Bd6" firstAttribute="top" secondItem="Dt4-Q5-apC" secondAttribute="bottom" constant="30" id="zOY-h2-Xra"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="activityIndicator" destination="Tsm-rw-aVO" id="3Ez-Ex-x5y"/>
                         <outlet property="emailTx" destination="Dt4-Q5-apC" id="LNr-Xh-l6O"/>
                         <outlet property="logInBtn" destination="FFK-fA-jiR" id="QuL-iP-de0"/>
                         <outlet property="passwordTx" destination="hdX-mU-Bd6" id="Q29-D2-VY5"/>
@@ -85,13 +91,29 @@
             </objects>
             <point key="canvasLocation" x="140" y="-2"/>
         </scene>
-        <!--Storyboard Reference-->
+        <!--RegisterViewController-->
         <scene sceneID="AyS-cB-n2C">
             <objects>
-                <viewControllerPlaceholder id="gRO-t2-0tA" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardIdentifier="RegisterViewController" storyboardName="RegisterSB" referencedIdentifier="RegisterViewController" id="gRO-t2-0tA" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Og-JN-F3X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="915" y="-35"/>
+            <point key="canvasLocation" x="692" y="-11"/>
+        </scene>
+        <!--FavouritesViewController-->
+        <scene sceneID="urP-yi-WnE">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="FavouritesViewController" storyboardName="FavSB" referencedIdentifier="FavouritesViewController" id="x8P-OS-2XG" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ysm-UM-Ujn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="685" y="31"/>
+        </scene>
+        <!--ShoppingCartViewController-->
+        <scene sceneID="Umh-uH-way">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="ShoppingCartViewController" storyboardName="ShoppingBag" referencedIdentifier="ShoppingCartViewController" id="a3A-q4-xYK" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T1q-ag-gKs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="697" y="73"/>
         </scene>
     </scenes>
 </document>

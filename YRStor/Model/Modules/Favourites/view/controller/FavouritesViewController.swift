@@ -12,15 +12,29 @@ class FavouritesViewController: UIViewController {
     @IBOutlet weak var favTable: UITableView!
     var viewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
     let activityIndicator = UIActivityIndicatorView(style: .large)
-    
+    let defaults = UserDefaults.standard
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpView()
-        getDrafts()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        let isLoggin = defaults.bool(forKey: "isLogging")
+        defaults.set(Constant.IS_FAV, forKey: "isFavOrCart")
+        if (isLoggin == false){
+            favTable.isHidden = true
+            self.defaults.set(Constant.IS_FAV, forKey: "isFavOrCart")
+            let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+            self.navigationController?.pushViewController(register, animated: true)
+        }
+        else{
+            setUpView()
+            getDrafts()
+        }
     }
     
     func setUpView(){
+        self.navigationItem.setHidesBackButton(true, animated: false)
         favTable.dataSource = self
         favTable.delegate = self
         favTable.register(UINib(nibName: "FavTableViewCell", bundle: nil), forCellReuseIdentifier: "favCell")

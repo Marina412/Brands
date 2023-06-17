@@ -17,7 +17,9 @@ class CheckoutViewController: UIViewController{
     let userDefaults = UserDefaults.standard
     var homeVM:HomeViewModel!
     let defaults = UserDefaults.standard
-    var addressResult: [Address]!
+    var addressResult: Address?
+    var checkOutItems : FavProduct = FavProduct()
+    var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
   
     //ApplePayment
     private var paymentRequest:PKPaymentRequest = {
@@ -34,15 +36,10 @@ class CheckoutViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let customerId = defaults.integer(forKey: "customerId")
-        var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
-        addressViewModel.getOneAddress(customerId: String(customerId))
-        addressViewModel.bindOneResult = {() in
-            self.addressResult = addressViewModel.viewModelOneResult
-        }
+        print("productTitlee \(checkOutItems.totalPrice)")
         
-        addressLabel.text = "\(addressResult[0].country) \( addressResult[0].city) \( addressResult[0].address1)"
-        
+        getOneAddress()
+        homeVM = HomeViewModel(repo: Repo(networkManager: NetworkManager()))
         cashOnDeliveryBtn.setImage(UIImage(systemName: "circle"), for: .normal)
         cashOnDeliveryBtn.setImage(UIImage(systemName: "circle.fill"), for: .selected)
         applePayBtn.setImage(UIImage(systemName: "circle"), for: .normal)
@@ -54,6 +51,20 @@ class CheckoutViewController: UIViewController{
         }
     }
     
+    
+    func getOneAddress(){
+        let customerId = defaults.integer(forKey: "customerId")
+        print("customerId \(customerId)")
+        addressViewModel.getAllAdresses(customerId: String(customerId))
+        addressViewModel.bindResult = {() in
+            print("enter bind ")
+            let res = self.addressViewModel.viewModelResult
+            guard let oneAddress = res?.addresses?[0] else {return}
+            self.addressResult = oneAddress
+            print("after set address \(self.addressResult)")
+            self.addressLabel.text = (self.addressResult?.address1 ?? "") + "," + (self.addressResult?.city ?? "")
+        }
+}
     @IBAction func ApplyCuponCodeBtn(_ sender: Any) {
         
     }

@@ -22,7 +22,7 @@ protocol RepoProtocol{
     
     func saveAddressToDatabase(address:CustomerAddress, customerId : String)
     func getAllAddressFromDatabase(customerId:String,completion: @escaping (AllAddress?)->())
-    func getONEAddressFromDatabase(customerId:String,completion: @escaping ([Address]?)->())
+    func getONEAddressFromDatabase(customerId:String,completion: @escaping (AllAddress?)->())
     
     func deleteAddreesInDatabase(customerId : Int , addressId : Int)
     func editShoppingCartInDatabase(draftOrder: Drafts,draftId : String)
@@ -103,8 +103,8 @@ class Repo : RepoProtocol{
             completion(res)
         })
     }
-    func getONEAddressFromDatabase(customerId:String,completion: @escaping ([Address]?) -> ()) {
-        networkManager?.getAllAddressFromApi(apiUrl: Constant.POST_ADDRESS_URL+customerId+"/addresses.json"+"?limit=1", val:[Address].self, completion: { res in
+    func getONEAddressFromDatabase(customerId:String,completion: @escaping (AllAddress?) -> ()) {
+        networkManager?.getAllAddressFromApi(apiUrl: Constant.POST_ADDRESS_URL+customerId+"/addresses.json"+"?limit=1", val:AllAddress.self, completion: { res in
                    completion(res)
                })
        }

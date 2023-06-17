@@ -20,11 +20,29 @@ class ShoppingCartViewController: UIViewController {
    
      override func viewDidLoad() {
          super.viewDidLoad()
-         setUpView()
-         getDrafts()
-         
+       
      }
+    override func viewWillAppear(_ animated: Bool) {
+            let defaults = UserDefaults.standard
+            let isLoggin = defaults.bool(forKey: "isLogging")
+           defaults.set(Constant.IS_SHOPPING_CART, forKey: "isFavOrCart")
+            if (isLoggin == false){
+                defaults.set(Constant.IS_SHOPPING_CART, forKey: "isFavOrCart")
+                cartTable.isHidden = true
+                checkoutBtn.isHidden = true
+                totalLabel.isHidden = true
+                totalPricee.isHidden = true
+                numberOfItem.isHidden = true
+                let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+                self.navigationController?.pushViewController(register, animated: true)
+            }
+            else{
+                setUpView()
+                getDrafts()
+            }
+        }
      func setUpView(){
+         
          cartTable.dataSource = self
          cartTable.delegate = self
          cartTable.register(UINib(nibName: "ShoppingCartCell", bundle: nil), forCellReuseIdentifier: "cartCell")
@@ -100,7 +118,12 @@ class ShoppingCartViewController: UIViewController {
          self.totalPricee.isHidden = true
      }
      
- }
+    @IBAction func checkoutBtn(_ sender: Any) {
+        let checkout = self.storyboard?.instantiateViewController(withIdentifier: "CheckoutViewController") as! CheckoutViewController
+        checkout.checkOutItems = cartViewModel.resDraft
+         self.navigationController?.pushViewController(checkout, animated: true)
+    }
+}
  extension ShoppingCartViewController : UITableViewDelegate,UITableViewDataSource{
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
          return cartViewModel.products.count

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03244E492A3D206900F5CD90 /* ReviewSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03244E482A3D206900F5CD90 /* ReviewSB.storyboard */; };
 		033521122A2E5E540062EE09 /* ExchangeApiNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033521112A2E5E540062EE09 /* ExchangeApiNetwork.swift */; };
 		033778D62A37FD2600AD0B1F /* ExchangeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033778D52A37FD2600AD0B1F /* ExchangeViewModel.swift */; };
 		033778DA2A37FDF100AD0B1F /* ExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033778D92A37FDF100AD0B1F /* ExchangeViewController.swift */; };
@@ -135,6 +136,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03244E482A3D206900F5CD90 /* ReviewSB.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReviewSB.storyboard; sourceTree = "<group>"; };
 		033521112A2E5E540062EE09 /* ExchangeApiNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeApiNetwork.swift; sourceTree = "<group>"; };
 		033778D52A37FD2600AD0B1F /* ExchangeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeViewModel.swift; sourceTree = "<group>"; };
 		033778D92A37FDF100AD0B1F /* ExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeViewController.swift; sourceTree = "<group>"; };
@@ -287,6 +289,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03244E472A3D204800F5CD90 /* ReviewSB */ = {
+			isa = PBXGroup;
+			children = (
+				03244E482A3D206900F5CD90 /* ReviewSB.storyboard */,
+			);
+			path = ReviewSB;
+			sourceTree = "<group>";
+		};
 		033778D32A37FCF000AD0B1F /* Exchange */ = {
 			isa = PBXGroup;
 			children = (
@@ -557,6 +567,7 @@
 		037542352A377023006C4699 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				03244E472A3D204800F5CD90 /* ReviewSB */,
 				037542362A377023006C4699 /* controller */,
 				037542382A377023006C4699 /* cell */,
 			);
@@ -1491,6 +1502,7 @@
 				037542FB2A377025006C4699 /* LogInSB.storyboard in Resources */,
 				037542C82A377024006C4699 /* CategoryStoryboard.storyboard in Resources */,
 				037542E12A377024006C4699 /* Map.storyboard in Resources */,
+				03244E492A3D206900F5CD90 /* ReviewSB.storyboard in Resources */,
 				037542F22A377024006C4699 /* BrandProductsStoryboard.storyboard in Resources */,
 				033B4BA42A3CABC800ED5E6D /* splashGIF.json in Resources */,
 				037542CF2A377024006C4699 /* ReviewsCell.xib in Resources */,

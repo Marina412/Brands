@@ -47,16 +47,15 @@ class LocationViewController: UIViewController {
     func getAllAddresses(){
         let defaults = UserDefaults.standard
         let customerId = defaults.integer(forKey: "customerId")
-       // defaults.set(String(6996116668723), forKey: "customerId")
         print("customerId\(customerId)")
         var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
-        addressViewModel.getAllAdresses(customerId:String(6996116668723))
+        addressViewModel.getAllAdresses(customerId:String(customerId))
         addressViewModel.bindResult = {() in
             let res = addressViewModel.viewModelResult
             guard let allAddresses = res?.addresses else {return}
             for customerAddresses in allAddresses{
                 print("address id  \(customerAddresses.address1)")
-                if(customerAddresses.customer_id == 6996116668723){
+                if(customerAddresses.customer_id == Int(customerId)){
                     self.customerAuthAddress.append(customerAddresses)
                     print("countt \(self.customerAuthAddress.count)")
                 }
@@ -84,11 +83,8 @@ extension LocationViewController:UICollectionViewDelegate,UICollectionViewDataSo
             if(self?.customerAuthAddress.count == 1){
                 let alertController = UIAlertController(title: "Failed", message: "you can not delete the deafult address", preferredStyle: .alert)
                 
-                let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-                    self?.dismiss(animated: true, completion: nil)
-                }
-                
-                alertController.addAction(okAction)
+                let okAction = UIAlertAction(title: "OK", style: .default)
+                 alertController.addAction(okAction)
                 self?.present(alertController, animated: true, completion: nil)
             }else{
                 let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in

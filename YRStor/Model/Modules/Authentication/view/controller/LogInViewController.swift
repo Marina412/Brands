@@ -12,34 +12,17 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var passwordTx: UITextField!
     @IBOutlet weak var showHideBtn: UIButton!
     @IBOutlet weak var logInBtn: UIButton!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let defaults = UserDefaults.standard
     var authViewModel = AuthViewModel(repo: Repo(networkManager: NetworkManager()))
     var customers = [Customer()]
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkIfCustomerLogedIn()
         passwordTx.isSecureTextEntry = true
         getAllCustomers()
         
     }
-    func checkIfCustomerLogedIn(){
-        // Check for user email and password every time you open the app
-        if let email = defaults.string(forKey: "email"), let password = defaults.string(forKey: "password") {
-            print("User email: \(email)")
-            print("User password: \(password)")
-
-            emailTx.isHidden = true
-            passwordTx.isHidden = true
-            showHideBtn.isHidden = true
-            logInBtn.isHidden = true
-//            let searchVc = self.storyboard?.instantiateViewController(withIdentifier: "searchVc") as! SearchViewController
-//            self.navigationController?.pushViewController(searchVc, animated: true)
-        } else {
-            activityIndicator.isHidden = true
-        }
-    }
+    
     func getAllCustomers(){
         authViewModel.getAllCustomers()
         authViewModel.bindResult = {() in
@@ -59,47 +42,66 @@ class LogInViewController: UIViewController {
         }
     }
     
-    func validateCustomer(){
+    func validateCustomer()-> Bool{
         var isCustomerFound = false
         for customer in customers {
             if emailTx.text == customer.email && passwordTx.text == customer.password {
                 isCustomerFound = true
-                let customerId = defaults.integer(forKey: "customerId")
                 defaults.set(emailTx.text, forKey: "email")
                 defaults.set(passwordTx.text, forKey: "password")
                 defaults.set(customer.id, forKey: "customerId")
-                if let email = defaults.string(forKey: "email"), let password = defaults.string(forKey: "password") {
-                    print("User email: \(email)")
-                    print("User password: \(password)")
-                    print("User ID : \(customerId)")
-                } else {
-                    print("User email and/or password not found")
-                }
-                break
+                //                let customerIdDefaults = defaults.integer(forKey: "customerId")
+                //                if let email = defaults.string(forKey: "email"), let password = defaults.string(forKey: "password") {
+                //                    print("User email: \(email)")
+                //                    print("User password: \(password)")
+                //                    print("User ID : \(customerIdDefaults)")
+                //                } else {
+                //                    print("User email and/or password not found")
+                //                }
             }
+            
         }
-        if isCustomerFound {
-            print("found done")
-//            let searchVc = self.storyboard?.instantiateViewController(withIdentifier: "searchVc") as! SearchViewController
-//            self.navigationController?.pushViewController(searchVc, animated: true)
-        } else {
+        return isCustomerFound
+
+    }
+    
+    @IBAction func showPassBtn(_ sender: Any) {
+        checkShowHideBtn()
+        
+    }
+    
+    @IBAction func logInBtn(_ sender: Any) {
+        
+        if(validateCustomer()){
+            defaults.set(true, forKey: "isLogging")
+
+            if(defaults.value(forKey: "isFavOrCart") as! String == Constant.IS_SHOPPING_CART){
+                let shoppingBag = self.storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as! ShoppingCartViewController
+                            self.navigationController?.pushViewController(shoppingBag, animated: true)
+           
+            }else{
+                let fav = self.storyboard?.instantiateViewController(withIdentifier: "FavouritesViewController") as! FavouritesViewController
+                          self.navigationController?.pushViewController(fav, animated: true)
+                          
+                
+            }
+
+        }
+        
+        else{
             print("not done, not found ")
             let alert = UIAlertController(title: "Invalid Data", message: "InCorrect Email or Password", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true)
         }
-        
-    }
-    
-    @IBAction func showPassBtn(_ sender: Any) {
-        checkShowHideBtn()
-        defaults.set(true, forKey: "isLogging")
 
-    }
-    
-    @IBAction func logInBtn(_ sender: Any) {
         
-        validateCustomer()
     }
     
+    @IBAction func createNewAccountBtn(_ sender: Any) {
+        
+        let RegisterVC = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+        self.navigationController?.pushViewController(RegisterVC, animated: true)
+        
+    }
 }
