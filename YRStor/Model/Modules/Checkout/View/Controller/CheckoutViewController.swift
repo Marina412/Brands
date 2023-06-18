@@ -14,13 +14,16 @@ class CheckoutViewController: UIViewController{
     @IBOutlet weak var cuponCodeTxtField: UITextField!
     @IBOutlet weak var cashOnDeliveryBtn: UIButton!
     @IBOutlet weak var applePayBtn: UIButton!
+    @IBOutlet weak var TotalLbl: UILabel!
+    @IBOutlet weak var subTotalLbl: UILabel!
+    @IBOutlet weak var phoneLbl: UILabel!
     let userDefaults = UserDefaults.standard
     var homeVM:HomeViewModel!
     let defaults = UserDefaults.standard
     var addressResult: Address?
     var checkOutItems : FavProduct = FavProduct()
     var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
-  
+    var total:String = ""
     //ApplePayment
     private var paymentRequest:PKPaymentRequest = {
         let request = PKPaymentRequest()
@@ -30,27 +33,31 @@ class CheckoutViewController: UIViewController{
         request.merchantCapabilities = .capability3DS
         request.countryCode = "EG"
         request.currencyCode = "EGP"
-        request.paymentSummaryItems = [PKPaymentSummaryItem(label: "iphone", amount: 1000)]
+        request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Order", amount:1000)]
         return request
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("productTitlee \(checkOutItems.totalPrice)")
-        
+        cuponCodeTxtField.text = ""
+        TotalLbl.text = checkOutItems.totalPrice
         getOneAddress()
         homeVM = HomeViewModel(repo: Repo(networkManager: NetworkManager()))
         cashOnDeliveryBtn.setImage(UIImage(systemName: "circle"), for: .normal)
         cashOnDeliveryBtn.setImage(UIImage(systemName: "circle.fill"), for: .selected)
         applePayBtn.setImage(UIImage(systemName: "circle"), for: .normal)
         applePayBtn.setImage(UIImage(systemName: "circle.fill"), for: .selected)
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        TotalLbl.text = checkOutItems.totalPrice
+        subTotalLbl.text = checkOutItems.totalPrice
         if (homeVM.cupons.count != 0){
-            cuponCodeTxtField.text = Constant.CUPON_CODE
+            cuponCodeTxtField.text = defaults.value(forKey: Constant.CUPON_CODE) as! String
         }else{
             cuponCodeTxtField.text = "No Cupon Code"
+            applePayBtn.isHidden = true
         }
     }
-    
     
     func getOneAddress(){
         let customerId = defaults.integer(forKey: "customerId")
@@ -63,10 +70,28 @@ class CheckoutViewController: UIViewController{
             self.addressResult = oneAddress
             print("after set address \(self.addressResult)")
             self.addressLabel.text = (self.addressResult?.address1 ?? "") + "," + (self.addressResult?.city ?? "")
+            self.phoneLbl.text = self.addressResult?.phone
         }
-}
+    }
     @IBAction func ApplyCuponCodeBtn(_ sender: Any) {
-        
+        var intCupon = 1.0
+        switch(cuponCodeTxtField.text){
+        case "15%":
+            intCupon = 0.15
+        case "25%":
+            intCupon = 0.25
+        case "50%":
+            intCupon = 0.5
+        default:
+            intCupon = 1
+        }
+        if let intTotal = Double(checkOutItems.totalPrice ?? ""){
+            let result = intTotal - (intTotal * intCupon)
+            self.TotalLbl.text = String(result)
+        } else {
+            print("One of the strings is not a valid integer.")
+        }
+
     }
     @IBAction func selectPaymentMethod(_ sender: UIButton) {
         if sender == cashOnDeliveryBtn{
@@ -77,7 +102,7 @@ class CheckoutViewController: UIViewController{
             cashOnDeliveryBtn.isSelected = false
             applePayBtn.isSelected = true
             userDefaults.set("applePay", forKey: Constant.PAY_Method)
-
+            
         }
         
     }

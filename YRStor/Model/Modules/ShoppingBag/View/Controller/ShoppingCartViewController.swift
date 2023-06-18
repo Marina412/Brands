@@ -45,7 +45,7 @@ class ShoppingCartViewController: UIViewController {
          
          cartTable.dataSource = self
          cartTable.delegate = self
-         cartTable.register(UINib(nibName: "ShoppingCartCell", bundle: nil), forCellReuseIdentifier: "cartCell")
+         cartTable.register(UINib(nibName: "ShoppingCartCell", bundle: nil), forCellReuseIdentifier: "ShoppingCartCell")
          activityIndicator.center = view.center
          activityIndicator.color = UIColor.black
          view.addSubview(activityIndicator)
@@ -131,7 +131,7 @@ class ShoppingCartViewController: UIViewController {
      
   
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let cell = tableView.dequeueReusableCell(withIdentifier: "cartCell", for: indexPath) as! ShoppingCartCell
+         let cell = tableView.dequeueReusableCell(withIdentifier: "ShoppingCartCell", for: indexPath) as! ShoppingCartCell
          
          cell.configureCell(draft: cartViewModel.resDraft, indexPath: indexPath)
          cell.cellViewModel.stepperAction = { [weak self] totalPrice in

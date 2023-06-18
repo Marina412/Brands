@@ -43,7 +43,7 @@ class HomeViewController: UIViewController {
         }
     }
     func setTimer(){
-        timer = Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(increaseCurrentPage), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(increaseCurrentPage), userInfo: nil, repeats: true)
         pageControl.numberOfPages = homeAdvertismentPhoto.count
     }
     
