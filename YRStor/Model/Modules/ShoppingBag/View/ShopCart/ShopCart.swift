@@ -1,13 +1,13 @@
 //
-//  ShoppingBagTableViewCell.swift
+//  ShopCart.swift
 //  YRStor
 //
-//  Created by Aya Mohamed Ahmed on 06/06/2023.
+//  Created by Aya Mohamed Ahmed on 18/06/2023.
 //
 
 import UIKit
 
-class ShoppingCartCell: UITableViewCell {
+class ShopCart: UITableViewCell {
 
    
     @IBOutlet weak var productImage: UIImageView!
@@ -85,5 +85,6 @@ class ShoppingCartCell: UITableViewCell {
         cellViewModel.stepperAction?(totalPrice)
         print(" total price \(totalPrice)")
     }
+    
     
 }

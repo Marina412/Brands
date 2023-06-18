@@ -45,7 +45,7 @@ class ShoppingCartViewController: UIViewController {
          
          cartTable.dataSource = self
          cartTable.delegate = self
-         cartTable.register(UINib(nibName: "ShoppingCartCell", bundle: nil), forCellReuseIdentifier: "ShoppingCartCell")
+         cartTable.register(UINib(nibName: "ShopCart", bundle: nil), forCellReuseIdentifier: "ShopCart")
          activityIndicator.center = view.center
          activityIndicator.color = UIColor.black
          view.addSubview(activityIndicator)
@@ -131,7 +131,7 @@ class ShoppingCartViewController: UIViewController {
      
   
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let cell = tableView.dequeueReusableCell(withIdentifier: "ShoppingCartCell", for: indexPath) as! ShoppingCartCell
+         let cell = tableView.dequeueReusableCell(withIdentifier: "ShopCart", for: indexPath) as! ShopCart
          
          cell.configureCell(draft: cartViewModel.resDraft, indexPath: indexPath)
          cell.cellViewModel.stepperAction = { [weak self] totalPrice in
@@ -141,9 +141,9 @@ class ShoppingCartViewController: UIViewController {
          
          return cell
      }
-     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-         return 200
-     }
+//     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//         return 100
+//     }
      
      
      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

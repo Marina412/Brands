@@ -25,7 +25,9 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("hello from home")
+        userDefaults.set(false, forKey: "AddressShoppingCart")
+        userDefaults.set(false, forKey: "didSelectAddress")
+        self.userDefaults.set(false, forKey: "touchCopon")
         let remote = NetworkManager()
         let repo = Repo(networkManager: remote)
         homeVM = HomeViewModel(repo: repo)
@@ -99,6 +101,7 @@ extension HomeViewController : UICollectionViewDelegate{
                     let alert = UIAlertController(title: "Shopify", message: "Added your coupon \(homeVM.cupons[0]) you can use it when you Payed", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Yes", style: .default,handler: {  action in
                         self.userDefaults.set(self.homeVM.cupons[0], forKey: Constant.CUPON_CODE)
+                        self.userDefaults.set(true, forKey: "touchCopon")
                     }))
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
                     self.present(alert,animated: true)

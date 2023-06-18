@@ -18,7 +18,7 @@ protocol NetworkManagerProtocol{
     func deleteAddressInDatabase(customerId : Int , addressId : Int)
     func editShoppingCartInDatabase(apiUrl: String, draftOrder: Drafts , draftId : String)
     func saveShoppingCartInDataBase(apiUrl: String,favProduct: FavProduct,completion: @escaping (Drafts?)->())
-    func postOrder(apiUrl: String,order:Order,completion: @escaping (String?)->())
+    //func postOrder(apiUrl: String,order:Order,completion: @escaping (String?)->())
     
 }
 
@@ -391,24 +391,24 @@ class NetworkManager : NetworkManagerProtocol{
     }
 }
     extension NetworkManager{
-    func postOrder(apiUrl: String,order:Order,completion: @escaping (String?)->()){
-        let url = URL(string: apiUrl)
-        guard let url else{return}
-        AF.request(url,method: .post,parameters: HelperFunctions.orderToParameters(order: order),encoding: JSONEncoding.default, headers: HTTPHeaders([Constant.HEADER])).validate().response{
-            response in
-            switch response.result {
-            case .success(_):
-                if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
-                    completion(responseString)
-                } else {
-                    print("Response: No Data")
-                }
-            case .failure(let error):
-                print("error here \n \n \(String(describing:error)) \n\n ")
-                completion(nil)
-            }
-        }
-    }
+//    func postOrder(apiUrl: String,order:Order,completion: @escaping (String?)->()){
+//        let url = URL(string: apiUrl)
+//        guard let url else{return}
+//        AF.request(url,method: .post,parameters: HelperFunctions.orderToParameters(order: order),encoding: JSONEncoding.default, headers: HTTPHeaders([Constant.HEADER])).validate().response{
+//            response in
+//            switch response.result {
+//            case .success(_):
+//                if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
+//                    completion(responseString)
+//                } else {
+//                    print("Response: No Data")
+//                }
+//            case .failure(let error):
+//                print("error here \n \n \(String(describing:error)) \n\n ")
+//                completion(nil)
+//            }
+//        }
+//    }
     
 }
 

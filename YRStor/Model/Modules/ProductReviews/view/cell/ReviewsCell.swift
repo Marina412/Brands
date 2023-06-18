@@ -6,27 +6,29 @@
 //
 
 import UIKit
+import Cosmos
 
 class ReviewsCell: UITableViewCell {
 
     @IBOutlet weak var reviewDate: UILabel!
     @IBOutlet weak var review: UILabel!
     @IBOutlet weak var reviewerName: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
+    @IBOutlet weak var ratingView: CosmosView!
+    @IBOutlet weak var reviewImage: UIImageView!
+   
+    var reviewCell :Review?
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
-    func configureCell(reviews : [Review], indexPath : IndexPath){
-        reviewDate.text = reviews[indexPath.row].reviewDate
-        reviewerName.text = reviews[indexPath.row].reviewerName
-        review.text = reviews[indexPath.row].review
+    func configureCell(revieww : Review){
+        self.reviewCell = revieww
+        reviewDate.text = revieww.reviewDate
+        reviewerName.text = revieww.reviewerName
+        review.text = revieww.review
+       // reviewImage.image = UIImageView(image: UIImage(named: "logo"))
+        //ratingView.rating = Double(revieww.reviewRating ?? 0.0)
         
     }
     

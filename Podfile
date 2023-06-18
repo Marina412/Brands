@@ -14,6 +14,8 @@ target 'YRStor' do
 	pod 'Alamofire'
 	pod 'WMSegmentControl'
 	pod 'Floaty', '~> 4.1.0'
+	pod 'Cosmos', '~> 23.0'
+
 
   # Pods for YRStor
 

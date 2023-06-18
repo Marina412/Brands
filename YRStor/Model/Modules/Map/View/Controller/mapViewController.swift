@@ -13,6 +13,10 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     @IBOutlet weak var searchTxtField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
     let manager = CLLocationManager()
+    let defaults = UserDefaults.standard
+    var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
+    var globalLocation:CLLocation!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         manager.desiredAccuracy = kCLLocationAccuracyBest
@@ -27,9 +31,7 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     }
     
     @IBAction func saveLocation(_ sender: Any) {
-        //TODO save location in coreData
-        
-        
+        saveAddress()
         let controller=self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
         self.navigationController?.pushViewController(controller, animated: true)
     }
@@ -71,15 +73,24 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         }
     }
     
+    func saveAddress(){
+        let customerId = defaults.integer(forKey: "customerId")
+        var address = Address(customer_id:customerId ,address1: convertLonToAddress(location: globalLocation).locality,city: convertLonToAddress(location: globalLocation).country )
+
+        var customerAddress = CustomerAddress(customer_address: address)
+        addressViewModel.saveCustomerAddress(address:customerAddress, customerId: String(customerId))
+
+    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.last{
-            zoomToUserLocation(location)
+        if let globalLocation = locations.last{
+            zoomToUserLocation(location: globalLocation)
         }
         manager.stopUpdatingLocation()
     }
     
     
-    func zoomToUserLocation(_ location:CLLocation){
+    func zoomToUserLocation(location :CLLocation){
         let coordinate = CLLocationCoordinate2D(latitude: location.coordinate.latitude,
                                                 longitude: location.coordinate.longitude)
         let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
@@ -88,6 +99,7 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         let pin = MKPointAnnotation()
         pin.coordinate = coordinate
         mapView.addAnnotation(pin)
+        convertLonToAddress(location: location)
         
     }
     
@@ -142,16 +154,22 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             pin.title = String(describing: places.name)
             self.mapView.addAnnotation(pin)
             let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
+            self.globalLocation = location
             self.mapView.setRegion(region, animated: true)
-
+            self.convertLonToAddress(location: self.globalLocation)
             
-            
-//            let location = CLLocation(latitude: latitude, longitude: longitude)
-            CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
-                guard let placemark = placemarks?.first else { return }
-                print(placemark)
-            }
            
         }
+    }
+    
+    func convertLonToAddress(location:CLLocation) -> CLPlacemark{
+        var placemarkLocation : CLPlacemark?
+        CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
+                        guard let placemark = placemarks?.first else { return }
+                        print(placemark.country)
+                        print(placemark.locality)
+            placemarkLocation = placemark
+                    }
+        return placemarkLocation!
     }
 }

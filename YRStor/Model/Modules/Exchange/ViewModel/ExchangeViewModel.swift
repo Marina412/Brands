@@ -22,8 +22,8 @@ final class ExchangeViewModel {
     func getCurrency(amount:String, onError: @escaping ()->Void, onSuccuss:  @escaping()->Void) {
         if(!amount.isEmpty){
             exchangeApiNetworkService.getExChange().subscribe { exchange in
-                let rates = exchange.rates
-                self.exchangeCurrencyBehaviorSubject.onNext([rates.EGP,rates.USD,rates.EGP,rates.EUR,rates.SAR,rates.AED])
+              //  let rates = exchange.rates
+               // self.exchangeCurrencyBehaviorSubject.onNext([rates.EGP,rates.USD,rates.EGP,rates.EUR,rates.SAR,rates.AED])
             }.disposed(by: disposeBag)
         }
     }

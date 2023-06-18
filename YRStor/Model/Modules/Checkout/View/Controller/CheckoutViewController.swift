@@ -17,13 +17,13 @@ class CheckoutViewController: UIViewController{
     @IBOutlet weak var TotalLbl: UILabel!
     @IBOutlet weak var subTotalLbl: UILabel!
     @IBOutlet weak var phoneLbl: UILabel!
-    let userDefaults = UserDefaults.standard
     var homeVM:HomeViewModel!
     let defaults = UserDefaults.standard
     var addressResult: Address?
     var checkOutItems : FavProduct = FavProduct()
     var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
     var total:String = ""
+    var didSelectAddress = Address()
     //ApplePayment
     private var paymentRequest:PKPaymentRequest = {
         let request = PKPaymentRequest()
@@ -39,6 +39,7 @@ class CheckoutViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         cuponCodeTxtField.text = ""
+        defaults.set(true, forKey: "AddressShoppingCart")
         TotalLbl.text = checkOutItems.totalPrice
         getOneAddress()
         homeVM = HomeViewModel(repo: Repo(networkManager: NetworkManager()))
@@ -51,7 +52,7 @@ class CheckoutViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         TotalLbl.text = checkOutItems.totalPrice
         subTotalLbl.text = checkOutItems.totalPrice
-        if (homeVM.cupons.count != 0){
+        if (homeVM.cupons.count != 0 &&  self.defaults.bool(forKey: "touchCopon") == true){
             cuponCodeTxtField.text = defaults.value(forKey: Constant.CUPON_CODE) as! String
         }else{
             cuponCodeTxtField.text = "No Cupon Code"
@@ -68,10 +69,18 @@ class CheckoutViewController: UIViewController{
             let res = self.addressViewModel.viewModelResult
             guard let oneAddress = res?.addresses?[0] else {return}
             self.addressResult = oneAddress
-            print("after set address \(self.addressResult)")
-            self.addressLabel.text = (self.addressResult?.address1 ?? "") + "," + (self.addressResult?.city ?? "")
+            if(self.defaults.bool(forKey: "didSelectAddress") == true){
+                self.addressLabel.text = (self.didSelectAddress.address1 ?? "") + "," + (self.didSelectAddress.city ?? "")
+            }
+            else{
+                self.addressLabel.text = (self.addressResult?.address1 ?? "") + "," + (self.addressResult?.city ?? "")
+            }
             self.phoneLbl.text = self.addressResult?.phone
         }
+    }
+    @IBAction func changeAddress(_ sender: Any) {
+        let address=self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+        self.navigationController?.pushViewController(address, animated: true)
     }
     @IBAction func ApplyCuponCodeBtn(_ sender: Any) {
         var intCupon = 1.0
@@ -97,11 +106,11 @@ class CheckoutViewController: UIViewController{
         if sender == cashOnDeliveryBtn{
             cashOnDeliveryBtn.isSelected = true
             applePayBtn.isSelected = false
-            userDefaults.set("CashOnDelivery", forKey: Constant.PAY_Method)
+            defaults.set("CashOnDelivery", forKey: Constant.PAY_Method)
         }else{
             cashOnDeliveryBtn.isSelected = false
             applePayBtn.isSelected = true
-            userDefaults.set("applePay", forKey: Constant.PAY_Method)
+            defaults.set("applePay", forKey: Constant.PAY_Method)
             
         }
         
@@ -110,7 +119,7 @@ class CheckoutViewController: UIViewController{
         if (homeVM.cupons.count != 0){
             homeVM.cupons.remove(at: 0)
         }
-        if ( userDefaults.string(forKey: "Constant.PAY_Method") == "applePay"){
+        if ( defaults.string(forKey: "Constant.PAY_Method") == "applePay"){
             let controller = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest)
             if controller != nil{
                 controller!.delegate = self
@@ -118,9 +127,9 @@ class CheckoutViewController: UIViewController{
             }
         }
       
-        addressViewModel.postOrder(order: Order(
-        created_at: String?, currency: <#T##String?#>, email: <#T##String?#>, current_total_price: <#T##String?#>, line_items: <#T##[OrderProductItems]?#>, reference: <#T##String?#>, note: <#T##String?#>
-        ))
+//        addressViewModel.postOrder(order: Order(
+//        created_at: "String"?, currency: <#T##String?#>, email: <#T##String?#>, current_total_price: <#T##String?#>, line_items: <#T##[OrderProductItems]?#>, reference: <#T##String?#>, note: <#T##String?#>
+//        ))
         
     }
 }

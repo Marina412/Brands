@@ -7,7 +7,7 @@
 
 import Foundation
 protocol RepoProtocol{
-    func postOrderToApi(order: Order)
+    //func postOrderToApi(order: Order)
     func getAllProducts(completion: @escaping ([Product]?)->())
     func getAllCollections(completion: @escaping ([Collection]?)->())
     func getProductsByCollectionId(collectionId:Int ,completion: @escaping ([Product]?)->())
@@ -130,10 +130,10 @@ class Repo : RepoProtocol{
             completion(res?.rates)
         })
     }
-    func postOrderToApi(order: Order){
-        networkManager?.postOrder(apiUrl: Constant.POST_ORDERS_URL, order: order){
-            res in
-            print(res)
-        }
-    }
+//    func postOrderToApi(order: Order){
+//        networkManager?.postOrder(apiUrl: Constant.POST_ORDERS_URL, order: order){
+//            res in
+//            print(res)
+//        }
+//    }
 }

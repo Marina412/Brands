@@ -15,6 +15,8 @@ class LocationViewController: UIViewController {
     var customerAddressViewModel = CustomerAddressViewModel (repo:Repo(networkManager:NetworkManager()))
     var allAddresses : AllAddress?
     var customerAuthAddress : [Address] = []
+    let defaults = UserDefaults.standard
+
     override func viewDidLoad() {
         super.viewDidLoad()
         locationCollectionView.delegate = self
@@ -47,17 +49,14 @@ class LocationViewController: UIViewController {
     func getAllAddresses(){
         let defaults = UserDefaults.standard
         let customerId = defaults.integer(forKey: "customerId")
-        print("customerId\(customerId)")
         var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
         addressViewModel.getAllAdresses(customerId:String(customerId))
         addressViewModel.bindResult = {() in
             let res = addressViewModel.viewModelResult
             guard let allAddresses = res?.addresses else {return}
             for customerAddresses in allAddresses{
-                print("address id  \(customerAddresses.address1)")
                 if(customerAddresses.customer_id == Int(customerId)){
                     self.customerAuthAddress.append(customerAddresses)
-                    print("countt \(self.customerAuthAddress.count)")
                 }
             }
             DispatchQueue.main.async{
@@ -106,8 +105,15 @@ extension LocationViewController:UICollectionViewDelegate,UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (locationCollectionView.frame.width - 10), height: (locationCollectionView.frame.height-5))
     }
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if (defaults.bool(forKey: "AddressShoppingCart") == true){
+            let checkout=self.storyboard?.instantiateViewController(withIdentifier: "CheckoutViewController") as! CheckoutViewController
+            checkout.didSelectAddress = customerAuthAddress[indexPath.row]
+            defaults.set(true, forKey: "didSelectAddress")
+            self.navigationController?.pushViewController(checkout, animated: true)
+        }
+    }
 }
                         
-                      
+
 

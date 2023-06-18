@@ -85,6 +85,14 @@
             </objects>
             <point key="canvasLocation" x="620" y="-7"/>
         </scene>
+        <!--CheckoutViewController-->
+        <scene sceneID="mu5-TP-H5i">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="CheckoutViewController" storyboardName="Checkout" referencedIdentifier="CheckoutViewController" id="r7X-QW-eEu" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gYu-Ze-ixE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="611" y="76"/>
+        </scene>
         <!--EnterLocationViewController-->
         <scene sceneID="2My-Mo-9sw">
             <objects>

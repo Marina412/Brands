@@ -24,7 +24,7 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         haveEmail()
-        
+        self.navigationItem.setHidesBackButton(true, animated: false)
     }
     
     func setUpEmail(){

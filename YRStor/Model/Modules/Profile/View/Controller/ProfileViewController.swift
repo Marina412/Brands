@@ -41,8 +41,22 @@ class ProfileViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    
-    
+    @IBAction func onClickSwitch(_ sender: UISwitch) {
+        if #available(iOS 13.0, *){
+            let appDelegate = UIApplication.shared.windows.first
+            if sender.isOn{
+                appDelegate?.overrideUserInterfaceStyle = .dark
+                self.navigationController?.navigationBar.tintColor = .white
+                return
+            }
+            appDelegate?.overrideUserInterfaceStyle = .light
+            self.navigationController?.navigationBar.tintColor = .black
+            return
+        }
+        else{
+        }
+        
+    }
 }
 extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

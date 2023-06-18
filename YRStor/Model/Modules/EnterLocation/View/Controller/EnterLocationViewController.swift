@@ -15,7 +15,6 @@ class EnterLocationViewController: UIViewController {
     var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
     let defaults = UserDefaults.standard
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         

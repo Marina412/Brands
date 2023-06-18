@@ -8,7 +8,9 @@
 import Foundation
 struct Review{
     
-    var reviewDate : String
-    var reviewerName : String
-    var review : String
+    var reviewDate : String?
+    var reviewerName : String?
+    var review : String?
+    var reviewImage:String?
+    var reviewRating:Double?
 }

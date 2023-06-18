@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Bg-u0-Khk" customClass="CardViews" customModule="YRStor" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Bg-u0-Khk" customClass="CardViews" customModule="YRStor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="344" width="391" height="119.33333333333331"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="490-AW-sle">
@@ -33,7 +33,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hdH-gv-RoT">
-                                        <rect key="frame" x="25" y="55.000000000000057" width="35" height="35"/>
+                                        <rect key="frame" x="25" y="55" width="35" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="HXH-ju-diz"/>
                                             <constraint firstAttribute="width" constant="35" id="d1M-1Z-27h"/>
@@ -46,7 +46,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Apple Payment" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="860-uQ-x3G">
-                                        <rect key="frame" x="70" y="55.000000000000057" width="129" height="35"/>
+                                        <rect key="frame" x="70" y="55" width="129" height="35"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="129" id="PPL-RA-Ksg"/>
                                             <constraint firstAttribute="height" constant="35" id="Rp7-cK-ht1"/>
@@ -77,6 +77,7 @@
                                     <constraint firstItem="860-uQ-x3G" firstAttribute="centerY" secondItem="hdH-gv-RoT" secondAttribute="centerY" id="Uo9-ba-OcA"/>
                                     <constraint firstAttribute="trailing" secondItem="860-uQ-x3G" secondAttribute="trailing" constant="190" id="btD-5S-CuC"/>
                                     <constraint firstItem="fMD-4O-HtY" firstAttribute="leading" secondItem="490-AW-sle" secondAttribute="trailing" constant="10" id="mT7-9r-Hwl"/>
+                                    <constraint firstItem="hdH-gv-RoT" firstAttribute="leading" secondItem="490-AW-sle" secondAttribute="leading" id="oaR-h1-r9j"/>
                                     <constraint firstItem="490-AW-sle" firstAttribute="leading" secondItem="8Bg-u0-Khk" secondAttribute="leading" constant="25" id="qbQ-1w-b7p"/>
                                     <constraint firstItem="fMD-4O-HtY" firstAttribute="top" secondItem="8Bg-u0-Khk" secondAttribute="top" constant="10" id="tXx-Sd-Ha9"/>
                                 </constraints>
@@ -87,7 +88,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Payment Method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htO-1g-2nh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Payment Method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htO-1g-2nh">
                                 <rect key="frame" x="20" y="296" width="174" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="ocB-Ik-axw"/>
@@ -222,8 +223,8 @@
                                     <constraint firstItem="bZu-It-vCK" firstAttribute="top" secondItem="kZ0-oG-pXJ" secondAttribute="bottom" constant="10" id="yGe-03-J7O"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ORT-aM-04K" customClass="CardViews" customModule="YRStor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="116.66666666666666" width="391" height="159.33333333333334"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ORT-aM-04K" customClass="CardViews" customModule="YRStor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="116.66666666666667" width="391" height="159.33333333333331"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eOX-Qk-Eqx">
                                         <rect key="frame" x="65" y="9.9999999999999982" width="306" height="31.333333333333329"/>
@@ -259,6 +260,9 @@
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Change"/>
+                                        <connections>
+                                            <action selector="changeAddress:" destination="vfw-7a-rOH" eventType="touchUpInside" id="nln-E3-kVx"/>
+                                        </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="KFQ-Mr-oDh">
                                         <rect key="frame" x="25" y="88.333333333333329" width="30" height="30"/>
@@ -319,6 +323,7 @@
                             <constraint firstItem="htO-1g-2nh" firstAttribute="leading" secondItem="SYT-jO-Dg0" secondAttribute="leading" constant="20" id="YyH-Ja-ECT"/>
                             <constraint firstItem="ORT-aM-04K" firstAttribute="leading" secondItem="ba7-yA-Pj8" secondAttribute="leading" id="dU3-he-hmN"/>
                             <constraint firstItem="Zu3-Jg-5iv" firstAttribute="top" secondItem="SYT-jO-Dg0" secondAttribute="top" constant="10" id="doi-Sa-Gl0"/>
+                            <constraint firstItem="htO-1g-2nh" firstAttribute="top" secondItem="BOl-pg-N14" secondAttribute="top" constant="296" id="ewM-5h-Hxp"/>
                             <constraint firstItem="SYT-jO-Dg0" firstAttribute="trailing" secondItem="hEK-EV-3Kb" secondAttribute="trailing" constant="203" id="ezq-bJ-d9l"/>
                             <constraint firstItem="hEK-EV-3Kb" firstAttribute="top" secondItem="8Bg-u0-Khk" secondAttribute="bottom" constant="30" id="kbR-EI-eGi"/>
                             <constraint firstItem="ba7-yA-Pj8" firstAttribute="top" secondItem="BOl-pg-N14" secondAttribute="top" constant="541" id="nWs-09-f0Y"/>
@@ -344,6 +349,14 @@
                 <exit id="vsM-Lx-7E1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="182" y="-12"/>
+        </scene>
+        <!--LocationViewController-->
+        <scene sceneID="pgc-4Z-9jg">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="LocationViewController" storyboardName="Location" referencedIdentifier="LocationViewController" id="rED-U7-RIf" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PGD-Qq-duz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="729" y="-57"/>
         </scene>
     </scenes>
     <resources>

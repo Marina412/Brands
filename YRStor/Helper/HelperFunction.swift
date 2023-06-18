@@ -49,33 +49,33 @@ class HelperFunctions{
         return filteredProducts
     }
     
-    static func orderToParameters(order:Order)->[String: Any]{
-        var lineItems :[[String:Any]] = [[:]]
-        order.line_items?.forEach{
-            item in
-            lineItems.append(
-                [
-                    "product_id": item.product_id ??  "",
-                    "title": item.title ??  "",
-                    "price": item.price ??  "",
-                    "quantity": item.quantity ??  "",
-                    "sku": item.sku ??  ""
-                ])
-        }
-        return ["order":[
-            "created_at": order.created_at ?? "",
-            "currency": order.currency ?? "",
-            "current_total_price": order.current_total_price ?? "",
-            "email": order.email ?? "",
-            "note":  order.note ?? "",
-            "reference": order.reference ?? "",
-            "line_items": [
-                lineItems
-            ]
-        ]
-        ]
-        
-    }
+//    static func orderToParameters(order:Order)->[String: Any]{
+//        var lineItems :[[String:Any]] = [[:]]
+//        order.line_items?.forEach{
+//            item in
+//            lineItems.append(
+//                [
+//                    "product_id": item.product_id ??  "",
+//                    "title": item.title ??  "",
+//                    "price": item.price ??  "",
+//                    "quantity": item.quantity ??  "",
+//                    "sku": item.sku ??  ""
+//                ])
+//        }
+//        return ["order":[
+//            "created_at": order.created_at ?? "",
+//            "currency": order.currency ?? "",
+//            "current_total_price": order.current_total_price ?? "",
+//            "email": order.email ?? "",
+//            "note":  order.note ?? "",
+//            "reference": order.reference ?? "",
+//            "line_items": [
+//                lineItems
+//            ]
+//        ]
+//        ]
+//        
+//    }
     
     //    func showAlertsWithOkBtn(message:String){
     //        let alert = UIAlertController(title: "Shopify", message: message, preferredStyle: .alert)
