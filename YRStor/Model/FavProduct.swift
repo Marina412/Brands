@@ -8,7 +8,7 @@
 import Foundation
 
 struct FavProducts: Decodable,Encodable {
-    let draftOrders: [FavProduct]
+    var draftOrders: [FavProduct]
 
     enum CodingKeys: String, CodingKey {
         case draftOrders = "draft_orders"

@@ -22,7 +22,7 @@ struct Product: Codable {
         case bodyHTML = "body_html"
         case vendor
         case productType = "product_type"
-        case variants,  images, image
+        case tags,variants,  images, image
        
     }
 }

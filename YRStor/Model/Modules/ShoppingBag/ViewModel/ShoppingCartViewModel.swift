@@ -11,6 +11,8 @@ class ShoppingCartViewModel{
     var resDraft : FavProduct!
     var products : [LineItems] = []
     var draftId = ""
+    var curencyType :String = "USD"
+    var rates = Rates()
     let defaults = UserDefaults.standard
     var repo : RepoProtocol
     var bindResult : (()->()) = {}
@@ -23,7 +25,6 @@ class ShoppingCartViewModel{
     init(repo: RepoProtocol) {
         self.repo = repo
     }
-    
     func saveShoppingCartInDatabase(favProduct: FavProduct){
         repo.saveShoppingCartInDatabase(apiUrl: Constant.POST_FAV_PRODUCT_URL, favProduct: favProduct) { res in
             guard let draft = res?.draftOrder else {return}

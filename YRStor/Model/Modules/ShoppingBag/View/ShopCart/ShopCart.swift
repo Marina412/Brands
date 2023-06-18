@@ -38,14 +38,14 @@ class ShopCart: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    func configureCell( draft : FavProduct,indexPath : IndexPath ){
+    func configureCell( draft : FavProduct,indexPath : IndexPath ,currency:String){
         defaults.double(forKey: "totalPrice")
         defaults.set(draft.totalPrice, forKey: "totalPrice")
         index = indexPath
         draftt.draftOrder  = draft
         draftId = draft.draftId ?? 0
         productTitle.text = draft.lineItems?[indexPath.row].productTitle
-        productPrice.text = draft.lineItems?[indexPath.row].productPrice
+        productPrice.text = (draft.lineItems?[indexPath.row].productPrice ?? "0") + currency
         self.productPriceValue = draft.lineItems?[indexPath.row].productPrice ?? ""
         productImage.kf.setImage(with: URL(string:  draft.lineItems?[indexPath.row].productImage ?? ""))
 

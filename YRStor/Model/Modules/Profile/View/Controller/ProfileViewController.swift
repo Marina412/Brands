@@ -75,13 +75,24 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        let isLoggin = defaults.bool(forKey: "isLogging")
         switch (indexPath.row){
         case 0:
-            self.performSegue(withIdentifier: "profileMyOrderSegue", sender: self)
+            if isLoggin{
+                self.performSegue(withIdentifier: "profileMyOrderSegue", sender: self)
+            }else{
+                let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+                self.navigationController?.pushViewController(register, animated: true)
+            }
             
         case 1:
-            self.performSegue(withIdentifier: "profileLocationSegue", sender: self)
+            if isLoggin{
+                self.performSegue(withIdentifier: "profileLocationSegue", sender: self)
+            }else{
+                let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+                self.navigationController?.pushViewController(register, animated: true)
+            }
+            
             
         case 2:
             self.performSegue(withIdentifier: "profileCurrencySegue", sender: self)

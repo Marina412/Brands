@@ -40,7 +40,7 @@ class CheckoutViewController: UIViewController{
         super.viewDidLoad()
         cuponCodeTxtField.text = ""
         defaults.set(true, forKey: "AddressShoppingCart")
-        TotalLbl.text = checkOutItems.totalPrice
+        TotalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
         getOneAddress()
         homeVM = HomeViewModel(repo: Repo(networkManager: NetworkManager()))
         cashOnDeliveryBtn.setImage(UIImage(systemName: "circle"), for: .normal)
@@ -50,8 +50,8 @@ class CheckoutViewController: UIViewController{
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        TotalLbl.text = checkOutItems.totalPrice
-        subTotalLbl.text = checkOutItems.totalPrice
+        TotalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
+        subTotalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ??  "0", rates: addressViewModel.rates) + " " + addressViewModel.curencyType
         if (homeVM.cupons.count != 0 &&  self.defaults.bool(forKey: "touchCopon") == true){
             cuponCodeTxtField.text = defaults.value(forKey: Constant.CUPON_CODE) as! String
         }else{
@@ -96,7 +96,7 @@ class CheckoutViewController: UIViewController{
         }
         if let intTotal = Double(checkOutItems.totalPrice ?? ""){
             let result = intTotal - (intTotal * intCupon)
-            self.TotalLbl.text = String(result)
+            self.TotalLbl.text =  HelperFunctions.priceEXchange(curencyType: self.addressViewModel.curencyType, price: String(result) ??  "0", rates: self.addressViewModel.rates) + " " + self.addressViewModel.curencyType
         } else {
             print("One of the strings is not a valid integer.")
         }

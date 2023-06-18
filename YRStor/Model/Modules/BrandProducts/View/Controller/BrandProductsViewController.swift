@@ -47,6 +47,14 @@ extension BrandProductsViewController{
             productCell.cellSetUp(product:item,currency: self.brandProductsVM.curencyType)
             return productCell
         }.disposed(by:disposeBag)
+        
+        productsCollectionView.rx.itemSelected.subscribe(onNext:{
+            index in
+            let productInfo = self.storyboard?.instantiateViewController(withIdentifier: "ProductInfoViewController") as! ProductInfoViewController
+            productInfo.product = self.brandProductsVM.allProducts[index.row]
+            self.navigationController?.pushViewController(productInfo, animated: true)
+         }).disposed(by: disposeBag)
+        
     }
 }
 extension BrandProductsViewController: UISearchBarDelegate{

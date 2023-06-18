@@ -140,7 +140,7 @@ class ShoppingCartViewController: UIViewController {
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
          let cell = tableView.dequeueReusableCell(withIdentifier: "ShopCart", for: indexPath) as! ShopCart
          
-         cell.configureCell(draft: cartViewModel.resDraft, indexPath: indexPath)
+         cell.configureCell(draft: cartViewModel.resDraft, indexPath: indexPath,currency: viewModel.curencyType)
          cell.cellViewModel.stepperAction = { [weak self] totalPrice in
              self?.totalPricee.text = String(totalPrice)
              

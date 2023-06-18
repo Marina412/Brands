@@ -33,12 +33,12 @@ class FavTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell(favProducts : [FavProduct],indexPath : IndexPath){
+    func configureCell(favProducts : [FavProduct],indexPath : IndexPath,currency:String){
         
         favViewModel.product = favProducts[indexPath.row].lineItems?[0] ?? LineItems()
         productInforViewModel.draftId = String(favProducts[indexPath.row].draftId ?? 0)
         productTitle.text = favProducts[indexPath.row].lineItems?[0].productTitle
-        productPrice.text = favProducts[indexPath.row].lineItems?[0].productPrice
+        productPrice.text = favProducts[indexPath.row].lineItems?[0].productPrice ?? "0" + currency
         productImage.kf.setImage(with: URL(string: favProducts[indexPath.row].image ?? ""))
        
         productImage.layer.cornerRadius = 30

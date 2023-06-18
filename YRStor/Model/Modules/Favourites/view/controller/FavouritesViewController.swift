@@ -119,7 +119,7 @@ extension FavouritesViewController : UITableViewDelegate , UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "favCell", for: indexPath) as! FavTableViewCell
         
-        cell.configureCell(favProducts: viewModel.customerFavList, indexPath: indexPath)
+        cell.configureCell(favProducts: viewModel.customerFavList, indexPath: indexPath,currency: viewModel.curencyType)
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

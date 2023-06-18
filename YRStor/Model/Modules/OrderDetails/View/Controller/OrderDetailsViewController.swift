@@ -21,28 +21,12 @@ class OrderDetailsViewController: UIViewController {
         super.viewDidLoad()
         itemsCollectionView.delegate = self
         itemsCollectionView.dataSource = self
-        navigationBarButtons()
         renderUi()
         registerXibCells()
     }
     
 }
-extension OrderDetailsViewController{
-    
-    func navigationBarButtons(){
-        self.navigationController?.navigationBar.tintColor =  #colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)
-        let profilBtn = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(self.navToProfil))
-        let searchBtn = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(self.navToFavoriteScreen))
-        navigationItem.rightBarButtonItems = [profilBtn,searchBtn]
-    }
-    
-    @objc func navToFavoriteScreen(){
-        print("go to fav ")
-    }
-    @objc func navToProfil(){
-        print("go to profil ")
-    }
-}
+
 extension OrderDetailsViewController{
     func renderUi(){
         orderDate.text = order?.created_at
