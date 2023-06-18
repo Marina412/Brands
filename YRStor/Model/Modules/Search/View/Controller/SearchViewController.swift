@@ -13,7 +13,6 @@ import RxSwift
 class SearchViewController: UIViewController ,UISearchBarDelegate {
     @IBOutlet weak var allProductsTable: UITableView!
     
-    @IBOutlet weak var searchStack: UIStackView!
     var productsIds : [String] = []
     var allProductsArr = BehaviorRelay<[Product]>(value: [])
     var filteredProductsArr = BehaviorRelay<[Product]>(value: [])
@@ -22,6 +21,7 @@ class SearchViewController: UIViewController ,UISearchBarDelegate {
     let searchViewModel = SearchViewModel(repo: Repo(networkManager: NetworkManager()))
     let authViewModel = AuthViewModel(repo: Repo(networkManager: NetworkManager()))
     let searchBar = UISearchBar()
+    let noSearchImage = UIImageView()
     
     let networkManager = NetworkManager()
 
@@ -29,7 +29,6 @@ class SearchViewController: UIViewController ,UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         allProductsTable.isHidden = true
-       // self.navigationItem.setHidesBackButton(true, animated: false)
         selectedItem()
         setUpSearcBar()
         searchViewModel.getAllProducts()
@@ -62,14 +61,39 @@ class SearchViewController: UIViewController ,UISearchBarDelegate {
     }
     
     func setUpSearcBar(){
-       searchStack.insertArrangedSubview(searchBar, at: 0)
+   
         searchBar.delegate = self
         searchBar.placeholder = "Products Search"
+        view.addSubview(searchBar)
         searchBar.translatesAutoresizingMaskIntoConstraints = false
+                allProductsTable.translatesAutoresizingMaskIntoConstraints = false
+                NSLayoutConstraint.activate([
+                    searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                    searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+                    allProductsTable.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+                    allProductsTable.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    allProductsTable.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                    allProductsTable.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+                ])
+       
+        view.addSubview(noSearchImage)
+        noSearchImage.translatesAutoresizingMaskIntoConstraints = false
+         noSearchImage.image = UIImage(named: "searchImage")
+
+         NSLayoutConstraint.activate([
+             noSearchImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+             noSearchImage.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+         ])
+       
+        
+        
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         //allProductsTable.isHidden = false
         if !searchText.isEmpty {
+            self.noSearchImage.isHidden = true
             let filteredItems = allProductsArr.value.filter { item in
                 return item.title?.lowercased().contains(searchText.lowercased()) ?? false
             }
@@ -78,6 +102,7 @@ class SearchViewController: UIViewController ,UISearchBarDelegate {
             filteredProductsArr.accept(filteredItems)
             allProductsTable.reloadData()
         } else {
+            self.noSearchImage.isHidden = false
             filteredProductsArr.accept([])
         }
        

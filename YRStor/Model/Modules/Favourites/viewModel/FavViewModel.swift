@@ -12,6 +12,7 @@ class FavViewModel {
     let defaults = UserDefaults.standard
     var customerFavList : [FavProduct] = []
     var productIds : [String] = []
+    var product : LineItems = LineItems()
     
     
     let repo : RepoProtocol

@@ -16,6 +16,7 @@ class FavouritesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -84,7 +85,7 @@ class FavouritesViewController: UIViewController {
         var favProducts : [FavProduct] = []
         let email = viewModel.defaults.string(forKey: "email")
         for fav in favs {
-            if(fav.email == email){
+            if(fav.email == email && fav.favOrShopping == Constant.IS_FAV){
                 favProducts.append(fav)
             }
         }
@@ -93,7 +94,7 @@ class FavouritesViewController: UIViewController {
     }
     func noFavImage(){
         // edit the image
-        let imageView = UIImageView(image: UIImage(named: "noShoppingBag"))
+        let imageView = UIImageView(image: UIImage(named: "noFavImage"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         

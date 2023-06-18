@@ -9,7 +9,11 @@ import UIKit
 
 class ProductInfoViewController: UIViewController {
 
+
     
+    @IBOutlet weak var cartBtnOutlet: UIButton!
+    
+    @IBOutlet weak var reviewsBtnOutlet: UIButton!
     @IBOutlet weak var productName: UILabel!
     
     @IBOutlet weak var pageControl: UIPageControl!
@@ -32,16 +36,12 @@ class ProductInfoViewController: UIViewController {
                 pageControl.currentPage = currentPage
             }
         }
+        
         var product : Product?
-        var productImages : [ProductImage]!
-        var draftId :String?
-        var favProduct : FavProduct?
-        var lineItems : [LineItems]?
-        let defaults = UserDefaults.standard
         var viewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
         var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
-        var shoppingCartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
-        var draft : FavProduct = FavProduct()
+        var productInfoViewModel = ProductInfoViewModel(repo: Repo(networkManager: NetworkManager()))
+    var shoppingCartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
         
         
         
@@ -51,6 +51,8 @@ class ProductInfoViewController: UIViewController {
             setUpView()
             setUpProductDetails()
             checkIsFavProduct()
+            self.stepperOutlet.isHidden = true
+            self.productQuantity.isHidden = true
         }
     
   
@@ -67,7 +69,7 @@ class ProductInfoViewController: UIViewController {
                 if(draft.lineItems?[0].productId == String(self.product?.id ?? 0)){
                     print("ids equal each other ")
                     //self.fabBtnCheck.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                    self.draftId = String(draft.draftId ?? 0)
+                    self.productInfoViewModel.draftId = String(draft.draftId ?? 0)
                 }
                 guard let products = draft.lineItems else {return}
                 for id in products{
@@ -85,7 +87,7 @@ class ProductInfoViewController: UIViewController {
         
       
     func checkCustomerCart(){
-        let email = defaults.string(forKey: "email")
+        let email = self.productInfoViewModel.defaults.string(forKey: "email")
         var draftId : String = ""
         var isNew = false
         var isExists = false
@@ -100,7 +102,7 @@ class ProductInfoViewController: UIViewController {
             else{
                 for draft in allDrafts{
                     if(draft.email == email && draft.favOrShopping == Constant.IS_SHOPPING_CART){
-                        self.draft = draft
+                        self.productInfoViewModel.draft = draft
                         isExists = true
                         
                     }
@@ -117,16 +119,16 @@ class ProductInfoViewController: UIViewController {
                             productId.quantity = productId.quantity + (Int(self.productQuantity.text ?? "") ?? 0)
                             
                             var newDraft = allDrafts[0]
-                            self.draftId = String(allDrafts[0].draftId ?? 0)
+                            self.productInfoViewModel.draftId = String(allDrafts[0].draftId ?? 0)
                             var draft = Drafts(draftOrder: newDraft)
-                            self.shoppingCartViewModel.editShoppingCart(draftOrder:draft, draftId: self.draftId ?? "")
+                            self.shoppingCartViewModel.editShoppingCart(draftOrder:draft, draftId: self.productInfoViewModel.draftId ?? "")
                             isFound = true
                             print("line itemss \(allDrafts[0].lineItems)")
                             break
                         }
                     }
                     if(!isFound){
-                        self.putInCart(draft: self.draft)
+                        self.putInCart(draft: self.productInfoViewModel.draft)
                     }
                 }
                 
@@ -140,22 +142,27 @@ class ProductInfoViewController: UIViewController {
     }
     func putInCart(draft : FavProduct){
         var newDraft = draft
-        draftId = String(draft.draftId ?? 0)
+        self.productInfoViewModel.draftId = String(draft.draftId ?? 0)
         var newProduct = [LineItems(productId: String(self.product?.id ?? 0) ,productTitle: self.product?.title,productPrice: self.product?.variants?[0].price, quantity: Int(stepperOutlet.value))]
         newDraft.lineItems?.append(contentsOf: newProduct)
         var draft = Drafts(draftOrder: newDraft)
-        shoppingCartViewModel.editShoppingCart(draftOrder:draft, draftId: draftId ?? "")
+        shoppingCartViewModel.editShoppingCart(draftOrder:draft, draftId: self.productInfoViewModel.draftId ?? "")
         print("edit existing draftOrder  \(draft.draftOrder.lineItems?.count)")
         
     }
     
     
     func setUpView(){
-        productImages = product?.images
+        self.productInfoViewModel.productImages = product?.images
         imageCollection.delegate = self
         imageCollection.dataSource = self
-        pageControl.numberOfPages = productImages.count
+        pageControl.numberOfPages = self.productInfoViewModel.productImages.count
         setUpProductDetails()
+        UIButton.elevationBtn(button: reviewsBtnOutlet)
+        UIButton.elevationBtn(button: cartBtnOutlet)
+      
+        
+       
     }
     func setUpProductDetails(){
         productName.text = product?.title
@@ -164,14 +171,16 @@ class ProductInfoViewController: UIViewController {
         productPrice.text = "Price : " + (product?.variants?[0].price ?? "")
         productName.numberOfLines = 0
         productName.lineBreakMode = .byWordWrapping
+        UITextView.textViewStyle(textView: productDescription)
+      
     }
     
     func saveFavProductToDatabase(){
-        let email = defaults.string(forKey: "email")
-        lineItems = [LineItems(productId: String(product?.id ?? 0) , productTitle : product?.title,productPrice: product?.variants?[0].price, quantity: 1,productImage: product?.image?.src)]
+        let email = self.productInfoViewModel.defaults.string(forKey: "email")
+        self.productInfoViewModel.lineItems = [LineItems(productId: String(product?.id ?? 0) , productTitle : product?.title,productPrice: product?.variants?[0].price, quantity: 1,productImage: product?.image?.src)]
         
-        favProduct = FavProduct(email: email,lineItems: lineItems,favOrShopping: Constant.IS_FAV)
-        viewModel.saveFavProductToDatabase(favProduct: favProduct!)
+        self.productInfoViewModel.favProduct = FavProduct(email: email,lineItems: self.productInfoViewModel.lineItems,favOrShopping: Constant.IS_FAV)
+        viewModel.saveFavProductToDatabase(favProduct: self.productInfoViewModel.favProduct!)
         fabBtnCheck.setImage(UIImage(systemName: "heart.fill"), for: .normal)
     }
     func deleteProductFromDatabase(){
@@ -193,7 +202,7 @@ class ProductInfoViewController: UIViewController {
     
     func getFavForCustomers(favs : [FavProduct])-> [FavProduct]?{
         var favProducts : [FavProduct] = []
-        let email = defaults.string(forKey: "email")
+        let email = self.productInfoViewModel.defaults.string(forKey: "email")
         for fav in favs {
             if(fav.email == email && fav.favOrShopping == Constant.IS_FAV){
                 favProducts.append(fav)
@@ -205,7 +214,7 @@ class ProductInfoViewController: UIViewController {
     
     func getCustomerCart(drafts : [FavProduct])-> FavProduct?{
         var customerDraft : FavProduct!
-        let email = defaults.string(forKey: "email")
+        let email = self.productInfoViewModel.defaults.string(forKey: "email")
         for draft in drafts {
             if(draft.email == email && draft.favOrShopping == Constant.IS_SHOPPING_CART){
                 customerDraft = draft
@@ -217,7 +226,7 @@ class ProductInfoViewController: UIViewController {
     func addProductToCartInDataBase(){
         
         var shoppingCartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
-        let email = defaults.string(forKey: "email")
+        let email = self.productInfoViewModel.defaults.string(forKey: "email")
         var lineItems = [LineItems(productId: String(product?.id ?? 0) , productTitle : product?.title,productPrice: product?.variants?[0].price, quantity: 1,productImage: product?.image?.src)]
         var draft = FavProduct(email: email,lineItems: lineItems,favOrShopping: Constant.IS_SHOPPING_CART)
         shoppingCartViewModel.saveShoppingCartInDatabase(favProduct: draft)
@@ -255,17 +264,18 @@ class ProductInfoViewController: UIViewController {
     }
 }
 
+
 extension ProductInfoViewController: UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return productImages?.count ?? 3
+        return self.productInfoViewModel.productImages?.count ?? 3
         
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ProductImagesCell
-        cell.setUpProductImages(productImages: productImages, indexPath: indexPath)
+        cell.setUpProductImages(productImages: self.productInfoViewModel.productImages, indexPath: indexPath)
         return cell
         
     }
@@ -277,7 +287,6 @@ extension ProductInfoViewController: UICollectionViewDelegate,UICollectionViewDa
         currentPage = Int(scrollView.contentOffset.x / width)
         pageControl.currentPage = currentPage
     }
-    
-    
-    
+
 }
+

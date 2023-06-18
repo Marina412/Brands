@@ -18,14 +18,13 @@ class ProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var currencyLab: UILabel!
     
     
+    
     var viewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
-    // var favProduct = FavProduct(lineItems: [LineItems()])
-    var favProduct : FavProduct?
+    var favProduct = FavProduct(lineItems: [LineItems()])
     var product = Product()
-    //    var draftOrders : [FavProduct] = []
+//    var draftOrders : [FavProduct] = []
     var draftId  = ""
-    var intDID = 0
-    var isFave:Bool = false
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         shoppingCart.layer.cornerRadius = 18
@@ -35,36 +34,39 @@ class ProductCollectionViewCell: UICollectionViewCell {
     
     
     func cellSetUp(product:Product,currency:String){
-        self.product = product
         
+        self.favProduct = FavProduct(email: viewModel.defaults.value(forKey: "email") as? String,lineItems: [LineItems(productId: String(product.id ?? 0),productTitle: product.title,productPrice: product.variants?[0].price, productImage: product.image?.src)], favOrShopping: Constant.IS_FAV)
+        self.product = product
+        getDraftId()
         productImage.kf.setImage(with: URL(string:product.image?.src ?? ""), placeholder: UIImage(named: "man"))
         productTitle.text = product.title?.localizedCapitalized
         productType.text = product.productType?.localizedCapitalized
         productPrice.text = product.variants?[0].price
         currencyLab.text = currency
-        getDraftId()
+       
     }
     @IBAction func addToShoppingCartBtn(_ sender: Any) {
         self.shoppingCart.setImage(UIImage(systemName: "cart.circle.fill"), for: .normal)
         print("add to shopping cart")
     }
     @IBAction func addToFavouritBtn(_ sender: Any) {
-        getDraftId()
         print("add to fav")
-        // isFave = !isFave
-        if isFave{
+ 
+        if(favourit.currentImage == (UIImage(systemName: "heart.fill"))){
             
-            viewModel.deleteFavListInDatabase(draftId: "\(intDID)", indexPath: 0) {
-                print("deleted from cell controller")
-                self.favourit.setImage(UIImage(systemName: "heart"), for: .normal)
+            favourit.setImage(UIImage(systemName: "heart"), for: .normal)
+            viewModel.deleteFavListInDatabase(draftId: self.draftId, indexPath: 0) {
+                
             }
             
+            
+            print("deleted clicked")
         }
         else{
+             
             favourit.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            favProduct = FavProduct(email: viewModel.defaults.value(forKey: "email") as? String,lineItems: [LineItems(productId: String(product.id ?? 0),productTitle: product.title,productPrice: product.variants?[0].price, productImage: product.image?.src)], favOrShopping: Constant.IS_FAV)
             viewModel.saveFavProductToDatabase(favProduct: favProduct ?? FavProduct())
-            
+            print("added to fav")
         }
     }
     
@@ -72,20 +74,23 @@ class ProductCollectionViewCell: UICollectionViewCell {
         viewModel.getAllFav()
         viewModel.bindResult = {() in
             let res = self.viewModel.viewModelResult
-            guard let  res else {return}
-            guard var customerDrafts = self.getCustomerDrafts(drafts: res.draftOrders) else {return}
-            print("customer de \(customerDrafts)")
+            guard let allDrafts = res else {return}
+            guard var customerDrafts = self.getCustomerDrafts(drafts: allDrafts.draftOrders) else {return}
             for draft in customerDrafts {
                 if(draft.lineItems?[0].productId == String(self.product.id ?? 0)){
                     self.draftId = String(draft.draftId ?? 0)
-                    self.intDID = draft.draftId ?? 0
-                    print(" second for loop ids\(draft.lineItems?[0].productId)")
-                    self.isFave = true
+                }
+                guard let products = draft.lineItems else {return}
+                for id in products{
+
+                    if(id.productId == String(self.product.id ?? 0)){
+                        print("ids equal each other second loop ")
+                        self.favourit.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                    }
                 }
             }
         }
     }
-    
     func getCustomerDrafts(drafts : [FavProduct])-> [FavProduct]?{
         var customerDrafts : [FavProduct] = []
         let email = viewModel.defaults.string(forKey: "email")
@@ -98,4 +103,5 @@ class ProductCollectionViewCell: UICollectionViewCell {
         
     }
 }
+
 

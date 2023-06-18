@@ -87,6 +87,14 @@
             </objects>
             <point key="canvasLocation" x="139.69465648854961" y="-2.1126760563380285"/>
         </scene>
+        <!--LocationViewController-->
+        <scene sceneID="cXw-qC-bJh">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="LocationViewController" storyboardName="Location" referencedIdentifier="LocationViewController" id="Tkn-eb-meB" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aas-dc-atr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="758" y="-44"/>
+        </scene>
     </scenes>
     <resources>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>

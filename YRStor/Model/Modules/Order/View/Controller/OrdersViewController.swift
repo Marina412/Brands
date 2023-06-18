@@ -20,7 +20,7 @@ class OrdersViewController: UIViewController {
         ordersVM = OrdersViewModel(repo: repo)
         registerXibCells()
         navigationBarButtons()
-        ordersVM.getAllOrdersFromApi(userEmail: userDefaults.string(forKey: "email") ?? "")
+//        ordersVM.getAllOrdersFromApi(userEmail: userDefaults.string(forKey: "email") ?? "")
         setUpOrdersCollectionView()
     }
 }

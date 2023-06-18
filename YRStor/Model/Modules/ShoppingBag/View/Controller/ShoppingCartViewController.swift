@@ -9,6 +9,8 @@ import UIKit
 
 class ShoppingCartViewController: UIViewController {
     
+    @IBOutlet weak var totalItemsLb: UILabel!
+    @IBOutlet weak var checkOutletBtn: UIButton!
     @IBOutlet weak var numberOfItem: UILabel!
     @IBOutlet weak var checkoutBtn: UIButton!
     @IBOutlet weak var totalLabel: UILabel!
@@ -16,14 +18,15 @@ class ShoppingCartViewController: UIViewController {
      @IBOutlet weak var cartTable: UITableView!
      var viewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
      var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
-    let activityIndicator = UIActivityIndicatorView(style: .large)
+   // let activityIndicator = UIActivityIndicatorView(style: .large)
    
      override func viewDidLoad() {
          super.viewDidLoad()
        
      }
     override func viewWillAppear(_ animated: Bool) {
-            let defaults = UserDefaults.standard
+       
+        let defaults = UserDefaults.standard
             let isLoggin = defaults.bool(forKey: "isLogging")
            defaults.set(Constant.IS_SHOPPING_CART, forKey: "isFavOrCart")
             if (isLoggin == false){
@@ -38,6 +41,7 @@ class ShoppingCartViewController: UIViewController {
             }
             else{
                 setUpView()
+                viewModel.productIds = []
                 getDrafts()
             }
         }
@@ -46,13 +50,13 @@ class ShoppingCartViewController: UIViewController {
          cartTable.dataSource = self
          cartTable.delegate = self
          cartTable.register(UINib(nibName: "ShopCart", bundle: nil), forCellReuseIdentifier: "ShopCart")
-         activityIndicator.center = view.center
-         activityIndicator.color = UIColor.black
-         view.addSubview(activityIndicator)
-         activityIndicator.startAnimating()
+//         activityIndicator.center = view.center
+//         activityIndicator.color = UIColor.black
+//         view.addSubview(activityIndicator)
+//         activityIndicator.startAnimating()
      }
      func getDrafts(){
-         
+         var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
          viewModel.getAllFav()
          viewModel.bindResult = {() in
              let res = self.viewModel.viewModelResult
@@ -65,7 +69,7 @@ class ShoppingCartViewController: UIViewController {
                  self.viewModel.productIds.append(product.productId ?? "")
                //  print(self.viewModel.productIds)
              }
-             if(self.viewModel.productIds.count == 0 ){
+             if(self.viewModel.productIds.count == 0){
                  self.noShopCartImage()
              }
              else{
@@ -87,7 +91,9 @@ class ShoppingCartViewController: UIViewController {
                      self.cartViewModel.draft.draftOrder = self.cartViewModel.resDraft
                      self.cartViewModel.draftId = String(customerDraft.draftId ?? 0)
                      self.cartTable.reloadData()
-                     self.totalPricee.text = customerDraft.totalPrice
+                     guard let totalPrice = customerDraft.totalPrice else {return}
+                     self.totalPricee.text = "Total :\(totalPrice)"
+                     self.totalItemsLb.text = "Items : \(String(customerCartProducts.count))"
                  }
              }
          }
@@ -104,7 +110,7 @@ class ShoppingCartViewController: UIViewController {
          
      }
      func noShopCartImage(){
-         let imageView = UIImageView(image: UIImage(named: "noShoppingBag"))
+         let imageView = UIImageView(image: UIImage(named: "noShoppingCart"))
          imageView.translatesAutoresizingMaskIntoConstraints = false
          view.addSubview(imageView)
          
@@ -114,6 +120,7 @@ class ShoppingCartViewController: UIViewController {
              imageView.widthAnchor.constraint(equalToConstant: 100),
              imageView.heightAnchor.constraint(equalToConstant: 100)
          ])
+         self.totalLabel.isHidden = true
          self.cartTable.isHidden = true
          self.totalPricee.isHidden = true
      }
@@ -141,9 +148,9 @@ class ShoppingCartViewController: UIViewController {
          
          return cell
      }
-//     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//         return 100
-//     }
+     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+         return 154
+     }
      
      
      func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -158,7 +165,10 @@ class ShoppingCartViewController: UIViewController {
                      self.cartViewModel.deleteFavListInDatabase(draftId: self.cartViewModel.draftId, indexPath: indexPath.row, completion: {
                          self.cartTable.isHidden = true
                          self.noShopCartImage()
-                         self.totalPricee.text = "0.0"
+                         self.totalPricee.isHidden = true
+                         self.checkoutBtn.isHidden = true
+                         self.totalItemsLb.isHidden = true
+                         
                      })
                  }
                  else{

@@ -15,7 +15,7 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     let manager = CLLocationManager()
     let defaults = UserDefaults.standard
     var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
-    var globalLocation:CLLocation!
+    var globalLocation:CLPlacemark!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,7 +75,7 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     
     func saveAddress(){
         let customerId = defaults.integer(forKey: "customerId")
-        var address = Address(customer_id:customerId ,address1: convertLonToAddress(location: globalLocation).locality,city: convertLonToAddress(location: globalLocation).country )
+        var address = Address(customer_id:customerId ,address1: globalLocation.locality)
 
         var customerAddress = CustomerAddress(customer_address: address)
         addressViewModel.saveCustomerAddress(address:customerAddress, customerId: String(customerId))
@@ -99,7 +99,10 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
         let pin = MKPointAnnotation()
         pin.coordinate = coordinate
         mapView.addAnnotation(pin)
-        convertLonToAddress(location: location)
+        convertLonToAddress(location: location){
+            convertPlaces in
+            self.globalLocation = convertPlaces
+        }
         
     }
     
@@ -154,22 +157,22 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             pin.title = String(describing: places.name)
             self.mapView.addAnnotation(pin)
             let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
-            self.globalLocation = location
             self.mapView.setRegion(region, animated: true)
-            self.convertLonToAddress(location: self.globalLocation)
+            self.convertLonToAddress(location: location){
+                convertPlaces in
+                self.globalLocation = convertPlaces
+            }
             
            
         }
     }
     
-    func convertLonToAddress(location:CLLocation) -> CLPlacemark{
-        var placemarkLocation : CLPlacemark?
+    func convertLonToAddress(location:CLLocation,locClosure:@escaping(CLPlacemark?)->Void){
+
         CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
                         guard let placemark = placemarks?.first else { return }
-                        print(placemark.country)
-                        print(placemark.locality)
-            placemarkLocation = placemark
+                     locClosure(placemark)
                     }
-        return placemarkLocation!
+        
     }
 }

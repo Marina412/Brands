@@ -10,6 +10,7 @@ import Cosmos
 
 class ReviewsCell: UITableViewCell {
 
+    @IBOutlet weak var view: UIView!
     @IBOutlet weak var reviewDate: UILabel!
     @IBOutlet weak var review: UILabel!
     @IBOutlet weak var reviewerName: UILabel!
@@ -27,9 +28,10 @@ class ReviewsCell: UITableViewCell {
         reviewDate.text = revieww.reviewDate
         reviewerName.text = revieww.reviewerName
         review.text = revieww.review
-       // reviewImage.image = UIImageView(image: UIImage(named: "logo"))
-        //ratingView.rating = Double(revieww.reviewRating ?? 0.0)
-        
+        reviewImage.image = UIImage(named: revieww.reviewImage ?? "")
+       ratingView.rating = Double(revieww.reviewRating ?? 0.0)
+        UIView.elevationCardView(view: view)
     }
+    
     
 }

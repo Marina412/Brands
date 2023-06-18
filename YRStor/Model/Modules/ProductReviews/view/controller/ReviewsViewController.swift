@@ -10,7 +10,7 @@ import UIKit
 class ReviewsViewController: UIViewController {
 
     @IBOutlet weak var reviewsTable: UITableView!
-    var  reviews = [Review(reviewDate: "5 days ago", reviewerName: "Menna", review: "i like this        product",reviewImage:"review1.png",reviewRating: 4),
+    var  reviews = [Review(reviewDate: "5 days ago", reviewerName: "Menna", review: "i like this product",reviewImage:"review1.png",reviewRating: 4),
                     Review(reviewDate: "1 week ago", reviewerName: "Hour", review: "good matrial",reviewImage: "review2.png",reviewRating: 5),
                     Review(reviewDate: " 11 days ago", reviewerName: "Aya", review: "i loved it so much",reviewImage: "review3.png",reviewRating: 5),
                     Review(reviewDate: "7 months ago", reviewerName: "Huda", review: "very good product",reviewImage: "review4.png",reviewRating: 4.5),
@@ -47,7 +47,7 @@ extension ReviewsViewController : UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 130
+        return 160
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Reviews"

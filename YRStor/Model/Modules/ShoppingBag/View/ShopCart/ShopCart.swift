@@ -9,7 +9,6 @@ import UIKit
 
 class ShopCart: UITableViewCell {
 
-   
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productTitle: UILabel!
     @IBOutlet weak var productPrice: UILabel!
@@ -53,6 +52,8 @@ class ShopCart: UITableViewCell {
         guard let quantity = draft.lineItems?[indexPath.row].quantity else {return}
         productQunatity.text = "\(quantity)"
         stepperOulet.value = Double(quantity)
+        
+      
 
     }
     

@@ -14,16 +14,16 @@ class OrdersViewModel{
         init(repo:RepoProtocol) {
             self.repo = repo
         }
-    func getAllOrdersFromApi(userEmail:String){
-        repo.getAllOrders { [weak self] ordersRes in
-            guard let self else { return }
-            guard let ordersRes else {return}
-            for order in ordersRes{
-                if order.email?.contains(userEmail) == true{
-                    self.orders.append(order)
-                }
-            }
-            self.ordersObservablRS.onNext(self.orders)
-        }
-    }
+//    func getAllOrdersFromApi(userEmail:String){
+//        repo.getAllOrders { [weak self] ordersRes in
+//            guard let self else { return }
+//            guard let ordersRes else {return}
+//            for order in ordersRes{
+//                if order.email?.contains(userEmail) == true{
+//                    self.orders.append(order)
+//                }
+//            }
+//            self.ordersObservablRS.onNext(self.orders)
+//        }
+//    }
 }

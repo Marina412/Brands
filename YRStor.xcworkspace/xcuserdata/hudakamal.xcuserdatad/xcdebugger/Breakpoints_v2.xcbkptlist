@@ -7,22 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6DA375C8-12FE-4691-B4AD-C7407AFB8174"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "YRStor/Model/Modules/Authentication/view/controller/RegisterViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "7927641D-51F8-485E-8F23-3272D009832D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -226,38 +210,6 @@
             endingLineNumber = "124"
             landmarkName = "RegisterBtn(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "486C51B2-77B8-480A-8111-5EAC62205533 - 41c694a276022814"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "YRStor.RegisterViewController.RegisterBtn(Any) -&gt; ()"
-                  moduleName = "YRStor"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hudakamal/Desktop/Brands-17:6/Brands/YRStor/Model/Modules/Authentication/view/controller/RegisterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "115"
-                  endingLineNumber = "115"
-                  offsetFromSymbolStart = "1333">
-               </Location>
-               <Location
-                  uuid = "486C51B2-77B8-480A-8111-5EAC62205533 - 41c694a276022814"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "YRStor.RegisterViewController.RegisterBtn(Any) -&gt; ()"
-                  moduleName = "YRStor"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hudakamal/Desktop/Brands-17:6/Brands/YRStor/Model/Modules/Authentication/view/controller/RegisterViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "115"
-                  endingLineNumber = "115"
-                  offsetFromSymbolStart = "1438">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
