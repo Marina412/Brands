@@ -13,30 +13,33 @@ import RxCocoa
 class CategoryViewController: UIViewController {
     
     @IBOutlet weak var categoryWMSegment: WMSegment!
-    @IBOutlet weak var categoriesLab: UILabel!
+    
     @IBOutlet weak var filterFloaty: Floaty!
     @IBOutlet weak var productsCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
     var catigoryVM:CategoryViewModel!
     let disposeBag = DisposeBag()
+    let activityIndicator = UIActivityIndicatorView(style: .large)
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("help")
+        indicatorSetUp()
         renderUI()
         registerXibCells()
-        navigationBarButtons()
         let remote = NetworkManager()
         let repo = Repo(networkManager: remote)
         catigoryVM = CategoryViewModel(repo: repo)
         setUpProductsCollectionView()
         setUpSearchBar()
-        catigoryVM.setUpData()
-        filterFloaty.frame = CGRect(x: 310,
-                                    y: 660,
-                                    width: 70,
-                                    height: 70)
-        filterFloaty.openAnimationType = .fade
+//        catigoryVM.setUpData(){
+//            [weak self] in
+//            guard let self else { return }
+//            DispatchQueue.main.async {
+//                print("test 4")
+//                self.activityIndicator.stopAnimating()
+//                self.productsCollectionView.isHidden = false
+//            }
+//        }
+        filterFloaty.openAnimationType = .none
         filterFloaty.addItem(Constant.ACCESSORIES, icon: UIImage(named: "accessory")){
             [weak self]
             item in
@@ -79,13 +82,49 @@ class CategoryViewController: UIViewController {
             print("")
         }
     }
+    override func viewWillAppear(_ animated: Bool) {
+        self.activityIndicator.startAnimating()
+        catigoryVM.setUpData(){
+            [weak self] in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.productsCollectionView.isHidden = false
+            }
+        }
+    }
+}
+
+extension CategoryViewController{
+    func indicatorSetUp(){
+        activityIndicator.center = view.center
+        activityIndicator.color = UIColor.black
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        productsCollectionView.isHidden = true
+    }
+}
+extension CategoryViewController:UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+       if collectionView.numberOfItems(inSection: section) == 1  {
+           let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+           return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
+       }
+       return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+   }
 }
 extension CategoryViewController{
     func setUpProductsCollectionView(){
+       
+        print("test1")
+        productsCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
         catigoryVM.poductsObservablRS.bind(to: productsCollectionView.rx.items){
             collectionView, index, item in
+            print("test2")
             let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewCell", for: IndexPath(row: index, section: 0)) as! ProductCollectionViewCell
+            print("item\(item)")
             productCell.cellSetUp(product:item,currency:self.catigoryVM.curencyType)
+           
             return productCell
         }.disposed(by:disposeBag)
     }
@@ -101,7 +140,7 @@ extension CategoryViewController: UISearchBarDelegate{
 }
 extension CategoryViewController{
     func renderUI(){
-        categoriesLab.text = "Categories"
+        
         categoryWMSegment.borderColor = .lightGray
         categoryWMSegment.borderWidth = 2
         
@@ -114,20 +153,6 @@ extension CategoryViewController{
         productsCollectionView.register(UINib(nibName: "ProductCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProductCollectionViewCell")
     }
 }
-extension CategoryViewController{
-    func navigationBarButtons(){
-        self.navigationController?.navigationBar.tintColor =  #colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)
-        let profilBtn = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(self.navToProfil))
-        let searchBtn = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(self.navToFavoriteScreen))
-        navigationItem.rightBarButtonItems = [profilBtn,searchBtn]
-    }
-    
-    @objc func navToFavoriteScreen(){
-        print("go to fav ")
-    }
-    @objc func navToProfil(){
-        print("go to profil ")
-    }
-}
+
 
 

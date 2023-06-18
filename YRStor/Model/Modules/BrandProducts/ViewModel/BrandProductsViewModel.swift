@@ -46,13 +46,14 @@ class BrandProductsViewModel{
             completion()
         }
     }
-    func setUpData(brandId:Int){
+    func setUpData(brandId:Int,completion: @escaping ()->()){
         getAllProductsFromApiByCategorry(collectionId:brandId){
             [weak self ]  in
             guard let self else {return}
             self.getAllPoductsPricesFromApi(){
                 self.allProducts = HelperFunctions.productPriceEXchange(curencyType: self.curencyType, allProducts: self.allProducts, rates: self.rates)
                 self.poductsObservablRS.onNext(self.allProducts)
+                completion()
             }
         }
     }

@@ -96,7 +96,7 @@ class CheckoutViewController: UIViewController{
         }
         if let intTotal = Double(checkOutItems.totalPrice ?? ""){
             let result = intTotal - (intTotal * intCupon)
-            self.TotalLbl.text =  HelperFunctions.priceEXchange(curencyType: self.addressViewModel.curencyType, price: String(result) ??  "0", rates: self.addressViewModel.rates) + " " + self.addressViewModel.curencyType
+            self.TotalLbl.text =  HelperFunctions.priceEXchange(curencyType: self.addressViewModel.curencyType, price: String(result) , rates: self.addressViewModel.rates) + " " + self.addressViewModel.curencyType
         } else {
             print("One of the strings is not a valid integer.")
         }
@@ -126,12 +126,16 @@ class CheckoutViewController: UIViewController{
                 present(controller!,animated:true,completion: nil)
             }
         }
-      
-//        addressViewModel.postOrder(order: Order(
-//        created_at: "String"?, currency: <#T##String?#>, email: <#T##String?#>, current_total_price: <#T##String?#>, line_items: <#T##[OrderProductItems]?#>, reference: <#T##String?#>, note: <#T##String?#>
-//        ))
+        addressViewModel.postOrder(order: Order(
+            created_at: HelperFunctions.getTimestamp(), currency: defaults.string(forKey: Constant.CURRENCY), email: defaults.string(forKey: Constant.EMAIL), current_total_price: TotalLbl.text, line_items: HelperFunctions.formFavModelToProduct(shopCartProduct: checkOutItems), reference: Constant.PAY_Method, note: addressLabel.text
+        ))
+        print("done order ADDED ")
+        //// delete shope cart here
         
     }
+}
+extension CheckoutViewController{
+    
 }
 
 extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {

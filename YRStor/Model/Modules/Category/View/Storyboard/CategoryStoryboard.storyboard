@@ -8,22 +8,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Category View Controller-->
+        <!--Categories-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="CategoryViewController" id="Y6W-OH-hqX" customClass="CategoryViewController" customModule="YRStor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CategoryViewController" title="Categories" id="Y6W-OH-hqX" customClass="CategoryViewController" customModule="YRStor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brand Name" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XRr-Me-WPP">
-                                <rect key="frame" x="0.0" y="74" width="393" height="24"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1Ci-6Q-7eU">
-                                <rect key="frame" x="5" y="239" width="383" height="569"/>
+                                <rect key="frame" x="5" y="205" width="383" height="603"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vT4-Ew-wLg">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -32,11 +26,14 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <view contentMode="scaleToFill" id="HXr-JA-j7s" customClass="Floaty" customModule="Floaty">
-                                <rect key="frame" x="300" y="719" width="76" height="84"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HXr-JA-j7s" customClass="Floaty" customModule="Floaty">
+                                <rect key="frame" x="313" y="738" width="60" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="RPa-lw-2qK"/>
+                                    <constraint firstAttribute="height" constant="60" id="yVU-yV-5lM"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="itemButtonColor">
                                         <color key="value" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -67,7 +64,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search Here" translatesAutoresizingMaskIntoConstraints="NO" id="qPw-fC-Muy">
-                                <rect key="frame" x="10" y="108" width="373" height="56"/>
+                                <rect key="frame" x="10" y="74" width="373" height="56"/>
                                 <color key="barTintColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -75,7 +72,7 @@
                                 </connections>
                             </searchBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9g0-Hc-h7c" customClass="WMSegment" customModule="WMSegmentControl">
-                                <rect key="frame" x="10" y="174" width="373" height="50"/>
+                                <rect key="frame" x="10" y="140" width="373" height="50"/>
                                 <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="ilA-kT-or6"/>
@@ -100,23 +97,21 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="XRr-Me-WPP" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="02j-7c-2Gn"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="1Ci-6Q-7eU" secondAttribute="trailing" constant="5" id="63k-3N-Bmh"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="9g0-Hc-h7c" secondAttribute="trailing" constant="10" id="BgY-my-RwO"/>
                             <constraint firstItem="9g0-Hc-h7c" firstAttribute="top" secondItem="qPw-fC-Muy" secondAttribute="bottom" constant="10" id="E8V-bM-amz"/>
                             <constraint firstItem="1Ci-6Q-7eU" firstAttribute="top" secondItem="9g0-Hc-h7c" secondAttribute="bottom" constant="15" id="EV7-HQ-uvn"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="XRr-Me-WPP" secondAttribute="trailing" id="POQ-iG-OSl"/>
-                            <constraint firstItem="XRr-Me-WPP" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="U6Z-NZ-hOq"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="HXr-JA-j7s" secondAttribute="bottom" constant="20" id="VKg-wt-bo7"/>
+                            <constraint firstItem="qPw-fC-Muy" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="dwf-2Q-3E4"/>
                             <constraint firstItem="9g0-Hc-h7c" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="g1f-ls-w4t"/>
-                            <constraint firstItem="qPw-fC-Muy" firstAttribute="top" secondItem="XRr-Me-WPP" secondAttribute="bottom" constant="10" id="gNW-uI-wSH"/>
                             <constraint firstItem="1Ci-6Q-7eU" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="5" id="glw-6G-BWX"/>
                             <constraint firstItem="qPw-fC-Muy" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="10" id="ieT-8j-yvJ"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="qPw-fC-Muy" secondAttribute="trailing" constant="10" id="ive-NN-FXZ"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="HXr-JA-j7s" secondAttribute="trailing" constant="20" id="k2J-WL-9Hr"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="1Ci-6Q-7eU" secondAttribute="bottom" constant="10" id="oU5-uo-9gc"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="categoriesLab" destination="XRr-Me-WPP" id="4zi-N7-DpK"/>
                         <outlet property="categoryWMSegment" destination="9g0-Hc-h7c" id="fOL-GP-kZ8"/>
                         <outlet property="filterFloaty" destination="HXr-JA-j7s" id="ovM-zH-zhI"/>
                         <outlet property="productsCollectionView" destination="1Ci-6Q-7eU" id="uPr-Ic-cP6"/>

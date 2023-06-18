@@ -19,7 +19,7 @@ class HelperFunctions{
         case Constant.EGYPT_CURRENCY:
             priceEx = String (format: "%.3f", (Double(price) ?? 0) * (rates.EGP ?? 1) )
         case Constant.AMERICAN_CURRENCY:
-           priceEx = price
+            priceEx = price
         case Constant.EUROPE_CURRENCY:
             priceEx = String (format: "%.3f", (Double(price) ?? 0) * (rates.EUR ?? 1) )
         case Constant.SAR_CURRENCY:
@@ -101,7 +101,7 @@ class HelperFunctions{
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let dateString = df.string(from: date)
-      print(dateString)
+        print(dateString)
         return dateString
     }
     
@@ -127,34 +127,44 @@ class HelperFunctions{
         let alert = UIAlertController(title: "Worning", message: "Please Check Your Connection!!!", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "OK", style: .default, handler: { _ in
-           print("ok worn")
+            print("ok worn")
             completionHandler()
         })
-
+        
         let imgTitle = UIImage(systemName:"wifi.slash")
         let imgViewTitle = UIImageView(frame: CGRect(x: 10, y: 10, width: 30, height: 30))
         imgViewTitle.image = imgTitle
-
+        
         alert.view.addSubview(imgViewTitle)
         alert.addAction(action)
-
+        
         return alert
-
+        
     }
     /*
      
-     self.present(HelperFunctions.showAllert(allertMessage:Constants.SAVE_MESSAGE , iconName: "heart.fill", completionHandler: {
-         action in
-         if action == "ok"{
-             self.favButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-             self.saveToFave(teamName: (self.teamDetails?.teamName)! , sportName: self.sportName!)
-             print("save from alart")
-         }
-         else{
-             print("save canceled")
-         }
-     
-         
+     self.present( HelperFunctions.showWorining(completionHandler: {
+     action in
+     if action == "ok"{
+     }
+     else{
+     }
      }), animated: true, completion: nil)
      */
-}
+    
+    
+    static func formFavModelToProduct(shopCartProduct:FavProduct)->[OrderProductItems]{
+        var orderProductItems : [OrderProductItems] = []
+        orderProductItems.removeAll()
+        shopCartProduct.lineItems?.forEach{
+                lineItem in
+                orderProductItems.append(OrderProductItems(
+                    price: lineItem.productPrice,product_id: Int(lineItem.productId ?? "0"),quantity: lineItem.quantity, title:lineItem.productTitle,sku:lineItem.productImage
+                ))
+            }
+        return orderProductItems
+        }
+       
+    }
+    
+

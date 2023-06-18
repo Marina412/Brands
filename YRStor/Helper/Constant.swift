@@ -89,7 +89,7 @@ struct Constant{
     static let PAY_Method = "payMethod"
     static let CUPON_NUMBER = "cuponNumber"
     static let CUPON_CODE = "cuponCode"
-    
+    static let EMAIL = "email"
 }
 
 

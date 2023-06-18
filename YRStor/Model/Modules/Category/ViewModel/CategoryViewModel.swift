@@ -54,13 +54,14 @@ class CategoryViewModel{
             self.rates = res
         }
   }
-    func setUpData(){
+    func setUpData(completion: @escaping ()->()){
         getAllProductsFromApiByCategorry{
             [weak self ]  in
             guard let self else {return}
             self.getAllPoductsPricesFromApi{
                 self.allProducts = HelperFunctions.productPriceEXchange(curencyType: self.curencyType, allProducts: self.allProducts, rates: self.rates)
                 self.poductsObservablRS.onNext(self.allProducts)
+                completion()
             }
         }
     }

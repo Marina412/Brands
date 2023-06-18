@@ -55,7 +55,7 @@ class CustomerAddressViewModel {
         repo?.deleteAddreesInDatabase(customerId: customerId, addressId: addressId)
     }
     
-//    func postOrder(order:Order){
-//        repo?.postOrderToApi(order: order)
-//    }
+    func postOrder(order:Order){
+        repo?.postOrderToApi(order: order)
+    }
 }

@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Filter Here" translatesAutoresizingMaskIntoConstraints="NO" id="bBx-yn-nik">
-                                <rect key="frame" x="10" y="108" width="373" height="56"/>
+                                <rect key="frame" x="10" y="103" width="373" height="56"/>
                                 <color key="barTintColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -25,13 +25,13 @@
                                 </connections>
                             </searchBar>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brand Name" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="prp-zW-2w6">
-                                <rect key="frame" x="0.0" y="74" width="393" height="24"/>
+                                <rect key="frame" x="0.0" y="69" width="393" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="E5j-qn-ryt">
-                                <rect key="frame" x="5" y="174" width="383" height="624"/>
+                                <rect key="frame" x="5" y="169" width="383" height="629"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vBn-3S-RBV">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -48,7 +48,7 @@
                             <constraint firstAttribute="trailing" secondItem="prp-zW-2w6" secondAttribute="trailing" id="97j-v3-9Fd"/>
                             <constraint firstItem="E5j-qn-ryt" firstAttribute="top" secondItem="bBx-yn-nik" secondAttribute="bottom" constant="10" id="JR7-N6-SHi"/>
                             <constraint firstItem="bBx-yn-nik" firstAttribute="top" secondItem="prp-zW-2w6" secondAttribute="bottom" constant="10" id="SaH-fN-xJq"/>
-                            <constraint firstItem="prp-zW-2w6" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="UCe-26-JoO"/>
+                            <constraint firstItem="prp-zW-2w6" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="10" id="UCe-26-JoO"/>
                             <constraint firstItem="E5j-qn-ryt" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="5" id="YkJ-ih-rHb"/>
                             <constraint firstItem="prp-zW-2w6" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Ym0-kC-4vT"/>
                             <constraint firstAttribute="trailing" secondItem="bBx-yn-nik" secondAttribute="trailing" constant="10" id="c4s-CA-fK4"/>

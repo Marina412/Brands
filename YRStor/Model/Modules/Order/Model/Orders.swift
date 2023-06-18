@@ -28,7 +28,7 @@ struct OrderProductItems: Codable{
 
 //{
 //    "order":{
-//            "created_at": "Fri, 16 Jun 2023 09:13:52 GMT",
+//            "created_at": "Fri, 16 Jun 2023 09:13:52",
 //            "currency": "EUR",
 //            "current_total_price": 10,
 //            "email": "marina@gmail.com",

@@ -22,9 +22,12 @@ class HomeViewController: UIViewController {
     var homeAdvertismentPhoto:[String]=["home2","home1","home3"]
     var homeVM:HomeViewModel!
     let userDefaults = UserDefaults.standard
+    let activityIndicator = UIActivityIndicatorView(style: .large)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        indicatorSetUp()
+        self.brandsCollectionView.isHidden = true
         userDefaults.set(false, forKey: "AddressShoppingCart")
         userDefaults.set(false, forKey: "didSelectAddress")
         self.userDefaults.set(false, forKey: "touchCopon")
@@ -40,6 +43,8 @@ class HomeViewController: UIViewController {
             [weak self] in
             guard let self else { return }
             DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.brandsCollectionView.isHidden = false 
                 self.brandsCollectionView.reloadData()
             }
         }
@@ -68,10 +73,19 @@ extension HomeViewController{
 }
 extension HomeViewController{
     func navigationBarButtons(){
-       self.navigationController?.navigationBar.tintColor =  #colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)
+        self.navigationController?.navigationBar.tintColor =  #colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)
         let profilBtn = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(self.navToProfile))
         let searchBtn = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(self.navToSearchScreen))
         navigationItem.rightBarButtonItems = [profilBtn,searchBtn]
+    }
+}
+extension HomeViewController{
+    func indicatorSetUp(){
+        activityIndicator.center = view.center
+        activityIndicator.color = UIColor.black
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        brandsCollectionView.isHidden = true
     }
 }
 extension HomeViewController{
@@ -163,6 +177,6 @@ extension HomeViewController : UICollectionViewDelegateFlowLayout{
             return CGSize(width: 0, height: 0)
         }
     }
-    
 }
+
 
