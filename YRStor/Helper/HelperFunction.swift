@@ -165,6 +165,23 @@ class HelperFunctions{
         return orderProductItems
         }
        
+    static func shopBagCount(itemCount:Int,plusOrMinus:String)->Int{
+        var countRes:Int!
+        switch plusOrMinus{
+        case "plus":
+            var count = UserDefaults.standard.integer(forKey: "shopBagCount") 
+             UserDefaults.standard.setValue(count + itemCount, forKey: "shopBagCount")
+            countRes = count + itemCount
+        case "minus":
+            var count = UserDefaults.standard.integer(forKey: "shopBagCount")
+             UserDefaults.standard.setValue(count - itemCount, forKey: "shopBagCount")
+            countRes = count - itemCount
+        default:
+            print("")
+        }
+        return countRes 
+ }
+   
     }
     
 

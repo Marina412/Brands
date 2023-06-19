@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import BadgeSwift
 
 class ShoppingCartViewController: UIViewController {
     
@@ -20,12 +21,30 @@ class ShoppingCartViewController: UIViewController {
     let activityIndicator = UIActivityIndicatorView(style: .large)
     let noDataImage  = UIImageView(image: UIImage(named: "noShoopingCart"))
     var totalPrice = ""
+    let defaults = UserDefaults.standard
+    let shoppingCountKeyPath = #keyPath(UserDefaults.shoppingBag)
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        defaults.addObserver(self, forKeyPath: shoppingCountKeyPath, options: .new, context: nil)
+        defaults.shoppingBag = defaults.integer(forKey: "shopBagCount")
+           
+    }
+    deinit{
+        defaults.removeObserver(self, forKeyPath: shoppingCountKeyPath)
+    }
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        guard (object as? UserDefaults) === defaults,
+                      keyPath == shoppingCountKeyPath,
+                      let change = change
+                else { return }
+                
+                if let updatedCount = change[.newKey] as? Int {
+                    (tabBarController!.tabBar.items![2] as! UITabBarItem).badgeValue = "\(updatedCount)"
+                }
     }
     override func viewWillAppear(_ animated: Bool) {
-        
+       
         let defaults = UserDefaults.standard
         let isLoggin = defaults.bool(forKey: "isLogging")
         defaults.set(Constant.IS_SHOPPING_CART, forKey: "isFavOrCart")

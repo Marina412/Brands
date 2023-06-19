@@ -90,6 +90,7 @@
                         <outlet property="emailLbl" destination="KuD-kN-vtA" id="28I-Qe-431"/>
                         <segue destination="RSe-mY-g2r" kind="show" identifier="profileLocationSegue" id="g0T-hp-X9Z"/>
                         <segue destination="9tf-Zr-P6p" kind="show" identifier="profileCurrencySegue" id="t4z-R0-KSS"/>
+                        <segue destination="fop-wM-ynr" kind="show" identifier="profileMyOrderSegue" id="Vat-1W-Ic5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -115,6 +116,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMk-u1-7WB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1708" y="43"/>
+        </scene>
+        <!--OrdersViewController-->
+        <scene sceneID="NcO-sD-Vpp">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="OrdersViewController" storyboardName="OrdersStoryboard" referencedIdentifier="OrdersViewController" id="fop-wM-ynr" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="ESG-KI-VdF"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rEa-8M-lkK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1669" y="85"/>
         </scene>
     </scenes>
     <resources>

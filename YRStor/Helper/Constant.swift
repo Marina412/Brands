@@ -90,6 +90,9 @@ struct Constant{
     static let CUPON_NUMBER = "cuponNumber"
     static let CUPON_CODE = "cuponCode"
     static let EMAIL = "email"
+    
+    static let COUNTRIES  = ["Egypt","Australia", "United Kingdom","United States","France","Spain","German","Saudi Arabia","United Arab Emirates","Kanda"]
+    
 }
 
 

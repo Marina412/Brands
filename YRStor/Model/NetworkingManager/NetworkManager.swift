@@ -399,6 +399,7 @@ class NetworkManager : NetworkManagerProtocol{
             switch response.result {
             case .success(_):
                 if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
+                    print(responseString)
                     completion(responseString)
                 } else {
                     print("Response: No Data")

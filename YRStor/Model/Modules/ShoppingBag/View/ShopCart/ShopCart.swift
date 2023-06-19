@@ -8,7 +8,7 @@
 import UIKit
 
 class ShopCart: UITableViewCell {
-
+    
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productTitle: UILabel!
     @IBOutlet weak var productPrice: UILabel!
@@ -25,17 +25,17 @@ class ShopCart: UITableViewCell {
     let defaults = UserDefaults.standard
     var products : [LineItems] = [LineItems()]
     
-  
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     func configureCell( draft : FavProduct,indexPath : IndexPath ,currency:String){
@@ -48,39 +48,37 @@ class ShopCart: UITableViewCell {
         productPrice.text = (draft.lineItems?[indexPath.row].productPrice ?? "0") + currency
         self.productPriceValue = draft.lineItems?[indexPath.row].productPrice ?? ""
         productImage.kf.setImage(with: URL(string:  draft.lineItems?[indexPath.row].productImage ?? ""))
-
+        
         guard let quantity = draft.lineItems?[indexPath.row].quantity else {return}
         productQunatity.text = "\(quantity)"
         stepperOulet.value = Double(quantity)
         
-      
-
+        
+        
     }
     
     
     
     @IBAction func stepperAction(_ sender: UIStepper) {
-      
         var totalPrice = defaults.double(forKey: "totalPrice")
-      
+        
         if sender.value > Double(productQunatity.text ?? "") ?? 0.0 {
-          
-            totalPrice = totalPrice + ((draftt.draftOrder.lineItems?[index.row].productPrice ?? "") as NSString).doubleValue
             
+            UserDefaults.standard.shoppingBag = HelperFunctions.shopBagCount(itemCount: 1,plusOrMinus: "plus")
+            totalPrice = totalPrice + ((draftt.draftOrder.lineItems?[index.row].productPrice ?? "") as NSString).doubleValue
             defaults.set(totalPrice, forKey: "totalPrice")
             productQunatity.text = "\(Int(stepperOulet.value))"
             draftt.draftOrder.lineItems?[index.row].quantity = Int(stepperOulet.value)
             cellViewModel.updateQuantity(draftOrder: self.draftt, draftId:String(draftId))
-      
-            
+ 
         } else if sender.value < Double(productQunatity.text ?? "") ?? 0.0  {
-
-                totalPrice = totalPrice - ((draftt.draftOrder.lineItems?[index.row].productPrice ?? "") as NSString).doubleValue
-                defaults.set(totalPrice, forKey: "totalPrice")
-                productQunatity.text = "\(Int(stepperOulet.value))"
-                draftt.draftOrder.lineItems?[index.row].quantity = Int(stepperOulet.value)
-                cellViewModel.updateQuantity(draftOrder: self.draftt, draftId: String(draftId))
-           }
+            UserDefaults.standard.shoppingBag = HelperFunctions.shopBagCount(itemCount: 1,plusOrMinus: "minus")
+            totalPrice = totalPrice - ((draftt.draftOrder.lineItems?[index.row].productPrice ?? "") as NSString).doubleValue
+            defaults.set(totalPrice, forKey: "totalPrice")
+            productQunatity.text = "\(Int(stepperOulet.value))"
+            draftt.draftOrder.lineItems?[index.row].quantity = Int(stepperOulet.value)
+            cellViewModel.updateQuantity(draftOrder: self.draftt, draftId: String(draftId))
+        }
         
         cellViewModel.stepperAction?(totalPrice )
         print(" total price \(totalPrice)")

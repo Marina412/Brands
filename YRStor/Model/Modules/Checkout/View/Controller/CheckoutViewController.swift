@@ -17,9 +17,11 @@ class CheckoutViewController: UIViewController{
     @IBOutlet weak var cuponCodeTxtField: UITextField!
     @IBOutlet weak var cashOnDeliveryBtn: UIButton!
     @IBOutlet weak var applePayBtn: UIButton!
-    @IBOutlet weak var TotalLbl: UILabel!
+    @IBOutlet weak var totalLbl: UILabel!
     @IBOutlet weak var subTotalLbl: UILabel!
     @IBOutlet weak var phoneLbl: UILabel!
+    @IBOutlet weak var applyBtn: UIButton!
+    
     var homeVM:HomeViewModel!
     let defaults = UserDefaults.standard
     var addressResult: Address = Address()
@@ -28,17 +30,17 @@ class CheckoutViewController: UIViewController{
     var total:String = ""
     var didSelectAddress = Address()
     //ApplePayment
-    private var paymentRequest:PKPaymentRequest = {
-        let request = PKPaymentRequest()
-        request.merchantIdentifier = "merchant.com.YRStor"
-        request.supportedNetworks = [.masterCard,.visa,.quicPay]
-        request.supportedCountries = ["EG","US"]
-        request.merchantCapabilities = .capability3DS
-        request.countryCode = "EG"
-        request.currencyCode = "EGP"
-        request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Order", amount:1000)]
-        return request
-    }()
+   private var paymentRequest:PKPaymentRequest? //= {
+//        let request = PKPaymentRequest()
+//        request.merchantIdentifier = "merchant.com.YRStor"
+//        request.supportedNetworks = [.masterCard,.visa,.quicPay]
+//        request.supportedCountries = ["EG","US"]
+//        request.merchantCapabilities = .capability3DS
+//        request.countryCode = "EG"
+//        request.currencyCode = "EGP"
+//        request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Order", amount:NSDecimalNumber(value: Int(totalLbl.text ?? "0") ?? 0))]
+//        return request
+//    }()
     override func viewDidLoad() {
         super.viewDidLoad()
 //        if(addressResult?.country == "" ){
@@ -47,9 +49,10 @@ class CheckoutViewController: UIViewController{
 //                self.dismiss(animated: true, completion: nil)
 //            }))
 //        }
+        
         cuponCodeTxtField.text = ""
         defaults.set(true, forKey: "AddressShoppingCart")
-        TotalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
+        totalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
         getOneAddress()
         homeVM = HomeViewModel(repo: Repo(networkManager: NetworkManager()))
         cashOnDeliveryBtn.setImage(UIImage(systemName: "circle"), for: .normal)
@@ -63,13 +66,25 @@ class CheckoutViewController: UIViewController{
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        TotalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
+         paymentRequest = {
+            let request = PKPaymentRequest()
+            request.merchantIdentifier = "merchant.com.YRStor"
+            request.supportedNetworks = [.masterCard,.visa,.quicPay]
+            request.supportedCountries = ["EG","US"]
+            request.merchantCapabilities = .capability3DS
+            request.countryCode = "EG"
+            request.currencyCode = "EGP"
+             request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Order", amount:NSDecimalNumber(value: Int(self.totalLbl.text ?? "0") ?? 0))]
+             
+            return request
+        }()
+        totalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
         subTotalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ??  "0", rates: addressViewModel.rates) + " " + addressViewModel.curencyType
         if (homeVM.cupons.count != 0 &&  self.defaults.bool(forKey: "touchCopon") == true){
             cuponCodeTxtField.text = defaults.value(forKey: Constant.CUPON_CODE) as! String
         }else{
             cuponCodeTxtField.text = "No Cupon Code"
-            applePayBtn.isHidden = true
+            applyBtn.isHidden = true
         }
     }
     
@@ -109,7 +124,7 @@ class CheckoutViewController: UIViewController{
         }
         if let intTotal = Double(checkOutItems.totalPrice ?? ""){
             let result = intTotal - (intTotal * intCupon)
-            self.TotalLbl.text =  HelperFunctions.priceEXchange(curencyType: self.addressViewModel.curencyType, price: String(result) , rates: self.addressViewModel.rates) + " " + self.addressViewModel.curencyType
+            self.totalLbl.text =  HelperFunctions.priceEXchange(curencyType: self.addressViewModel.curencyType, price: String(result) , rates: self.addressViewModel.rates) + " " + self.addressViewModel.curencyType
         } else {
             print("One of the strings is not a valid integer.")
         }
@@ -132,23 +147,40 @@ class CheckoutViewController: UIViewController{
         if (homeVM.cupons.count != 0){
             homeVM.cupons.remove(at: 0)
         }
-        if ( defaults.string(forKey: "Constant.PAY_Method") == "applePay"){
-            let controller = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest)
+        if ( defaults.string(forKey: Constant.PAY_Method) == "applePay"){
+            let controller = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest ?? PKPaymentRequest())
             if controller != nil{
                 controller!.delegate = self
-                present(controller!,animated:true,completion: nil)
+                present(controller!,animated:true){
+                    self.addOrder()
+                }
             }
         }
-        addressViewModel.postOrder(order: Order(
-            created_at: HelperFunctions.getTimestamp(), currency: defaults.string(forKey: Constant.CURRENCY), email: defaults.string(forKey: Constant.EMAIL), current_total_price: TotalLbl.text, line_items: HelperFunctions.formFavModelToProduct(shopCartProduct: checkOutItems), reference: Constant.PAY_Method, note: addressLabel.text
-        ))
-        print("done order ADDED ")
-        //// delete shope cart here
-        
+        else{
+            addOrder()
+        }
     }
 }
 
 
+extension CheckoutViewController{
+    func addOrder(){
+        addressViewModel.postOrder(order: Order(
+            created_at: HelperFunctions.getTimestamp(), currency: defaults.string(forKey: Constant.CURRENCY), email: defaults.string(forKey: Constant.EMAIL), current_total_price: totalLbl.text, line_items: HelperFunctions.formFavModelToProduct(shopCartProduct: checkOutItems), reference: Constant.PAY_Method, note: addressLabel.text
+        )){
+            res in
+            if ((res) != nil){
+                print("order done")
+                //delete shop
+                let ordersVC = self.storyboard?.instantiateViewController(withIdentifier: "OrdersViewController") as! OrdersViewController
+                self.navigationController?.pushViewController(ordersVC, animated: true)
+            }
+            else{
+                print("order did not sava")
+            }
+        }
+    }
+}
 extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
         controller.dismiss(animated: true, completion: nil)

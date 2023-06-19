@@ -12,14 +12,14 @@ class OrdersViewController: UIViewController {
     @IBOutlet weak var ordersCollectionView: UICollectionView!
     var ordersVM:OrdersViewModel!
     let disposeBag = DisposeBag()
-    let userDefaults = UserDefaults.standard
     override func viewDidLoad() {
         super.viewDidLoad()
         let remote = NetworkManager()
         let repo = Repo(networkManager: remote)
         ordersVM = OrdersViewModel(repo: repo)
         registerXibCells()
-        ordersVM.getAllOrdersFromApi(userEmail: userDefaults.string(forKey: "email") ?? "")
+        print( UserDefaults.standard.string(forKey: "email"))
+        ordersVM.getAllOrdersFromApi(userEmail:  UserDefaults.standard.string(forKey: "email") ?? "")
         setUpOrdersCollectionView()
     }
 }
@@ -36,9 +36,9 @@ extension OrdersViewController{
         ordersCollectionView.rx.itemSelected.subscribe (onNext:{ [weak self]
             indexPath in
             guard let self else { return }
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
-            vc.order = self.ordersVM.orders[indexPath.row]
-            self.navigationController?.pushViewController(vc, animated: true)
+            let orderDetailsVC = self.storyboard?.instantiateViewController(withIdentifier: "OrderDetailsViewController") as! OrderDetailsViewController
+            orderDetailsVC.order = self.ordersVM.orders[indexPath.row]
+            self.navigationController?.pushViewController(orderDetailsVC, animated: true)
         }).disposed(by: disposeBag)
     }
 }

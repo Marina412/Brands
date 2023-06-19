@@ -112,7 +112,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="PlaceOrderBtn:" destination="vsM-Lx-7E1" eventType="touchUpInside" id="AWj-ml-N7A"/>
+                                    <action selector="PlaceOrderBtn:" destination="vfw-7a-rOH" eventType="touchUpInside" id="v2y-ep-q8C"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Bg-u0-Khk" customClass="CardViews" customModule="YRStor" customModuleProvider="target">
@@ -292,6 +292,7 @@
                         <outlet property="TotalLbl" destination="ksx-PP-RDk" id="Te2-ET-Uqy"/>
                         <outlet property="addressLabel" destination="eOX-Qk-Eqx" id="IJp-mL-28z"/>
                         <outlet property="applePayBtn" destination="hdH-gv-RoT" id="fsb-MX-tSJ"/>
+                        <outlet property="applyBtn" destination="2AW-NI-OxW" id="c1Z-36-AvV"/>
                         <outlet property="cardView1" destination="ba7-yA-Pj8" id="MY2-R0-ASf"/>
                         <outlet property="cardView2" destination="ORT-aM-04K" id="QWU-M3-jok"/>
                         <outlet property="cardView3" destination="8Bg-u0-Khk" id="IsI-Bm-eoK"/>
@@ -302,7 +303,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aCZ-xF-uLP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="vsM-Lx-7E1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="180.91603053435114" y="-12.67605633802817"/>
         </scene>
@@ -313,6 +313,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PGD-Qq-duz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="729" y="-57"/>
+        </scene>
+        <!--OrdersViewController-->
+        <scene sceneID="Qya-7E-Lkl">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="OrdersViewController" storyboardName="OrdersStoryboard" referencedIdentifier="OrdersViewController" id="V9E-dJ-Hcc" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MeL-UC-yaq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="683" y="17"/>
         </scene>
     </scenes>
     <resources>
