@@ -37,6 +37,7 @@ struct LineItems :Decodable,Encodable{
     var productPrice : String?
     var quantity :Int = 1
     var productImage : String?
+    var isFav  = false 
 
     enum CodingKeys: String, CodingKey{
         case productId = "sku"

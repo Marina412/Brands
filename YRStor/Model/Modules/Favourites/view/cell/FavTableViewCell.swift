@@ -38,6 +38,8 @@ class FavTableViewCell: UITableViewCell {
         
         favViewModel.product = favProducts[indexPath.row].lineItems?[0] ?? LineItems()
         productInforViewModel.draftId = String(favProducts[indexPath.row].draftId ?? 0)
+        
+        
         productTitle.text = favProducts[indexPath.row].lineItems?[0].productTitle
         productPrice.text = favProducts[indexPath.row].lineItems?[0].productPrice ?? "0" + currency
         productImage.kf.setImage(with: URL(string: favProducts[indexPath.row].image ?? ""))
@@ -73,7 +75,9 @@ extension FavTableViewCell{
             else{
                 for draft in allDrafts{
                     if(draft.email == email && draft.favOrShopping == Constant.IS_SHOPPING_CART){
+                        
                         self.productInforViewModel.draft = draft
+                        
                         isExists = true
                         
                     }

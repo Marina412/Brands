@@ -159,11 +159,11 @@ extension ShoppingCartViewController : UITableViewDelegate,UITableViewDataSource
                     self.cartViewModel.products.remove(at: indexPath.row)
                     self.cartViewModel.resDraft.lineItems = self.cartViewModel.products
                     self.cartViewModel.draft.draftOrder = self.cartViewModel.resDraft
-                    
-                    var totalPrice = self.cartViewModel.defaults.value(forKey: "totalPrice") as! Double
-                    var test = (Double(product?.productPrice ?? "") ?? 0.0)  * (Double(product?.quantity ?? Int(1.0)))
-                    var totalPriceUpdated = totalPrice -  test
-                    self.totalPriceLbl.text = String(totalPriceUpdated)
+//                    
+//                    var totalPrice = self.cartViewModel.defaults.value(forKey: "totalPrice") as! Double
+//                    var test = (Double(product?.productPrice ?? "") ?? 0.0)  * (Double(product?.quantity ?? Int(1.0)))
+//                    var totalPriceUpdated = totalPrice -  test
+//                    self.totalPriceLbl.text = String(totalPriceUpdated)
                     self.totalItemsLb.text = "Items : \(String(self.cartViewModel.products.count))"
                     self.cartTable.reloadData()
                     self.cartViewModel.editShoppingCart(draftOrder: self.cartViewModel.draft, draftId: self.cartViewModel.draftId)

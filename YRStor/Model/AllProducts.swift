@@ -17,6 +17,7 @@ struct Product: Codable {
     var variants: [Variant]?
     var image: ProductImage?
     var images: [ProductImage]?
+    var isFav = false 
     enum CodingKeys: String, CodingKey {
         case id, title
         case bodyHTML = "body_html"

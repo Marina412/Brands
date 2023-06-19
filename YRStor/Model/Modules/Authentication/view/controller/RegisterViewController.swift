@@ -43,7 +43,7 @@ class RegisterViewController: UIViewController {
             if(isValidPassword(passwordTx.text!)){
                 customer.password = passwordTx.text
                 customer.password_confirmation = passwordConfirmationTx.text
-                // print("passwor\(customer.password)")
+               
             }else
             {
                 let alert = UIAlertController(title: "Invaild Password", message: "Password should contains at least 8 characters long and contain at least one letter and one number.", preferredStyle: .alert)

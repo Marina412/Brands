@@ -123,7 +123,8 @@ extension CategoryViewController{
             print("test2")
             let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewCell", for: IndexPath(row: index, section: 0)) as! ProductCollectionViewCell
             print("item\(item)")
-            productCell.cellSetUp(product:item,currency:self.catigoryVM.curencyType)
+            productCell.cellSetUp(product: item, currency: self.catigoryVM.curencyType)
+           
            
             return productCell
         }.disposed(by:disposeBag)

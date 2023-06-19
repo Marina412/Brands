@@ -42,6 +42,37 @@ class BrandProductsViewController: UIViewController {
             }
         }
     }
+    
+    func getDraftId(product :Product) -> (product:Product,draftId:  String){
+        var favProduct = Product()
+        var draftId = ""
+        var viewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
+        viewModel.getAllFav()
+        viewModel.bindResult = {() in
+            let res = viewModel.viewModelResult
+            guard let allDrafts = res else {return}
+            guard var customerDrafts = CustomerHelper.getFavForCustomers(favs: allDrafts.draftOrders) else {return}
+            for draft in customerDrafts {
+                if(draft.lineItems?[0].productId == String(product.id ?? 0)){
+                    draftId = String(draft.draftId ?? 0)
+                    guard let products = draft.lineItems else {return}
+                    for id in products{
+                        if(id.productId == String(product.id ?? 0)){
+                            print("ids equal each other second loop ")
+                            favProduct.id = product.id
+                            favProduct.title = product.title
+                            favProduct.variants?[0].price = product.variants?[0].price
+                            favProduct.image?.src = product.image?.src
+                            favProduct.productType = product.productType
+                            favProduct.isFav = true
+                        }
+                    }
+                }
+            }
+        }
+        return (favProduct,draftId)
+        
+    }
 }
 extension BrandProductsViewController:UICollectionViewDelegateFlowLayout{
   
@@ -68,7 +99,7 @@ extension BrandProductsViewController{
         brandProductsVM.poductsObservablRS.bind(to: productsCollectionView.rx.items){
             collectionView, index, item in
             let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewCell", for: IndexPath(row: index, section: 0)) as! ProductCollectionViewCell
-            productCell.cellSetUp(product:item,currency: self.brandProductsVM.curencyType)
+            productCell.cellSetUp(product: item,  currency:self.brandProductsVM.curencyType)
             return productCell
         }.disposed(by:disposeBag)
         

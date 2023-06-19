@@ -10,6 +10,9 @@ import PassKit
 
 class CheckoutViewController: UIViewController{
     
+    @IBOutlet weak var cardView3: CardViews!
+    @IBOutlet weak var cardView2: CardViews!
+    @IBOutlet weak var cardView1: CardViews!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var cuponCodeTxtField: UITextField!
     @IBOutlet weak var cashOnDeliveryBtn: UIButton!
@@ -53,6 +56,10 @@ class CheckoutViewController: UIViewController{
         cashOnDeliveryBtn.setImage(UIImage(systemName: "circle.fill"), for: .selected)
         applePayBtn.setImage(UIImage(systemName: "circle"), for: .normal)
         applePayBtn.setImage(UIImage(systemName: "circle.fill"), for: .selected)
+        
+        UIView.elevationCardView(view: cardView1)
+        UIView.elevationCardView(view: cardView2)
+        UIView.elevationCardView(view: cardView3)
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -140,9 +147,7 @@ class CheckoutViewController: UIViewController{
         
     }
 }
-extension CheckoutViewController{
-    
-}
+
 
 extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
