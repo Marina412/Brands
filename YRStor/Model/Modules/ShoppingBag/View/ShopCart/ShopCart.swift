@@ -58,13 +58,11 @@ class ShopCart: UITableViewCell {
     }
     
     
-    func reloadData(table : UITableView){
-        table.reloadData()
-    }
     
     @IBAction func stepperAction(_ sender: UIStepper) {
       
         var totalPrice = defaults.double(forKey: "totalPrice")
+      
         if sender.value > Double(productQunatity.text ?? "") ?? 0.0 {
           
             totalPrice = totalPrice + ((draftt.draftOrder.lineItems?[index.row].productPrice ?? "") as NSString).doubleValue
@@ -73,6 +71,7 @@ class ShopCart: UITableViewCell {
             productQunatity.text = "\(Int(stepperOulet.value))"
             draftt.draftOrder.lineItems?[index.row].quantity = Int(stepperOulet.value)
             cellViewModel.updateQuantity(draftOrder: self.draftt, draftId:String(draftId))
+      
             
         } else if sender.value < Double(productQunatity.text ?? "") ?? 0.0  {
 
@@ -81,9 +80,9 @@ class ShopCart: UITableViewCell {
                 productQunatity.text = "\(Int(stepperOulet.value))"
                 draftt.draftOrder.lineItems?[index.row].quantity = Int(stepperOulet.value)
                 cellViewModel.updateQuantity(draftOrder: self.draftt, draftId: String(draftId))
-            }
+           }
         
-        cellViewModel.stepperAction?(totalPrice)
+        cellViewModel.stepperAction?(totalPrice )
         print(" total price \(totalPrice)")
     }
     

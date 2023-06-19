@@ -8,7 +8,7 @@
 import Foundation
 class ShoppingCellViewModel{
     
-    var stepperAction : ((Double)->())?
+    var stepperAction : ((Double )->())?
     let repo : RepoProtocol
     
     init(repo: RepoProtocol) {

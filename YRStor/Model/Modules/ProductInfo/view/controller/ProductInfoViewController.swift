@@ -62,13 +62,12 @@ class ProductInfoViewController: UIViewController {
         favViewModel.bindResult = {() in
             let res = favViewModel.viewModelResult
             guard let allFav = res?.draftOrders else {return}
-            guard var customerFav = self.getFavForCustomers(favs: allFav) else {return}
+            guard var customerFav = CustomerHelper.getFavForCustomers(favs: allFav) else {return}
             for draft in customerFav{
                 print("for loop ids\(draft.lineItems?[0].productId)")
                 print("producttt\(self.product?.id)")
                 if(draft.lineItems?[0].productId == String(self.product?.id ?? 0)){
                     print("ids equal each other ")
-                    //self.fabBtnCheck.setImage(UIImage(systemName: "heart.fill"), for: .normal)
                     self.productInfoViewModel.draftId = String(draft.draftId ?? 0)
                 }
                 guard let products = draft.lineItems else {return}
@@ -189,7 +188,7 @@ class ProductInfoViewController: UIViewController {
         favViewModel.bindResult = {() in
             let res = self.favViewModel.viewModelResult
             guard let allFav = res else {return}
-            guard let customerFav = self.getFavForCustomers(favs: allFav.draftOrders) else {return}
+            guard let customerFav = CustomerHelper.getFavForCustomers(favs: allFav.draftOrders) else {return}
             for draft in customerFav{
                 if(draft.lineItems?[0].productId == String(self.product?.id ?? 0)){
                     draftId = draft.draftId ?? 0
@@ -199,30 +198,7 @@ class ProductInfoViewController: UIViewController {
             
         }
     }
-    
-    func getFavForCustomers(favs : [FavProduct])-> [FavProduct]?{
-        var favProducts : [FavProduct] = []
-        let email = self.productInfoViewModel.defaults.string(forKey: "email")
-        for fav in favs {
-            if(fav.email == email && fav.favOrShopping == Constant.IS_FAV){
-                favProducts.append(fav)
-            }
-        }
-        return favProducts
-        
-    }
-    
-    func getCustomerCart(drafts : [FavProduct])-> FavProduct?{
-        var customerDraft : FavProduct!
-        let email = self.productInfoViewModel.defaults.string(forKey: "email")
-        for draft in drafts {
-            if(draft.email == email && draft.favOrShopping == Constant.IS_SHOPPING_CART){
-                customerDraft = draft
-            }
-        }
-        return customerDraft
-        
-    }
+
     func addProductToCartInDataBase(){
         
         var shoppingCartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
@@ -263,6 +239,9 @@ class ProductInfoViewController: UIViewController {
         checkCustomerCart()
     }
 }
+
+
+
 
 
 extension ProductInfoViewController: UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{

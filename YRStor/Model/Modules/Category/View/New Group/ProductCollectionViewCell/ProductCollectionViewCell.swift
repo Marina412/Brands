@@ -75,7 +75,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
         viewModel.bindResult = {() in
             let res = self.viewModel.viewModelResult
             guard let allDrafts = res else {return}
-            guard var customerDrafts = self.getCustomerDrafts(drafts: allDrafts.draftOrders) else {return}
+            guard var customerDrafts = CustomerHelper.getFavForCustomers(favs: allDrafts.draftOrders) else {return}
             for draft in customerDrafts {
                 if(draft.lineItems?[0].productId == String(self.product.id ?? 0)){
                     self.draftId = String(draft.draftId ?? 0)
@@ -91,17 +91,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
             }
         }
     }
-    func getCustomerDrafts(drafts : [FavProduct])-> [FavProduct]?{
-        var customerDrafts : [FavProduct] = []
-        let email = viewModel.defaults.string(forKey: "email")
-        for draft in drafts {
-            if(draft.email == email && draft.favOrShopping == Constant.IS_FAV){
-                customerDrafts.append(draft)
-            }
-        }
-        return customerDrafts
-        
-    }
+
 }
 
 

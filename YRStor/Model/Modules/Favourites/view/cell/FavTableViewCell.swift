@@ -10,6 +10,7 @@ import Kingfisher
 
 class FavTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var addToCartOutlet: UIButton!
     @IBOutlet weak var view: UIView!
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productTitle: UILabel!
@@ -48,9 +49,10 @@ class FavTableViewCell: UITableViewCell {
         UIView.elevationCardView(view: view)
     }
     @IBAction func addToCartBtn(_ sender: Any) {
+       // self.addToCartOutlet.setImage(UIImage(systemName: "cart.circle.fill"), for: .normal)
         self.checkCustomerCart()
         print("add to cart in fav clickeddd")
-        
+ 
     }
     
 }
@@ -97,20 +99,9 @@ extension FavTableViewCell{
                 var draft = Drafts(draftOrder: newDraft)
                 self.cartViewModel.editShoppingCart(draftOrder:draft, draftId: self.productInforViewModel.draftId ?? "")
                 print("edit existing draftOrder  \(draft.draftOrder.lineItems?.count)")
-//
+
             }
             
-            func getCustomerCart(drafts : [FavProduct])-> FavProduct?{
-                var customerDraft : FavProduct!
-                let email = self.favViewModel.defaults.string(forKey: "email")
-                for draft in drafts {
-                    if(draft.email == email && draft.favOrShopping == Constant.IS_SHOPPING_CART){
-                        customerDraft = draft
-                    }
-                }
-                return customerDraft
-                
-            }
             func addProductToCartInDataBase(){
                 
                 var shoppingCartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))

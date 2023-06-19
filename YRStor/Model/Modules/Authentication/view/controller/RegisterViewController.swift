@@ -85,7 +85,7 @@ class RegisterViewController: UIViewController {
                 customer.lastName = lastNameTx.text
                 setUpEmail()
                 setUpPassword()
-                validateNumber()
+                setUpPhoneNumber()
                 authViewModel.saveCustomerInDatabase(customer: customer)
                 authViewModel.bindCustomerResult = { ()
                     let res = self.authViewModel.viewModelCustomerResult
@@ -104,15 +104,21 @@ class RegisterViewController: UIViewController {
         return isValidate
     }
     
-    func validateNumber(){
-        if(Int(phoneTx.text ?? "") == 11){
+    func setUpPhoneNumber(){
+        if(isValidPhoneNumber(phoneTx.text ?? "")){
             customer.phone = phoneTx.text
         }else{
-            let alert = UIAlertController(title: "Shopify", message: "Please enter a valid phone number", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                        self.present(alert, animated: true)
+            let alert = UIAlertController(title: "Invaild Phone Number", message: "Please Enter a Valid Phone Number ", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
     }
+    func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
+        let phoneRegex = "^[0-9]{10}$"
+        let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
+        return phoneTest.evaluate(with: phoneNumber)
+    }
+    
     @IBAction func RegisterBtn(_ sender: Any) {
         
         if(validateData()){

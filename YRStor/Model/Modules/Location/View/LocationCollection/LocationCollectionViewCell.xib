@@ -76,6 +76,7 @@
             <size key="customSize" width="379" height="88"/>
             <connections>
                 <outlet property="locationLbl" destination="o4P-Xx-d15" id="jCL-HD-Zv1"/>
+                <outlet property="removeBtnOutlet" destination="3gG-53-EnJ" id="fCI-QP-Pf7"/>
             </connections>
             <point key="canvasLocation" x="-106.87022900763358" y="32.394366197183103"/>
         </collectionViewCell>

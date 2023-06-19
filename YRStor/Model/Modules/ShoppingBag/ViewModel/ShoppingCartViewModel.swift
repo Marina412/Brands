@@ -11,9 +11,11 @@ class ShoppingCartViewModel{
     var resDraft : FavProduct!
     var products : [LineItems] = []
     var draftId = ""
+    var productIds : [String] = []
     var curencyType :String = "USD"
     var rates = Rates()
     let defaults = UserDefaults.standard
+    var cartProductsDetails : [Product] = []
     var repo : RepoProtocol
     var bindResult : (()->()) = {}
     var viewModelResult :FavProduct!{

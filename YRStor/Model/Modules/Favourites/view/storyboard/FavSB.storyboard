@@ -46,6 +46,14 @@
             </objects>
             <point key="canvasLocation" x="793" y="-37"/>
         </scene>
+        <!--ProductInfoViewController-->
+        <scene sceneID="MZd-yc-vS3">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="ProductInfoViewController" storyboardName="ProductInfoSB" referencedIdentifier="ProductInfoViewController" id="73Q-7j-qQe" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="crQ-wT-Mcp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="798" y="6"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">

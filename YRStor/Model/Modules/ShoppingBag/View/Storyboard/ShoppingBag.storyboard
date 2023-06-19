@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="VB5-tj-mGn">
-    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,24 +12,21 @@
             <objects>
                 <viewController storyboardIdentifier="ShoppingCartViewController" id="VB5-tj-mGn" customClass="ShoppingCartViewController" customModule="YRStor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="K9K-ey-hH2">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="aqR-4Q-TbZ">
-                                <rect key="frame" x="0.0" y="59" width="393" height="565.33333333333337"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="406.33333333333331"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="bhh" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0d9-mQ-AhF">
-                                <rect key="frame" x="20" y="672.66666666666663" width="150" height="20.333333333333371"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="n9g-IN-02e"/>
-                                </constraints>
+                                <rect key="frame" x="20" y="454.66666666666669" width="29.333333333333329" height="20.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLp-qz-hSt">
-                                <rect key="frame" x="90" y="735.66666666666663" width="212" height="34.333333333333371"/>
+                                <rect key="frame" x="90" y="517.66666666666663" width="419" height="34.333333333333371"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
@@ -40,10 +36,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hjbhj" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TAn-5G-W6Z">
-                                <rect key="frame" x="20" y="703.33333333333337" width="100" height="20.333333333333371"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="hba-KH-q2Y"/>
-                                </constraints>
+                                <rect key="frame" x="20" y="485.33333333333331" width="37" height="20.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -52,7 +45,6 @@
                         <viewLayoutGuide key="safeArea" id="O0j-DX-9X9"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="TAn-5G-W6Z" firstAttribute="width" secondItem="0d9-mQ-AhF" secondAttribute="width" multiplier="0.666667" id="1lH-i8-4w9"/>
                             <constraint firstItem="0d9-mQ-AhF" firstAttribute="top" secondItem="aqR-4Q-TbZ" secondAttribute="bottom" constant="48.333333333333258" id="62C-we-fAV"/>
                             <constraint firstItem="aqR-4Q-TbZ" firstAttribute="top" secondItem="O0j-DX-9X9" secondAttribute="top" id="9wL-RU-5pI"/>
                             <constraint firstItem="O0j-DX-9X9" firstAttribute="trailing" secondItem="SLp-qz-hSt" secondAttribute="trailing" constant="91" id="Aom-vF-ELE"/>
@@ -72,12 +64,20 @@
                         <outlet property="checkoutBtn" destination="SLp-qz-hSt" id="Vb7-dU-dJw"/>
                         <outlet property="numberOfItem" destination="TAn-5G-W6Z" id="Zpb-JY-Vm1"/>
                         <outlet property="totalItemsLb" destination="TAn-5G-W6Z" id="KnF-gR-rIS"/>
-                        <outlet property="totalPricee" destination="0d9-mQ-AhF" id="SUJ-Ft-PWc"/>
+                        <outlet property="totalPriceLbl" destination="0d9-mQ-AhF" id="SUJ-Ft-PWc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VqW-Vd-a2h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-860.30534351145036" y="-13.380281690140846"/>
+        </scene>
+        <!--ProductInfoViewController-->
+        <scene sceneID="238-Os-gyL">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="ProductInfoViewController" storyboardName="ProductInfoSB" referencedIdentifier="ProductInfoViewController" id="qmW-wP-1iz" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uh6-Ks-t9h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-279" y="-142"/>
         </scene>
         <!--RegisterViewController-->
         <scene sceneID="P0t-c8-Sdf">

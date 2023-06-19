@@ -44,17 +44,18 @@ class FavouritesViewController: UIViewController {
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
     }
+    
     func getDrafts(){
         viewModel.getAllFav()
         viewModel.bindResult = {() in
             let res = self.viewModel.viewModelResult
             guard let allFav = res else {return}
-            guard var customerFav = self.getFavForCustomers(favs: allFav.draftOrders) else {return}
+            guard var customerFav = CustomerHelper.getFavForCustomers(favs: allFav.draftOrders) else {return}
             for product in customerFav {
                 self.viewModel.productIds.append(product.lineItems?[0].productId ?? "")
             }
             if(self.viewModel.productIds.count == 0 ){
-                self.noFavImage()
+                UikitHelper.noDataImage(imageName: "noFavImage", view: self.view, table: self.favTable, activityIndicator: self.activityIndicator)
                 
             }else{
                 let idsString = self.viewModel.productIds.joined(separator: ",")
@@ -62,6 +63,7 @@ class FavouritesViewController: UIViewController {
                 self.viewModel.bindResultProducts = {() in
                     let res = self.viewModel.favProductResult
                     guard let favProducts = res?.products else {return}
+                    self.viewModel.favProductsDetails = favProducts
                     for i in 0..<customerFav.count {
                         for product in favProducts {
                             if customerFav[i].lineItems?[0].productId == String(product.id ?? 0) {
@@ -70,9 +72,6 @@ class FavouritesViewController: UIViewController {
                         }
                     }
                     self.viewModel.customerFavList = customerFav
-                    for image in self.viewModel.customerFavList{
-                        print(image.image)
-                    }
                     self.activityIndicator.isHidden = true
                     self.favTable.reloadData()
                 }
@@ -81,34 +80,6 @@ class FavouritesViewController: UIViewController {
             }
         }
     }
-    func getFavForCustomers(favs : [FavProduct])-> [FavProduct]?{
-        var favProducts : [FavProduct] = []
-        let email = viewModel.defaults.string(forKey: "email")
-        for fav in favs {
-            if(fav.email == email && fav.favOrShopping == Constant.IS_FAV){
-                favProducts.append(fav)
-            }
-        }
-        return favProducts
-        
-    }
-    func noFavImage(){
-        // edit the image
-        let imageView = UIImageView(image: UIImage(named: "noFavImage"))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(imageView)
-        
-        NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: 100),
-            imageView.heightAnchor.constraint(equalToConstant: 100)
-        ])
-        self.favTable.isHidden = true
-        self.activityIndicator.isHidden = true
-    }
-    
-    
 }
 
 extension FavouritesViewController : UITableViewDelegate , UITableViewDataSource{
@@ -137,11 +108,11 @@ extension FavouritesViewController : UITableViewDelegate , UITableViewDataSource
                     self.viewModel.customerFavList.remove(at: indexPath.row)
                     self.favTable.reloadData()
                     if(self.viewModel.customerFavList.count == 0){
-                        self.noFavImage()
+                        UikitHelper.noDataImage(imageName: "noFavImage", view: self.view, table: self.favTable, activityIndicator: self.activityIndicator)
                         
                     }
                 })
-               
+                
             }
                                          ))
             self.present(alert, animated: true)
@@ -149,5 +120,23 @@ extension FavouritesViewController : UITableViewDelegate , UITableViewDataSource
             
         }
     }
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        var productSelected = viewModel.customerFavList[indexPath.row].lineItems?[0]
+        var newProduct = Product()
+        for product in viewModel.favProductsDetails{
+            if(String(product.id ?? 0 ) == productSelected?.productId ){
+                newProduct.id = product.id
+                newProduct.bodyHTML = product.bodyHTML
+                newProduct.title = product.title
+                newProduct.images = product.images
+                newProduct.variants?[0].price = product.variants?[0].price
+            }
+            
+        }
+        let productInfo = self.storyboard?.instantiateViewController(withIdentifier: "ProductInfoViewController") as! ProductInfoViewController
+        productInfo.product = newProduct
+        self.navigationController?.pushViewController(productInfo, animated: true)
+        
+    }
 }

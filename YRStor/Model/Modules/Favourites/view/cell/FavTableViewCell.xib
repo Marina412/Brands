@@ -77,6 +77,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="addToCartBtnOutlet" destination="al7-6G-vCq" id="dmg-qQ-22M"/>
+                <outlet property="addToCartOutlet" destination="al7-6G-vCq" id="uoW-yQ-eO1"/>
                 <outlet property="productImage" destination="A7F-gD-ppS" id="Iaz-gs-Jq2"/>
                 <outlet property="productPrice" destination="lmt-Pl-Xwv" id="OJ9-ph-TSa"/>
                 <outlet property="productTitle" destination="XKT-sm-Jwe" id="6ZT-Yy-Mlf"/>

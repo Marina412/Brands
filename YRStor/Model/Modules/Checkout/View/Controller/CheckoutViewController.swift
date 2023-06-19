@@ -19,7 +19,7 @@ class CheckoutViewController: UIViewController{
     @IBOutlet weak var phoneLbl: UILabel!
     var homeVM:HomeViewModel!
     let defaults = UserDefaults.standard
-    var addressResult: Address?
+    var addressResult: Address = Address()
     var checkOutItems : FavProduct = FavProduct()
     var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
     var total:String = ""
@@ -38,6 +38,12 @@ class CheckoutViewController: UIViewController{
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
+//        if(addressResult?.country == "" ){
+//            let alert = UIAlertController(title: "Shopify", message: "Please add Address first ", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+//                self.dismiss(animated: true, completion: nil)
+//            }))
+//        }
         cuponCodeTxtField.text = ""
         defaults.set(true, forKey: "AddressShoppingCart")
         TotalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
@@ -73,9 +79,9 @@ class CheckoutViewController: UIViewController{
                 self.addressLabel.text = (self.didSelectAddress.address1 ?? "") + "," + (self.didSelectAddress.city ?? "")
             }
             else{
-                self.addressLabel.text = (self.addressResult?.address1 ?? "") + "," + (self.addressResult?.city ?? "")
+                self.addressLabel.text = (self.addressResult.address1 ?? "") + "," + (self.addressResult.city ?? "")
             }
-            self.phoneLbl.text = self.addressResult?.phone
+            self.phoneLbl.text = self.addressResult.phone
         }
     }
     @IBAction func changeAddress(_ sender: Any) {

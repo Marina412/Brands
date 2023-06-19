@@ -31,8 +31,10 @@ class EnterLocationViewController: UIViewController {
     @IBAction func saveAddres(_ sender: Any) {
         saveAddress()
         let alert = UIAlertController(title: "Shopify", message: "Address Added Suceesfully", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true)
     }
+    
 }

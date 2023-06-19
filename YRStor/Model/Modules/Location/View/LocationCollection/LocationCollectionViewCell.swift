@@ -8,6 +8,7 @@
 import UIKit
 
 class LocationCollectionViewCell: UICollectionViewCell {
+    @IBOutlet weak var removeBtnOutlet: UIButton!
     @IBOutlet weak var locationLbl: UILabel!
     var location:Address?
     var addresses : [Address] = []

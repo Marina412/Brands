@@ -74,6 +74,13 @@ extension LocationViewController:UICollectionViewDelegate,UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LocationCollectionViewCell", for: indexPath) as! LocationCollectionViewCell
+        
+        if indexPath.row == 0 {
+            cell.removeBtnOutlet.isHidden = true
+           }
+        else{
+            cell.removeBtnOutlet.isHidden = false
+        }
         cell.addresses = customerAuthAddress
         cell.configureCell(indexPath: indexPath)
         cell.customerAddressViewModel = self.customerAddressViewModel

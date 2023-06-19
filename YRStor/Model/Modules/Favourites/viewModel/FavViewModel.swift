@@ -12,7 +12,9 @@ class FavViewModel {
     let defaults = UserDefaults.standard
     var customerFavList : [FavProduct] = []
     var productIds : [String] = []
+    var favProductsDetails: [Product] = []
     var product : LineItems = LineItems()
+    
     var curencyType :String = "USD"
     var rates = Rates()
     
