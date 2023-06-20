@@ -32,11 +32,11 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EjI-cy-rYI" customClass="Floaty" customModule="Floaty">
-                                <rect key="frame" x="313" y="778" width="60" height="60"/>
+                                <rect key="frame" x="313" y="707" width="60" height="60"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="NQc-H0-yqo"/>
-                                    <constraint firstAttribute="width" constant="60" id="w8g-yf-LlI"/>
+                                    <constraint firstAttribute="width" constant="60" id="5hW-CP-tfJ"/>
+                                    <constraint firstAttribute="height" constant="60" id="f2g-cW-jjE"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="buttonColor">
@@ -61,12 +61,12 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="EjI-cy-rYI" secondAttribute="trailing" constant="20" id="7qN-O3-jy9"/>
+                            <constraint firstAttribute="bottom" secondItem="EjI-cy-rYI" secondAttribute="bottom" constant="85" id="9Ws-hX-Ykg"/>
                             <constraint firstItem="9Fm-GJ-rAr" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="ddI-Jg-WQi"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="EjI-cy-rYI" secondAttribute="trailing" constant="20" id="rnE-6O-UWO"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="9Fm-GJ-rAr" secondAttribute="bottom" constant="100" id="uVJ-Ym-zRO"/>
                             <constraint firstItem="9Fm-GJ-rAr" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="vQ4-4k-peP"/>
                             <constraint firstItem="9Fm-GJ-rAr" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="ys5-iK-Ukn"/>
-                            <constraint firstItem="EjI-cy-rYI" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" constant="20" id="z7q-AD-s17"/>
                         </constraints>
                     </view>
                     <connections>

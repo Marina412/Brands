@@ -97,6 +97,14 @@
             </objects>
             <point key="canvasLocation" x="1066.4122137404579" y="-2.1126760563380285"/>
         </scene>
+        <!--RegisterViewController-->
+        <scene sceneID="uFx-uL-zS9">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="RegisterViewController" storyboardName="RegisterSB" referencedIdentifier="RegisterViewController" id="pmf-wM-E7e" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YKC-PE-aN0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1638" y="-116"/>
+        </scene>
         <!--LocationViewController-->
         <scene sceneID="liv-uT-5ss">
             <objects>

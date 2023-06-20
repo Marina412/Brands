@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import BadgeSwift
 
 class ShoppingCartViewController: UIViewController {
     

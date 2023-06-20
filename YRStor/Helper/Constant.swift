@@ -92,7 +92,6 @@ struct Constant{
     static let EMAIL = "email"
     
     static let COUNTRIES  = ["Choose Country","Egypt","United Kingdom","United States","Saudi Arabia","United Arab Emirates","Italy"]
-    
     static let CITIES_EGYPT  = ["Choose City","Cairo","Alexandria","luxor","Aswan","Giza","Ismailia","Zagazig","Mansoura","Damietta"]
     static let  CITIES_UK = ["Choose City","London","Liverpool","Bristol","Manchester","Brighton","Preston","Derby","Cambridge","Oxford"]
     static let CITIES_US = ["Choose City","Austin","New York","Seattle","San Francisco","Los Angeles","Miami","Atlanta","Orlando","Chicago"]

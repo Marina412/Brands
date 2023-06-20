@@ -29,18 +29,8 @@ class CheckoutViewController: UIViewController{
     var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
     var total:String = ""
     var didSelectAddress = Address()
-    //ApplePayment
    private var paymentRequest:PKPaymentRequest? //= {
-//        let request = PKPaymentRequest()
-//        request.merchantIdentifier = "merchant.com.YRStor"
-//        request.supportedNetworks = [.masterCard,.visa,.quicPay]
-//        request.supportedCountries = ["EG","US"]
-//        request.merchantCapabilities = .capability3DS
-//        request.countryCode = "EG"
-//        request.currencyCode = "EGP"
-//        request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Order", amount:NSDecimalNumber(value: Int(totalLbl.text ?? "0") ?? 0))]
-//        return request
-//    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 //        if(addressResult?.country == "" ){
