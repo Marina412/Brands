@@ -11,9 +11,12 @@ class EnterLocationViewController: UIViewController {
     
     @IBOutlet weak var choosenCountryLbl: UILabel!
     @IBOutlet weak var streetTxtField: UITextField!
-    @IBOutlet weak var cityTxtField: UITextField!
     
+    
+    @IBOutlet weak var choosenCityLbl: UILabel!
     @IBOutlet weak var popUpCountry: UIButton!
+    
+    @IBOutlet weak var popUpCity: UIButton!
     @IBOutlet weak var countryTxtField: UITextField!
     var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
     let defaults = UserDefaults.standard
@@ -27,15 +30,18 @@ class EnterLocationViewController: UIViewController {
             [self] (action: UIAction) in
             choosenCountryLbl.text = action.title
         }
-        popUpCountry.menu = UIMenu(children: [
-            UIAction(title: "Choose Country",state: .on, handler: country),
-            UIAction(title: "Egypt",handler: country),
-            UIAction(title: "United Kingdom",handler: country),
-            UIAction(title: "United States",handler: country),
-            UIAction(title: "Saudi Arabia",handler: country),
-            UIAction(title: "United Arab Emirates",handler: country),
- 
-        ])
+       
+        popUpCountry.menu = addressAction(names: Constant.COUNTRIES,closureHandler: country)
+//        UIMenu(children: [
+//            UIAction(title: "Choose Country",state: .on, handler: country),
+//            UIAction(title: "Egypt",handler: country),
+//            UIAction(title: "United Kingdom",handler: country),
+//            UIAction(title: "United States",handler: country),
+//            UIAction(title: "Italy",handler: country),
+//            UIAction(title: "Saudi Arabia",handler: country),
+//            UIAction(title: "United Arab Emirates",handler: country),
+//
+//        ])
     }
     func saveAddress(){
         let customerId = defaults.integer(forKey: "customerId")
@@ -65,4 +71,17 @@ extension EnterLocationViewController{
 //        }
 //        return actions
 //    }
+    
+    
+    
+        func addressAction(names:[String],closureHandler:@escaping (UIAction)->())->UIMenu{
+            var actions = Array<UIMenuElement>()
+            names.forEach{
+                name in
+                actions.append(UIAction(title: name, handler:closureHandler))
+            }
+            print(actions)
+            return UIMenu(children: actions)
+            
+        }
 }

@@ -91,7 +91,15 @@ struct Constant{
     static let CUPON_CODE = "cuponCode"
     static let EMAIL = "email"
     
-    static let COUNTRIES  = ["Egypt","Australia", "United Kingdom","United States","France","Spain","German","Saudi Arabia","United Arab Emirates","Kanda"]
+    static let COUNTRIES  = ["Choose Country","Egypt","United Kingdom","United States","Saudi Arabia","United Arab Emirates","Italy"]
+    
+    static let CITIES_EGYPT  = ["Choose City","Cairo","Alexandria","luxor","Aswan","Giza","Ismailia","Zagazig","Mansoura","Damietta"]
+    static let  CITIES_UK = ["Choose City","London","Liverpool","Bristol","Manchester","Brighton","Preston","Derby","Cambridge","Oxford"]
+    static let CITIES_US = ["Choose City","Austin","New York","Seattle","San Francisco","Los Angeles","Miami","Atlanta","Orlando","Chicago"]
+    static let CITIES_SAR  = ["Choose City","Riyadh","Jaddah","Dammam","Mecca","Taif","Hail","Al Madinah Al Munawwarah","Al Khobar","Najran"]
+    static let CITIES_UAE = ["Choose City","Dubai","Ajman","Hatta","Abu Dhabi","Ras Khaimah","Fujairah","Khor Fakkan","Jebel Ali","Liwa Oasis"]
+    static let CITIES_ITALY  = ["Choose City","Rome","Venice","Florence","Milan","Verona","Pisa","Perugia","Trento","Lecce"]
+    
     
 }
 
