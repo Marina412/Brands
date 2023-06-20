@@ -9,6 +9,7 @@ import UIKit
 
 class ShopCart: UITableViewCell {
     
+    @IBOutlet weak var view: UIView!
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productTitle: UILabel!
     @IBOutlet weak var productPrice: UILabel!
@@ -30,6 +31,8 @@ class ShopCart: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        UIView.elevationCardView(view: view)
         
     }
     

@@ -49,6 +49,10 @@
                                     <action selector="addToCartBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="clg-WW-W8o"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="STl-5T-IfU">
+                                <rect key="frame" x="292" y="65" width="20" height="20"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
@@ -64,6 +68,8 @@
                             <constraint firstItem="lmt-Pl-Xwv" firstAttribute="width" secondItem="XKT-sm-Jwe" secondAttribute="width" multiplier="0.6" id="YeZ-mb-n3C"/>
                             <constraint firstItem="A7F-gD-ppS" firstAttribute="top" secondItem="hFf-cV-gHN" secondAttribute="top" constant="10" id="bOz-iC-CMx"/>
                             <constraint firstItem="A7F-gD-ppS" firstAttribute="leading" secondItem="hFf-cV-gHN" secondAttribute="leading" constant="10" id="fWz-fx-yHH"/>
+                            <constraint firstItem="STl-5T-IfU" firstAttribute="leading" secondItem="al7-6G-vCq" secondAttribute="trailing" constant="-80" id="p6z-8R-wwf"/>
+                            <constraint firstItem="STl-5T-IfU" firstAttribute="centerY" secondItem="al7-6G-vCq" secondAttribute="centerY" id="yoa-d8-Lzz"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -76,6 +82,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="activityIndicator" destination="STl-5T-IfU" id="JD0-D8-x4P"/>
                 <outlet property="addToCartBtnOutlet" destination="al7-6G-vCq" id="dmg-qQ-22M"/>
                 <outlet property="addToCartOutlet" destination="al7-6G-vCq" id="uoW-yQ-eO1"/>
                 <outlet property="productImage" destination="A7F-gD-ppS" id="Iaz-gs-Jq2"/>

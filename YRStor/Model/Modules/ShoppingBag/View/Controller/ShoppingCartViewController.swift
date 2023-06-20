@@ -21,13 +21,16 @@ class ShoppingCartViewController: UIViewController {
     let noDataImage  = UIImageView(image: UIImage(named: "noShoopingCart"))
     var totalPrice = ""
     let defaults = UserDefaults.standard
-    let shoppingCountKeyPath = #keyPath(UserDefaults.shoppingBag)
+    var shoppingCountKeyPath = #keyPath(UserDefaults.shoppingBag)
         
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+    }
+    override func viewWillAppear(_ animated: Bool) {
         defaults.addObserver(self, forKeyPath: shoppingCountKeyPath, options: .new, context: nil)
         defaults.shoppingBag = defaults.integer(forKey: "shopBagCount")
-           
+        
     }
     deinit{
         defaults.removeObserver(self, forKeyPath: shoppingCountKeyPath)
@@ -38,12 +41,10 @@ class ShoppingCartViewController: UIViewController {
                       let change = change
                 else { return }
                 
+        var itemNumbers = cartViewModel.resDraft?.lineItems?.count ?? 0
                 if let updatedCount = change[.newKey] as? Int {
-                    (tabBarController!.tabBar.items![2] as! UITabBarItem).badgeValue = "\(updatedCount)"
+                    (tabBarController!.tabBar.items![2] as! UITabBarItem).badgeValue = "\(itemNumbers)"
                 }
-    }
-    override func viewWillAppear(_ animated: Bool) {
-       
         let defaults = UserDefaults.standard
         let isLoggin = defaults.bool(forKey: "isLogging")
         defaults.set(Constant.IS_SHOPPING_CART, forKey: "isFavOrCart")
@@ -100,7 +101,7 @@ class ShoppingCartViewController: UIViewController {
                         }
                     }
                 }
-                if(self.cartViewModel.resDraft.lineItems?.count == 0){
+                if(self.cartViewModel.resDraft?.lineItems?.count == 0){
                     UikitHelper.noDataImage(imageName: "noShoppingCart", view: self.view, table: self.cartTable, activityIndicator: self.activityIndicator)
                     self.totalPriceLbl.isHidden = true
                     self.numberOfItem.isHidden = true
@@ -108,8 +109,8 @@ class ShoppingCartViewController: UIViewController {
                 }
                 self.cartViewModel.products = customerCartProducts
                 self.cartViewModel.resDraft = customerDraft
-                self.cartViewModel.resDraft.lineItems = customerCartProducts
-                self.cartViewModel.draft.draftOrder = self.cartViewModel.resDraft
+                self.cartViewModel.resDraft?.lineItems = customerCartProducts
+                self.cartViewModel.draft.draftOrder = self.cartViewModel.resDraft ?? FavProduct()
                 self.cartViewModel.draftId = String(customerDraft.draftId ?? 0)
                 self.cartTable.reloadData()
                 self.activityIndicator.isHidden = true
@@ -128,7 +129,7 @@ class ShoppingCartViewController: UIViewController {
     
     @IBAction func checkoutBtn(_ sender: Any) {
         let checkout = self.storyboard?.instantiateViewController(withIdentifier: "CheckoutViewController") as! CheckoutViewController
-        checkout.checkOutItems = cartViewModel.resDraft
+        checkout.checkOutItems = cartViewModel.resDraft ?? FavProduct()
         self.navigationController?.pushViewController(checkout, animated: true)
     }
 }
@@ -141,7 +142,7 @@ extension ShoppingCartViewController : UITableViewDelegate,UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ShopCart", for: indexPath) as! ShopCart
         
-        cell.configureCell(draft: cartViewModel.resDraft, indexPath: indexPath,currency: viewModel.curencyType)
+        cell.configureCell(draft: cartViewModel.resDraft ?? FavProduct(), indexPath: indexPath,currency: viewModel.curencyType)
         cell.cellViewModel.stepperAction = { [weak self] totalPrice  in
             self?.totalPriceLbl.text = "Total :  \(String(totalPrice))"
 
@@ -156,14 +157,14 @@ extension ShoppingCartViewController : UITableViewDelegate,UITableViewDataSource
     
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        var product = self.cartViewModel.resDraft.lineItems?[indexPath.row]
+        var product = self.cartViewModel.resDraft?.lineItems?[indexPath.row]
         if editingStyle == .delete {
             let alert = UIAlertController(title: "Delete", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { action in
                 
                 
-                if(self.cartViewModel.resDraft.lineItems?.count == 1 ){
+                if(self.cartViewModel.resDraft?.lineItems?.count == 1 ){
                     self.cartViewModel.deleteFavListInDatabase(draftId: self.cartViewModel.draftId, indexPath: indexPath.row, completion: {
                         
                         UikitHelper.noDataImage(imageName: "noShoppingCart", view: self.view, table: self.cartTable, activityIndicator: self.activityIndicator)
@@ -175,8 +176,8 @@ extension ShoppingCartViewController : UITableViewDelegate,UITableViewDataSource
                 }
                 else{
                     self.cartViewModel.products.remove(at: indexPath.row)
-                    self.cartViewModel.resDraft.lineItems = self.cartViewModel.products
-                    self.cartViewModel.draft.draftOrder = self.cartViewModel.resDraft
+                    self.cartViewModel.resDraft?.lineItems = self.cartViewModel.products
+                    self.cartViewModel.draft.draftOrder = self.cartViewModel.resDraft ?? FavProduct()
 //                    
 //                    var totalPrice = self.cartViewModel.defaults.value(forKey: "totalPrice") as! Double
 //                    var test = (Double(product?.productPrice ?? "") ?? 0.0)  * (Double(product?.quantity ?? Int(1.0)))
@@ -196,7 +197,7 @@ extension ShoppingCartViewController : UITableViewDelegate,UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        var productSelected = cartViewModel.resDraft.lineItems?[indexPath.row]
+        var productSelected = cartViewModel.resDraft?.lineItems?[indexPath.row]
         var newProduct = Product()
         for product in cartViewModel.cartProductsDetails{
             if(String(product.id ?? 0 ) == productSelected?.productId ){

@@ -14,9 +14,9 @@ class onboardingViewController: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     let defaults = UserDefaults.standard
     let slides:[onboardingSlide]=[
-        onboardingSlide(title: "Brands", description: "All That you need,All That you want just Hello at Brands",image:"onboarding1"),
-        onboardingSlide(title: "Brands", description: "A lot of offers wait you with many coupons just for you ",image:"onboarding2"),
-        onboardingSlide(title: "Brands", description: "You can shop anytime and anywhere while keeping up with everything new", image:"onboarding3")]
+        onboardingSlide(title: "Shopify", description: "All That you need,All That you want just Hello at Brands",image:"onboarding1"),
+        onboardingSlide(title: "Shopify", description: "A lot of offers wait you with many coupons just for you ",image:"onboarding2"),
+        onboardingSlide(title: "Shopify", description: "You can shop anytime and anywhere while keeping up with everything new", image:"onboarding3")]
     var currentPage = 0{
         didSet{
             pageControl.currentPage = currentPage

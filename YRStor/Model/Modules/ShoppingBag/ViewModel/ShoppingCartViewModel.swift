@@ -8,7 +8,7 @@
 import Foundation
 class ShoppingCartViewModel{
     var draft = Drafts(draftOrder: FavProduct())
-    var resDraft : FavProduct!
+    var resDraft : FavProduct?
     var products : [LineItems] = []
     var draftId = ""
     var productIds : [String] = []
@@ -16,6 +16,8 @@ class ShoppingCartViewModel{
     var rates = Rates()
     let defaults = UserDefaults.standard
     var cartProductsDetails : [Product] = []
+    var product : LineItems = LineItems()
+    
     var repo : RepoProtocol
     var bindResult : (()->()) = {}
     var viewModelResult :FavProduct!{
@@ -36,7 +38,19 @@ class ShoppingCartViewModel{
     }
     
     func editShoppingCart(draftOrder: Drafts, draftId : String){
-        repo.editShoppingCartInDatabase(draftOrder: draftOrder, draftId: draftId)
+        let products = draftOrder.draftOrder.lineItems?.reduce(into: [LineItems]()) { result, item in
+            if let index = result.firstIndex(where: { $0.productId == item.productId }) {
+                result[index].quantity += item.quantity
+            } else {
+                result.append(item)
+            }
+        }
+        print("line items before filter \(draftOrder.draftOrder.lineItems)")
+        print("line items after filter \(products)")
+        var newDraft = draftOrder
+        newDraft.draftOrder.lineItems = products
+        
+        repo.editShoppingCartInDatabase(draftOrder: newDraft, draftId: draftId)
     }
     func deleteFavListInDatabase(draftId : String , indexPath : Int? ,  completion : (()->())?){
         repo.deleteFavProductListInDatabase(draftId: draftId, completion: { [weak self] in

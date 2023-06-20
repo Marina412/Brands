@@ -20,6 +20,11 @@ class CategoryViewController: UIViewController {
     var catigoryVM:CategoryViewModel!
     let disposeBag = DisposeBag()
     let activityIndicator = UIActivityIndicatorView(style: .large)
+    var favProducts :[String] = []
+    
+    var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
+    var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         indicatorSetUp()
@@ -64,6 +69,7 @@ class CategoryViewController: UIViewController {
             guard let self else { return }
             self.catigoryVM.filterProudactsBySubCategory(categoryName: "")
         }
+        
     }
     
     @IBAction func filterCategoryWMSegment(_ sender: WMSegment) {
@@ -92,8 +98,34 @@ class CategoryViewController: UIViewController {
                 self.productsCollectionView.isHidden = false
             }
         }
+        
+        checkIsFavProduct()
     }
+    
+    func checkIsFavProduct(){
+     
+        favViewModel.getAllFav()
+        favViewModel.bindResult = {() in
+            let res = self.favViewModel.viewModelResult
+            guard let allFav = res?.draftOrders else {return}
+            guard let customerFav = CustomerHelper.getFavForCustomers(favs: allFav) else {return}
+            self.cartViewModel.draftId = String(customerFav.draftId ?? 0)
+            self.cartViewModel.resDraft = customerFav
+           
+            guard let products = customerFav.lineItems else {return}
+                for favProduct in products{
+                    if(favProduct.productId == String(self.cartViewModel.product.productId ?? "")){
+                        self.favProducts.append(favProduct.productId ?? "")
+                    }
+                }
+            self.productsCollectionView.reloadData()
+        }
+    }
+    
+   // func checkFavId(id : String)
 }
+
+
 
 extension CategoryViewController{
     func indicatorSetUp(){
@@ -114,16 +146,27 @@ extension CategoryViewController:UICollectionViewDelegateFlowLayout{
    }
 }
 extension CategoryViewController{
+ 
     func setUpProductsCollectionView(){
-       
+      //  var isFav = false
         print("test1")
         productsCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
         catigoryVM.poductsObservablRS.bind(to: productsCollectionView.rx.items){
             collectionView, index, item in
             print("test2")
+
             let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewCell", for: IndexPath(row: index, section: 0)) as! ProductCollectionViewCell
-            print("item\(item)")
-            productCell.cellSetUp(product: item, currency: self.catigoryVM.curencyType)
+//            print("item\(item)")
+//            self.favProducts.forEach{
+//                id in
+//                if id == item.id{
+//                    self.isFav = true
+//                    break
+//                }else{
+//                    isFav = false
+//                }
+//            }
+            productCell.cellSetUp(product: item, currency: UserDefaults.standard.string(forKey: Constant.CURRENCY) ?? "")
            
            
             return productCell

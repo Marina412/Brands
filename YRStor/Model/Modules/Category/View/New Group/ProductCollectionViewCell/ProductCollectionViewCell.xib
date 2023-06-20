@@ -70,6 +70,10 @@
                                     <action selector="addToShoppingCartBtn:" destination="gTV-IL-0wX" eventType="touchUpInside" id="cOb-8q-OVa"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="wDN-1Z-IHC">
+                                <rect key="frame" x="80" y="251" width="20" height="20"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
@@ -80,6 +84,7 @@
                             <constraint firstItem="O7M-vd-Vv4" firstAttribute="leading" secondItem="fQR-H6-Q0p" secondAttribute="leading" constant="10" id="E7e-se-TPy"/>
                             <constraint firstAttribute="trailing" secondItem="Pae-rI-5X8" secondAttribute="trailing" constant="5" id="EJO-ew-jmY"/>
                             <constraint firstItem="xTB-Zx-Kt2" firstAttribute="top" secondItem="z5E-2J-nqU" secondAttribute="bottom" constant="5" id="Hpx-rW-9Hh"/>
+                            <constraint firstItem="wDN-1Z-IHC" firstAttribute="centerY" secondItem="Npc-9j-cb8" secondAttribute="centerY" id="MgZ-qb-0xK"/>
                             <constraint firstItem="O7M-vd-Vv4" firstAttribute="top" secondItem="xTB-Zx-Kt2" secondAttribute="bottom" constant="5" id="OaB-yG-XH8"/>
                             <constraint firstAttribute="trailing" secondItem="xTB-Zx-Kt2" secondAttribute="trailing" constant="5" id="QHw-y7-Z1H"/>
                             <constraint firstItem="oB5-FQ-FNn" firstAttribute="top" secondItem="fQR-H6-Q0p" secondAttribute="top" constant="20" id="Qcw-LG-syt"/>
@@ -88,6 +93,7 @@
                             <constraint firstItem="oB5-FQ-FNn" firstAttribute="leading" secondItem="fQR-H6-Q0p" secondAttribute="leading" id="fUw-SX-9gO"/>
                             <constraint firstItem="Pae-rI-5X8" firstAttribute="top" secondItem="fQR-H6-Q0p" secondAttribute="top" constant="5" id="fao-59-JWu"/>
                             <constraint firstItem="z5E-2J-nqU" firstAttribute="leading" secondItem="fQR-H6-Q0p" secondAttribute="leading" constant="10" id="ffw-E5-lmo"/>
+                            <constraint firstItem="wDN-1Z-IHC" firstAttribute="leading" secondItem="Npc-9j-cb8" secondAttribute="trailing" constant="-85" id="k4n-qj-CWK"/>
                             <constraint firstAttribute="trailing" secondItem="z5E-2J-nqU" secondAttribute="trailing" constant="5" id="u4H-RT-3pg"/>
                             <constraint firstItem="z5E-2J-nqU" firstAttribute="top" secondItem="oB5-FQ-FNn" secondAttribute="bottom" constant="15" id="xKO-Q2-dvQ"/>
                             <constraint firstAttribute="bottom" secondItem="Npc-9j-cb8" secondAttribute="bottom" constant="10" id="xPp-ok-Fgs"/>
@@ -107,6 +113,7 @@
             </constraints>
             <size key="customSize" width="87" height="109"/>
             <connections>
+                <outlet property="activityIndicator" destination="wDN-1Z-IHC" id="GRq-7h-hg2"/>
                 <outlet property="currencyLab" destination="wIp-XA-4EY" id="GZ6-Iw-hoZ"/>
                 <outlet property="favourit" destination="Pae-rI-5X8" id="8If-1F-N07"/>
                 <outlet property="productImage" destination="oB5-FQ-FNn" id="bXq-X5-op8"/>

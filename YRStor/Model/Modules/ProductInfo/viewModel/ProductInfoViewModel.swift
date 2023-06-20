@@ -11,13 +11,7 @@ class ProductInfoViewModel{
     
    
     var productImages : [ProductImage]!
-    var draftId :String?
-    var favProduct : FavProduct?
-    var lineItems : [LineItems]?
-    let defaults = UserDefaults.standard
-    
-    var draft : FavProduct = FavProduct()
-    
+   
     var repo:RepoProtocol
     
     init(repo: RepoProtocol) {

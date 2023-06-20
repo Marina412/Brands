@@ -17,15 +17,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="JPI-jY-vyM">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <rect key="frame" x="0.0" y="108" width="393" height="710"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favourites" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wV1-gy-cx9">
+                                <rect key="frame" x="135.66666666666666" y="59" width="121.99999999999997" height="30"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="JPI-jY-vyM" secondAttribute="bottom" id="Jon-DY-5t6"/>
-                            <constraint firstItem="JPI-jY-vyM" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="JvJ-M6-utE"/>
+                            <constraint firstItem="JPI-jY-vyM" firstAttribute="top" secondItem="wV1-gy-cx9" secondAttribute="bottom" constant="19" id="YTf-Ub-ZBn"/>
+                            <constraint firstItem="wV1-gy-cx9" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="bbd-Nw-lpg"/>
+                            <constraint firstItem="wV1-gy-cx9" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="eJA-3b-XrR"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="JPI-jY-vyM" secondAttribute="trailing" id="gZZ-LQ-Elh"/>
                             <constraint firstItem="JPI-jY-vyM" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="hHO-gd-Ntv"/>
                         </constraints>

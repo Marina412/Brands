@@ -85,9 +85,11 @@
 		037543072A377025006C4699 /* onboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037542BC2A377024006C4699 /* onboardingCollectionViewCell.swift */; };
 		037543082A377025006C4699 /* onboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037542BD2A377024006C4699 /* onboardingViewController.swift */; };
 		03B44CA22A3B7D0900223016 /* CustomerAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B44CA12A3B7D0800223016 /* CustomerAddressViewModel.swift */; };
+		03C4E8121EE2DE009933A5B3 /* Pods_YRStorTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54BB5EEB671E08A1682AF95A /* Pods_YRStorTests.framework */; };
 		03E92A022A2A8FA300821D7A /* HelperFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E92A012A2A8FA300821D7A /* HelperFunction.swift */; };
 		03FBC51C2A2927920074D6FA /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FBC51B2A2927920074D6FA /* UIViewController+Extension.swift */; };
 		03FBC51E2A2928A70074D6FA /* UserDefault+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FBC51D2A2928A70074D6FA /* UserDefault+Extension.swift */; };
+		12B4778BF8FE272CDABCEB73 /* Pods_YRStor_YRStorUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FDC0A08C850973EF870E033 /* Pods_YRStor_YRStorUITests.framework */; };
 		211F80562A2B729700C4876A /* AllProducts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211F80552A2B729700C4876A /* AllProducts.swift */; };
 		2164BD8A2A3EA756007A60C2 /* ShopCart.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2164BD882A3EA756007A60C2 /* ShopCart.xib */; };
 		2164BD8B2A3EA756007A60C2 /* ShopCart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2164BD892A3EA756007A60C2 /* ShopCart.swift */; };
@@ -104,6 +106,11 @@
 		21A386022A3ECF28003D314B /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A386012A3ECF28003D314B /* UIButton+Extension.swift */; };
 		21A386062A3EDCE6003D314B /* UITextView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A386052A3EDCE6003D314B /* UITextView+Extension.swift */; };
 		21A386092A3EEE17003D314B /* ProductInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A386082A3EEE17003D314B /* ProductInfoViewModel.swift */; };
+		21F0370A2A41D6A30075B20B /* UiKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F037092A41D6A30075B20B /* UiKitHelper.swift */; };
+		21F0370C2A41D6E90075B20B /* CustomerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F0370B2A41D6E90075B20B /* CustomerHelper.swift */; };
+		21F037102A41D7430075B20B /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F0370F2A41D7430075B20B /* UserDefaults+Extension.swift */; };
+		21F037122A41D74D0075B20B /* UserDefault+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F037112A41D74D0075B20B /* UserDefault+Extension.swift */; };
+		8FA0EF74930BD4123DF57F0E /* Pods_YRStor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEB726BA1BC74E404C6D47B0 /* Pods_YRStor.framework */; };
 		9C3F5AE22A2BB3D7000CDA86 /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3F5AE12A2BB3D7000CDA86 /* Collections.swift */; };
 		9C59911D2A28C08C00E4DC6E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C59911C2A28C08C00E4DC6E /* AppDelegate.swift */; };
 		9C59911F2A28C08C00E4DC6E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C59911E2A28C08C00E4DC6E /* SceneDelegate.swift */; };
@@ -121,9 +128,6 @@
 		9C59917C2A28C2A900E4DC6E /* Repo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C59917B2A28C2A900E4DC6E /* Repo.swift */; };
 		9C5991802A28C3A200E4DC6E /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C59917E2A28C3A100E4DC6E /* Constant.swift */; };
 		9C5991812A28C3A200E4DC6E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C59917F2A28C3A100E4DC6E /* Router.swift */; };
-		ADCDEF0167CA6D40DB3375C9 /* Pods_YRStor_YRStorUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39F55732BCEA5BCF25F49905 /* Pods_YRStor_YRStorUITests.framework */; };
-		B6A819995787051951C0A711 /* Pods_YRStorTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7B5D492778992CF7CAB47C1 /* Pods_YRStorTests.framework */; };
-		C86288FDE9A58FBCE06DDB90 /* Pods_YRStor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84BEA449FC9CEA3A1BC221A2 /* Pods_YRStor.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -245,13 +249,15 @@
 		21A386012A3ECF28003D314B /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		21A386052A3EDCE6003D314B /* UITextView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extension.swift"; sourceTree = "<group>"; };
 		21A386082A3EEE17003D314B /* ProductInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoViewModel.swift; sourceTree = "<group>"; };
-		2947BAE815DC2F9D89B0074D /* Pods-YRStor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStor.release.xcconfig"; path = "Target Support Files/Pods-YRStor/Pods-YRStor.release.xcconfig"; sourceTree = "<group>"; };
-		39F55732BCEA5BCF25F49905 /* Pods_YRStor_YRStorUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YRStor_YRStorUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7772DD82B78E329F8789C63C /* Pods-YRStor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStor.debug.xcconfig"; path = "Target Support Files/Pods-YRStor/Pods-YRStor.debug.xcconfig"; sourceTree = "<group>"; };
-		7A52BA09DBC163F9E364FCB5 /* Pods-YRStor-YRStorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStor-YRStorUITests.debug.xcconfig"; path = "Target Support Files/Pods-YRStor-YRStorUITests/Pods-YRStor-YRStorUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		7D4B8C95D7E82E63FDC88572 /* Pods-YRStor-YRStorUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStor-YRStorUITests.release.xcconfig"; path = "Target Support Files/Pods-YRStor-YRStorUITests/Pods-YRStor-YRStorUITests.release.xcconfig"; sourceTree = "<group>"; };
-		84BEA449FC9CEA3A1BC221A2 /* Pods_YRStor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YRStor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		96AEA65D3916E7C110113F8B /* Pods-YRStorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStorTests.release.xcconfig"; path = "Target Support Files/Pods-YRStorTests/Pods-YRStorTests.release.xcconfig"; sourceTree = "<group>"; };
+		21F037092A41D6A30075B20B /* UiKitHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UiKitHelper.swift; path = YRStor/Helper/UiKitHelper.swift; sourceTree = SOURCE_ROOT; };
+		21F0370B2A41D6E90075B20B /* CustomerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomerHelper.swift; path = YRStor/Helper/CustomerHelper.swift; sourceTree = SOURCE_ROOT; };
+		21F0370F2A41D7430075B20B /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
+		21F037112A41D74D0075B20B /* UserDefault+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extension.swift"; sourceTree = "<group>"; };
+		2A70D10763760DBEB7937B33 /* Pods-YRStorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStorTests.release.xcconfig"; path = "Target Support Files/Pods-YRStorTests/Pods-YRStorTests.release.xcconfig"; sourceTree = "<group>"; };
+		3FDC0A08C850973EF870E033 /* Pods_YRStor_YRStorUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YRStor_YRStorUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		54BB5EEB671E08A1682AF95A /* Pods_YRStorTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YRStorTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		58BF052EC0F716D15F06DE08 /* Pods-YRStor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStor.release.xcconfig"; path = "Target Support Files/Pods-YRStor/Pods-YRStor.release.xcconfig"; sourceTree = "<group>"; };
+		5C0E8B0E619047FE96BA6DEC /* Pods-YRStorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStorTests.debug.xcconfig"; path = "Target Support Files/Pods-YRStorTests/Pods-YRStorTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9C3F5AE12A2BB3D7000CDA86 /* Collections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
 		9C5991192A28C08C00E4DC6E /* YRStor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YRStor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C59911C2A28C08C00E4DC6E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -273,8 +279,10 @@
 		9C59917B2A28C2A900E4DC6E /* Repo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repo.swift; sourceTree = "<group>"; };
 		9C59917E2A28C3A100E4DC6E /* Constant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		9C59917F2A28C3A100E4DC6E /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		C7B5D492778992CF7CAB47C1 /* Pods_YRStorTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YRStorTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DC67D9FBF77DD9BAC2A7615A /* Pods-YRStorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStorTests.debug.xcconfig"; path = "Target Support Files/Pods-YRStorTests/Pods-YRStorTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9E67E2814B319CE7BD6FF4DB /* Pods-YRStor-YRStorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStor-YRStorUITests.debug.xcconfig"; path = "Target Support Files/Pods-YRStor-YRStorUITests/Pods-YRStor-YRStorUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		BEB726BA1BC74E404C6D47B0 /* Pods_YRStor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YRStor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFADF3FED73446F2572211DA /* Pods-YRStor-YRStorUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStor-YRStorUITests.release.xcconfig"; path = "Target Support Files/Pods-YRStor-YRStorUITests/Pods-YRStor-YRStorUITests.release.xcconfig"; sourceTree = "<group>"; };
+		DAB0EC848228AC77B7B313EB /* Pods-YRStor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YRStor.debug.xcconfig"; path = "Target Support Files/Pods-YRStor/Pods-YRStor.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,7 +290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C86288FDE9A58FBCE06DDB90 /* Pods_YRStor.framework in Frameworks */,
+				8FA0EF74930BD4123DF57F0E /* Pods_YRStor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,7 +298,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6A819995787051951C0A711 /* Pods_YRStorTests.framework in Frameworks */,
+				03C4E8121EE2DE009933A5B3 /* Pods_YRStorTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,7 +306,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADCDEF0167CA6D40DB3375C9 /* Pods_YRStor_YRStorUITests.framework in Frameworks */,
+				12B4778BF8FE272CDABCEB73 /* Pods_YRStor_YRStorUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +361,9 @@
 				033DF89E2A2912BB009C079A /* UIView+Etension.swift */,
 				03FBC51D2A2928A70074D6FA /* UserDefault+Extension.swift */,
 				21A386012A3ECF28003D314B /* UIButton+Extension.swift */,
+				21F037112A41D74D0075B20B /* UserDefault+Extension.swift */,
+				21F037092A41D6A30075B20B /* UiKitHelper.swift */,
+				21F0370F2A41D7430075B20B /* UserDefaults+Extension.swift */,
 				21A386052A3EDCE6003D314B /* UITextView+Extension.swift */,
 			);
 			path = Extension;
@@ -1319,24 +1330,14 @@
 		5D1733BEDE60BA4DF1B5045B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7772DD82B78E329F8789C63C /* Pods-YRStor.debug.xcconfig */,
-				2947BAE815DC2F9D89B0074D /* Pods-YRStor.release.xcconfig */,
-				7A52BA09DBC163F9E364FCB5 /* Pods-YRStor-YRStorUITests.debug.xcconfig */,
-				7D4B8C95D7E82E63FDC88572 /* Pods-YRStor-YRStorUITests.release.xcconfig */,
-				DC67D9FBF77DD9BAC2A7615A /* Pods-YRStorTests.debug.xcconfig */,
-				96AEA65D3916E7C110113F8B /* Pods-YRStorTests.release.xcconfig */,
+				DAB0EC848228AC77B7B313EB /* Pods-YRStor.debug.xcconfig */,
+				58BF052EC0F716D15F06DE08 /* Pods-YRStor.release.xcconfig */,
+				9E67E2814B319CE7BD6FF4DB /* Pods-YRStor-YRStorUITests.debug.xcconfig */,
+				CFADF3FED73446F2572211DA /* Pods-YRStor-YRStorUITests.release.xcconfig */,
+				5C0E8B0E619047FE96BA6DEC /* Pods-YRStorTests.debug.xcconfig */,
+				2A70D10763760DBEB7937B33 /* Pods-YRStorTests.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		7CDDCAC1CC0FB44390484D70 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				84BEA449FC9CEA3A1BC221A2 /* Pods_YRStor.framework */,
-				39F55732BCEA5BCF25F49905 /* Pods_YRStor_YRStorUITests.framework */,
-				C7B5D492778992CF7CAB47C1 /* Pods_YRStorTests.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		9C5991102A28C08C00E4DC6E = {
@@ -1348,7 +1349,7 @@
 				9C59911A2A28C08C00E4DC6E /* Products */,
 				5D1733BEDE60BA4DF1B5045B /* Pods */,
 				03A455FD2A2BB8D200C545F5 /* Recovered References */,
-				7CDDCAC1CC0FB44390484D70 /* Frameworks */,
+				FBC78C1404CB18678B523318 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1444,11 +1445,22 @@
 		9C59917D2A28C3A100E4DC6E /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				21F0370B2A41D6E90075B20B /* CustomerHelper.swift */,
 				9C59917E2A28C3A100E4DC6E /* Constant.swift */,
 				9C59917F2A28C3A100E4DC6E /* Router.swift */,
 				03E92A012A2A8FA300821D7A /* HelperFunction.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		FBC78C1404CB18678B523318 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BEB726BA1BC74E404C6D47B0 /* Pods_YRStor.framework */,
+				3FDC0A08C850973EF870E033 /* Pods_YRStor_YRStorUITests.framework */,
+				54BB5EEB671E08A1682AF95A /* Pods_YRStorTests.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1458,11 +1470,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9C5991462A28C08F00E4DC6E /* Build configuration list for PBXNativeTarget "YRStor" */;
 			buildPhases = (
-				2D5F5CE6B77B2C88E581C410 /* [CP] Check Pods Manifest.lock */,
+				0C841EACBEBF5664442F593F /* [CP] Check Pods Manifest.lock */,
 				9C5991152A28C08C00E4DC6E /* Sources */,
 				9C5991162A28C08C00E4DC6E /* Frameworks */,
 				9C5991172A28C08C00E4DC6E /* Resources */,
-				ECE223F8172172A644B47E7A /* [CP] Embed Pods Frameworks */,
+				77B27D4DE7FD481BE1E8A4E1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1477,7 +1489,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9C5991492A28C08F00E4DC6E /* Build configuration list for PBXNativeTarget "YRStorTests" */;
 			buildPhases = (
-				62C1FB7EA32756C96286EE9C /* [CP] Check Pods Manifest.lock */,
+				8BFC8F9E13873EFC63BEAD3A /* [CP] Check Pods Manifest.lock */,
 				9C59912E2A28C08F00E4DC6E /* Sources */,
 				9C59912F2A28C08F00E4DC6E /* Frameworks */,
 				9C5991302A28C08F00E4DC6E /* Resources */,
@@ -1496,11 +1508,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9C59914C2A28C08F00E4DC6E /* Build configuration list for PBXNativeTarget "YRStorUITests" */;
 			buildPhases = (
-				EE7003F6DE56D3A2DA6DE81C /* [CP] Check Pods Manifest.lock */,
+				AFC714CB2B483C664A30DBC3 /* [CP] Check Pods Manifest.lock */,
 				9C5991382A28C08F00E4DC6E /* Sources */,
 				9C5991392A28C08F00E4DC6E /* Frameworks */,
 				9C59913A2A28C08F00E4DC6E /* Resources */,
-				393218F62F379C923932E585 /* [CP] Embed Pods Frameworks */,
+				46F0EEE5D3F89BB1CFF726F9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1615,7 +1627,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2D5F5CE6B77B2C88E581C410 /* [CP] Check Pods Manifest.lock */ = {
+		0C841EACBEBF5664442F593F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1637,7 +1649,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		393218F62F379C923932E585 /* [CP] Embed Pods Frameworks */ = {
+		46F0EEE5D3F89BB1CFF726F9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1654,7 +1666,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YRStor-YRStorUITests/Pods-YRStor-YRStorUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		62C1FB7EA32756C96286EE9C /* [CP] Check Pods Manifest.lock */ = {
+		77B27D4DE7FD481BE1E8A4E1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YRStor/Pods-YRStor-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-YRStor/Pods-YRStor-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YRStor/Pods-YRStor-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8BFC8F9E13873EFC63BEAD3A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1676,24 +1705,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		ECE223F8172172A644B47E7A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-YRStor/Pods-YRStor-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-YRStor/Pods-YRStor-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-YRStor/Pods-YRStor-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EE7003F6DE56D3A2DA6DE81C /* [CP] Check Pods Manifest.lock */ = {
+		AFC714CB2B483C664A30DBC3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1739,6 +1751,7 @@
 				037542CB2A377024006C4699 /* ProductCollectionViewCell.swift in Sources */,
 				037542F02A377024006C4699 /* ShoppingCartViewController.swift in Sources */,
 				2164BD8B2A3EA756007A60C2 /* ShopCart.swift in Sources */,
+				21F0370C2A41D6E90075B20B /* CustomerHelper.swift in Sources */,
 				035B7DAA2A3C67E7005B5C47 /* ShoppingCartViewModel.swift in Sources */,
 				037542C52A377024006C4699 /* SplashViewController.swift in Sources */,
 				037542F92A377025006C4699 /* LogInViewController.swift in Sources */,
@@ -1750,6 +1763,7 @@
 				03B44CA22A3B7D0900223016 /* CustomerAddressViewModel.swift in Sources */,
 				037542C22A377024006C4699 /* BrandCollectionViewCell.swift in Sources */,
 				037542E82A377024006C4699 /* Data.swift in Sources */,
+				21F037102A41D7430075B20B /* UserDefaults+Extension.swift in Sources */,
 				037542D82A377024006C4699 /* FavProduct.swift in Sources */,
 				037542D72A377024006C4699 /* FavViewModel.swift in Sources */,
 				2164BDAB2A3EB3AA007A60C2 /* OrdersViewModel.swift in Sources */,
@@ -1764,11 +1778,13 @@
 				03FBC51E2A2928A70074D6FA /* UserDefault+Extension.swift in Sources */,
 				9C3F5AE22A2BB3D7000CDA86 /* Collections.swift in Sources */,
 				037543072A377025006C4699 /* onboardingCollectionViewCell.swift in Sources */,
+				21F0370A2A41D6A30075B20B /* UiKitHelper.swift in Sources */,
 				037542E02A377024006C4699 /* SearchViewController.swift in Sources */,
 				037542DB2A377024006C4699 /* FavTableViewCell.swift in Sources */,
 				9C5991812A28C3A200E4DC6E /* Router.swift in Sources */,
 				9C5991802A28C3A200E4DC6E /* Constant.swift in Sources */,
 				037542CD2A377024006C4699 /* ReviewsViewController.swift in Sources */,
+				21F037122A41D74D0075B20B /* UserDefault+Extension.swift in Sources */,
 				037542FE2A377025006C4699 /* Currency.swift in Sources */,
 				03E92A022A2A8FA300821D7A /* HelperFunction.swift in Sources */,
 				033521122A2E5E540062EE09 /* ExchangeApiNetwork.swift in Sources */,
@@ -1969,7 +1985,7 @@
 		};
 		9C5991472A28C08F00E4DC6E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7772DD82B78E329F8789C63C /* Pods-YRStor.debug.xcconfig */;
+			baseConfigurationReference = DAB0EC848228AC77B7B313EB /* Pods-YRStor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2001,7 +2017,7 @@
 		};
 		9C5991482A28C08F00E4DC6E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2947BAE815DC2F9D89B0074D /* Pods-YRStor.release.xcconfig */;
+			baseConfigurationReference = 58BF052EC0F716D15F06DE08 /* Pods-YRStor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -2033,7 +2049,7 @@
 		};
 		9C59914A2A28C08F00E4DC6E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DC67D9FBF77DD9BAC2A7615A /* Pods-YRStorTests.debug.xcconfig */;
+			baseConfigurationReference = 5C0E8B0E619047FE96BA6DEC /* Pods-YRStorTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2053,7 +2069,7 @@
 		};
 		9C59914B2A28C08F00E4DC6E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 96AEA65D3916E7C110113F8B /* Pods-YRStorTests.release.xcconfig */;
+			baseConfigurationReference = 2A70D10763760DBEB7937B33 /* Pods-YRStorTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2073,7 +2089,7 @@
 		};
 		9C59914D2A28C08F00E4DC6E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7A52BA09DBC163F9E364FCB5 /* Pods-YRStor-YRStorUITests.debug.xcconfig */;
+			baseConfigurationReference = 9E67E2814B319CE7BD6FF4DB /* Pods-YRStor-YRStorUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -2091,7 +2107,7 @@
 		};
 		9C59914E2A28C08F00E4DC6E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D4B8C95D7E82E63FDC88572 /* Pods-YRStor-YRStorUITests.release.xcconfig */;
+			baseConfigurationReference = CFADF3FED73446F2572211DA /* Pods-YRStor-YRStorUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
