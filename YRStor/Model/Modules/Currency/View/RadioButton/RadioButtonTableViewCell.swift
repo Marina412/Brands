@@ -29,13 +29,26 @@ class RadioButtonTableViewCell: UITableViewCell {
         currencyName.text = currency.currencyName
         flagImage.image = UIImage(named: currency.flagImage)
     }
-    public func isSelected(_ selected: Bool) {
+    public func isSelected(_ selected: Bool,index:Int) {
         setSelected(selected, animated: false)
         let image = selected ? checked : unchecked
         icon.image = image
-        let defaults = UserDefaults.standard
-        defaults.set(currencyName.text, forKey: Constant.CURRENCY)
-        
+        if selected{
+            switch index{
+            case 0 :
+                UserDefaults.standard.set(Constant.EGYPT_CURRENCY, forKey: Constant.CURRENCY)
+            case 1 :
+                UserDefaults.standard.set(Constant.AMERICAN_CURRENCY, forKey: Constant.CURRENCY)
+            case 2 :
+                UserDefaults.standard.set(Constant.EUROPE_CURRENCY, forKey: Constant.CURRENCY)
+            case 3 :
+                UserDefaults.standard.set(Constant.SAR_CURRENCY, forKey: Constant.CURRENCY)
+            case 4 :
+                UserDefaults.standard.set(Constant.UAE_CURRENCY, forKey: Constant.CURRENCY)
+                
+            default:
+                print("")
+            }
+        } 
     }
-    
 }

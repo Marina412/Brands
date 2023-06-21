@@ -22,12 +22,16 @@ class SearchViewController: UIViewController ,UISearchBarDelegate {
     let authViewModel = AuthViewModel(repo: Repo(networkManager: NetworkManager()))
     let searchBar = UISearchBar()
     let noSearchImage = UIImageView()
-    
+    let defaults = UserDefaults.standard
     let networkManager = NetworkManager()
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        defaults.set(Constant.IS_PRODUCT_INFO, forKey: "isFavOrCart")
+        defaults.set(true, forKey: "isLogging")
+        tabBarController?.tabBar.isHidden = false
+        self.navigationItem.setHidesBackButton(true, animated: false)
         allProductsTable.isHidden = true
         selectedItem()
         setUpSearcBar()

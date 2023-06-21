@@ -122,6 +122,22 @@
             </objects>
             <point key="canvasLocation" x="-2016.030534351145" y="-238.02816901408451"/>
         </scene>
+        <!--ProductInfoViewController-->
+        <scene sceneID="rXt-K4-qBy">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="ProductInfoViewController" storyboardName="ProductInfoSB" referencedIdentifier="ProductInfoViewController" id="DeD-64-zYC" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a5f-Zc-6Cv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1410" y="-304"/>
+        </scene>
+        <!--RegisterViewController-->
+        <scene sceneID="ELc-8h-jx8">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="RegisterViewController" storyboardName="RegisterSB" referencedIdentifier="RegisterViewController" id="fTG-AF-hXY" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LK0-yg-poj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1399" y="-245"/>
+        </scene>
     </scenes>
     <resources>
         <image name="doc.text.magnifyingglass" catalog="system" width="110" height="128"/>

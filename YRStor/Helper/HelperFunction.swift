@@ -181,7 +181,11 @@ class HelperFunctions{
         }
         return countRes 
  }
-   
+    static func curencyDefualtsFirstTime(){
+            if UserDefaults.standard.string(forKey: Constant.CURRENCY) == nil{
+                UserDefaults.standard.setValue(Constant.AMERICAN_CURRENCY, forKey: Constant.CURRENCY)
+            }
+        }
     }
     
 

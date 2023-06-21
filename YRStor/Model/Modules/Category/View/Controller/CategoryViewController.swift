@@ -21,12 +21,15 @@ class CategoryViewController: UIViewController {
     let disposeBag = DisposeBag()
     let activityIndicator = UIActivityIndicatorView(style: .large)
     var favProducts :[String] = []
-    
+    let defaults = UserDefaults.standard
     var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
     var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tabBarController?.tabBar.isHidden = false
+        UserDefaults.standard.set(Constant.IS_CATEGORY, forKey: "isFavOrCart")
         indicatorSetUp()
         renderUI()
         registerXibCells()
@@ -110,21 +113,21 @@ class CategoryViewController: UIViewController {
         favViewModel.bindResult = {() in
             let res = self.favViewModel.viewModelResult
             guard let allFav = res?.draftOrders else {return}
+            
+            
             guard let customerFav = CustomerHelper.getFavForCustomers(favs: allFav) else {return}
-            self.cartViewModel.draftId = String(customerFav.draftId ?? 0)
-            self.cartViewModel.resDraft = customerFav
-           
-            guard let products = customerFav.lineItems else {return}
-                for favProduct in products{
-                    if(favProduct.productId == String(self.cartViewModel.product.productId ?? "")){
-                        self.favProducts.append(favProduct.productId ?? "")
-                    }
-                }
+            print("all fav \(customerFav.lineItems?.count)")
+            
+            guard let favIds = customerFav.lineItems?.count  else {return}
+            
+            for id in customerFav.lineItems!{
+                self.favProducts.append(id.productId ?? "")
+              
+            }
+            
             self.productsCollectionView.reloadData()
         }
     }
-    
-   // func checkFavId(id : String)
 }
 
 
@@ -150,29 +153,32 @@ extension CategoryViewController:UICollectionViewDelegateFlowLayout{
 extension CategoryViewController{
  
     func setUpProductsCollectionView(){
-      //  var isFav = false
+        var isFav = false
         print("test1")
         productsCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        catigoryVM.poductsObservablRS.bind(to: productsCollectionView.rx.items){
-            collectionView, index, item in
-            print("test2")
-
-            let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewCell", for: IndexPath(row: index, section: 0)) as! ProductCollectionViewCell
-//            print("item\(item)")
-//            self.favProducts.forEach{
-//                id in
-//                if id == item.id{
-//                    self.isFav = true
-//                    break
-//                }else{
-//                    isFav = false
+            catigoryVM.poductsObservablRS.bind(to: productsCollectionView.rx.items(cellIdentifier: "productsCell",cellType: ProductCollectionViewCell.self)) { index, element, cell in
+     
+               isFav = self.favProducts.contains(String(element.id ?? 0))
+                
+                cell.cellSetUp(product: element, currency: UserDefaults.standard.string(forKey: Constant.CURRENCY) ?? "", isFav: isFav)
+//                cell.categoryButtonAction = {() in
+//                    let category = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+//                    self.navigationController?.pushViewController(category, animated: true)
+//                    
 //                }
-//            }
-            productCell.cellSetUp(product: item, currency: UserDefaults.standard.string(forKey: Constant.CURRENCY) ?? "")
-           
-           
-            return productCell
+//                cell.BrandsButtonAction = {() in
+//                    let category = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+//                    self.navigationController?.pushViewController(category, animated: true)
+//
+//                }
+  
         }.disposed(by:disposeBag)
+        productsCollectionView.rx.itemSelected.subscribe(onNext:{
+            index in
+            let productInfo = self.storyboard?.instantiateViewController(withIdentifier: "ProductInfoViewController") as! ProductInfoViewController
+            productInfo.product = self.catigoryVM.allProducts[index.row]
+            self.navigationController?.pushViewController(productInfo, animated: true)
+         }).disposed(by: disposeBag)
     }
 }
 
@@ -195,7 +201,7 @@ extension CategoryViewController{
         categoryWMSegment.animate = true
     }
     private func registerXibCells(){
-        productsCollectionView.register(UINib(nibName: "ProductCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProductCollectionViewCell")
+        productsCollectionView.register(UINib(nibName: "ProductCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "productsCell")
     }
 }
 

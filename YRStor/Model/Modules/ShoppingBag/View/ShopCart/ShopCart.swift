@@ -63,29 +63,52 @@ class ShopCart: UITableViewCell {
     
     
     @IBAction func stepperAction(_ sender: UIStepper) {
-        var totalPrice = defaults.double(forKey: "totalPrice")
+       // var totalPrice = defaults.double(forKey: "totalPrice")
         
+        var totalPrice = defaults.double(forKey: "totalPrice")
         if sender.value > Double(productQunatity.text ?? "") ?? 0.0 {
-            
-            UserDefaults.standard.shoppingBag = HelperFunctions.shopBagCount(itemCount: 1,plusOrMinus: "plus")
+          
             totalPrice = totalPrice + ((draftt.draftOrder.lineItems?[index.row].productPrice ?? "") as NSString).doubleValue
+            
             defaults.set(totalPrice, forKey: "totalPrice")
             productQunatity.text = "\(Int(stepperOulet.value))"
             draftt.draftOrder.lineItems?[index.row].quantity = Int(stepperOulet.value)
             cellViewModel.updateQuantity(draftOrder: self.draftt, draftId:String(draftId))
- 
+            
         } else if sender.value < Double(productQunatity.text ?? "") ?? 0.0  {
-            UserDefaults.standard.shoppingBag = HelperFunctions.shopBagCount(itemCount: 1,plusOrMinus: "minus")
-            totalPrice = totalPrice - ((draftt.draftOrder.lineItems?[index.row].productPrice ?? "") as NSString).doubleValue
-            defaults.set(totalPrice, forKey: "totalPrice")
-            productQunatity.text = "\(Int(stepperOulet.value))"
-            draftt.draftOrder.lineItems?[index.row].quantity = Int(stepperOulet.value)
-            cellViewModel.updateQuantity(draftOrder: self.draftt, draftId: String(draftId))
-        }
+
+                totalPrice = totalPrice - ((draftt.draftOrder.lineItems?[index.row].productPrice ?? "") as NSString).doubleValue
+                defaults.set(totalPrice, forKey: "totalPrice")
+                productQunatity.text = "\(Int(stepperOulet.value))"
+                draftt.draftOrder.lineItems?[index.row].quantity = Int(stepperOulet.value)
+                cellViewModel.updateQuantity(draftOrder: self.draftt, draftId: String(draftId))
+            }
         
-        cellViewModel.stepperAction?(totalPrice )
+        cellViewModel.stepperAction?(totalPrice)
         print(" total price \(totalPrice)")
     }
+        
+//        if sender.value > Double(productQunatity.text ?? "") ?? 0.0 {
+//
+//            UserDefaults.standard.shoppingBag = HelperFunctions.shopBagCount(itemCount: 1,plusOrMinus: "plus")
+//            totalPrice = totalPrice + ((draftt.draftOrder.lineItems?[index.row].productPrice ?? "") as NSString).doubleValue
+//            defaults.set(totalPrice, forKey: "totalPrice")
+//            productQunatity.text = "\(Int(stepperOulet.value))"
+//            draftt.draftOrder.lineItems?[index.row].quantity = Int(stepperOulet.value)
+//            cellViewModel.updateQuantity(draftOrder: self.draftt, draftId:String(draftId))
+//
+//        } else if sender.value < Double(productQunatity.text ?? "") ?? 0.0  {
+//            UserDefaults.standard.shoppingBag = HelperFunctions.shopBagCount(itemCount: 1,plusOrMinus: "minus")
+//            totalPrice = totalPrice - ((draftt.draftOrder.lineItems?[index.row].productPrice ?? "") as NSString).doubleValue
+//            defaults.set(totalPrice, forKey: "totalPrice")
+//            productQunatity.text = "\(Int(stepperOulet.value))"
+//            draftt.draftOrder.lineItems?[index.row].quantity = Int(stepperOulet.value)
+//            cellViewModel.updateQuantity(draftOrder: self.draftt, draftId: String(draftId))
+//        }
+//
+//        cellViewModel.stepperAction?(totalPrice )
+//        print(" total price \(totalPrice)")
+//    }
     
     
 }

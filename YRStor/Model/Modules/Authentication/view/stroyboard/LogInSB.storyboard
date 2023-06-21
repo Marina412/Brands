@@ -7,6 +7,30 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--SearchViewController-->
+        <scene sceneID="bf3-Kp-t3b">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="SearchViewController" storyboardName="SearchStoryboard" referencedIdentifier="SearchViewController" id="m8j-vV-Gi9" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NqF-hV-vYQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="480" y="-149"/>
+        </scene>
+        <!--BrandProductsViewController-->
+        <scene sceneID="A69-Eq-1va">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="BrandProductsViewController" storyboardName="BrandProductsStoryboard" referencedIdentifier="BrandProductsViewController" id="Wm8-cc-SKS" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A3S-Gr-h8A" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="698" y="-107"/>
+        </scene>
+        <!--CategoryViewController-->
+        <scene sceneID="odL-mc-oTs">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="CategoryViewController" storyboardName="CategoryStoryboard" referencedIdentifier="CategoryViewController" id="6sF-CA-3Cf" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ll3-mO-XSA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="689" y="-76"/>
+        </scene>
         <!--RegisterViewController-->
         <scene sceneID="AyS-cB-n2C">
             <objects>
@@ -63,7 +87,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T7S-wW-a3Q">
-                                <rect key="frame" x="100" y="376" width="193" height="35"/>
+                                <rect key="frame" x="100" y="426" width="193" height="35"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Log In">
@@ -75,7 +99,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Smi-c0-Ism">
-                                <rect key="frame" x="102" y="428" width="189" height="35"/>
+                                <rect key="frame" x="102" y="478" width="189" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="189" id="Pd0-nA-3vW"/>
                                     <constraint firstAttribute="height" constant="35" id="qzy-yD-5gy"/>
@@ -116,6 +140,9 @@
                                     <action selector="showPassBtn:" destination="O2j-41-adL" eventType="touchUpInside" id="Ik8-hR-bH6"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="bER-6B-OgQ">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8Yu-n2-rQO"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -129,22 +156,27 @@
                             <constraint firstItem="8Yu-n2-rQO" firstAttribute="trailing" secondItem="Smi-c0-Ism" secondAttribute="trailing" constant="102" id="8l4-NI-T1E"/>
                             <constraint firstItem="T7S-wW-a3Q" firstAttribute="leading" secondItem="8Yu-n2-rQO" secondAttribute="leading" constant="100" id="Aab-rg-Wxg"/>
                             <constraint firstItem="8Yu-n2-rQO" firstAttribute="trailing" secondItem="DS1-EW-lX4" secondAttribute="trailing" constant="20" id="BkT-hT-u5M"/>
+                            <constraint firstItem="8Yu-n2-rQO" firstAttribute="bottom" secondItem="bER-6B-OgQ" secondAttribute="bottom" id="FxT-Dg-1kf"/>
                             <constraint firstItem="W9K-k3-xat" firstAttribute="leading" secondItem="8Yu-n2-rQO" secondAttribute="leading" constant="20" id="HFj-g0-caM"/>
                             <constraint firstItem="DS1-EW-lX4" firstAttribute="leading" secondItem="8Yu-n2-rQO" secondAttribute="leading" constant="20" id="Nyy-Xc-t9E"/>
-                            <constraint firstItem="T7S-wW-a3Q" firstAttribute="top" secondItem="DS1-EW-lX4" secondAttribute="bottom" constant="50" id="Pj6-fP-Sni"/>
+                            <constraint firstItem="T7S-wW-a3Q" firstAttribute="top" secondItem="DS1-EW-lX4" secondAttribute="bottom" constant="100" id="Pj6-fP-Sni"/>
                             <constraint firstItem="Gks-Ik-iOd" firstAttribute="top" secondItem="8Yu-n2-rQO" secondAttribute="top" constant="10" id="Pqh-Tv-P4e"/>
                             <constraint firstItem="Gks-Ik-iOd" firstAttribute="leading" secondItem="8Yu-n2-rQO" secondAttribute="leading" constant="132" id="Seb-h4-gNI"/>
+                            <constraint firstItem="bER-6B-OgQ" firstAttribute="top" secondItem="8Yu-n2-rQO" secondAttribute="top" id="Uqq-dP-Uku"/>
                             <constraint firstItem="vWR-75-gaR" firstAttribute="top" secondItem="W9K-k3-xat" secondAttribute="bottom" constant="65" id="V6t-m1-Drp"/>
                             <constraint firstItem="qEl-H4-eNS" firstAttribute="leading" secondItem="8Yu-n2-rQO" secondAttribute="leading" constant="20" id="WFo-L7-Iz2"/>
                             <constraint firstItem="8Yu-n2-rQO" firstAttribute="trailing" secondItem="W9K-k3-xat" secondAttribute="trailing" constant="20" id="YoX-Bq-lSd"/>
                             <constraint firstItem="Smi-c0-Ism" firstAttribute="leading" secondItem="8Yu-n2-rQO" secondAttribute="leading" constant="102" id="fnK-XM-Y3t"/>
+                            <constraint firstItem="8Yu-n2-rQO" firstAttribute="trailing" secondItem="bER-6B-OgQ" secondAttribute="trailing" id="k0L-hW-eqr"/>
                             <constraint firstItem="8Yu-n2-rQO" firstAttribute="trailing" secondItem="vWR-75-gaR" secondAttribute="trailing" constant="34" id="n4d-90-Kva"/>
                             <constraint firstItem="8Yu-n2-rQO" firstAttribute="trailing" secondItem="T7S-wW-a3Q" secondAttribute="trailing" constant="100" id="rNc-Rs-FBw"/>
+                            <constraint firstItem="bER-6B-OgQ" firstAttribute="leading" secondItem="8Yu-n2-rQO" secondAttribute="leading" id="vXG-In-Quu"/>
                             <constraint firstItem="Smi-c0-Ism" firstAttribute="top" secondItem="T7S-wW-a3Q" secondAttribute="bottom" constant="17" id="x5k-C0-o8Z"/>
                             <constraint firstItem="UoP-RP-fEN" firstAttribute="top" secondItem="W9K-k3-xat" secondAttribute="bottom" constant="35" id="yY9-zX-lz4"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="bER-6B-OgQ" id="1eG-JP-u00"/>
                         <outlet property="emailTx" destination="W9K-k3-xat" id="YCu-SE-Zmh"/>
                         <outlet property="logInBtn" destination="T7S-wW-a3Q" id="Obe-6K-Rak"/>
                         <outlet property="passwordTx" destination="DS1-EW-lX4" id="aXF-nK-TiS"/>
@@ -154,6 +186,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dx5-LR-OBb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-205" y="-175"/>
+        </scene>
+        <!--LocationViewController-->
+        <scene sceneID="j89-mH-cKt">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="LocationViewController" storyboardName="Location" referencedIdentifier="LocationViewController" id="Xur-ae-iTP" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0tg-AZ-cF4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="634" y="123"/>
         </scene>
     </scenes>
     <resources>

@@ -246,6 +246,14 @@
             </objects>
             <point key="canvasLocation" x="-287" y="-677"/>
         </scene>
+        <!--RegisterViewController-->
+        <scene sceneID="Rra-Kk-pdM">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="RegisterViewController" storyboardName="RegisterSB" referencedIdentifier="RegisterViewController" id="dya-yX-yGD" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lbt-Jt-n2F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-303" y="-625"/>
+        </scene>
     </scenes>
     <resources>
         <image name="cart" catalog="system" width="128" height="102"/>

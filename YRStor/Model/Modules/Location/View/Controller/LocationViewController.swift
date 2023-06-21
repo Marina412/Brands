@@ -15,10 +15,16 @@ class LocationViewController: UIViewController {
     var customerAddressViewModel = CustomerAddressViewModel (repo:Repo(networkManager:NetworkManager()))
     var allAddresses : AllAddress?
     var customerAuthAddress : [Address] = []
-    let defaults = UserDefaults.standard
+
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        
         locationCollectionView.delegate = self
         locationCollectionView.dataSource = self
         title = "Address"
@@ -43,8 +49,20 @@ class LocationViewController: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        self.customerAuthAddress = []
-       getAllAddresses()
+        
+        tabBarController?.tabBar.isHidden = false
+        let defaults = UserDefaults.standard
+        let isLoggin = defaults.bool(forKey: "isLogging")
+        defaults.set(Constant.IS_ADDRESS, forKey: "isFavOrCart")
+        if (isLoggin == false){
+            defaults.set(Constant.IS_ADDRESS, forKey: "isFavOrCart")
+            let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+            self.navigationController?.pushViewController(register, animated: true)
+        } else{
+            self.customerAuthAddress = []
+            getAllAddresses()
+            
+        }
     }
     func getAllAddresses(){
         let defaults = UserDefaults.standard
@@ -115,6 +133,7 @@ extension LocationViewController:UICollectionViewDelegate,UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if (defaults.bool(forKey: "AddressShoppingCart") == true){
             let checkout=self.storyboard?.instantiateViewController(withIdentifier: "CheckoutViewController") as! CheckoutViewController
+           
             checkout.didSelectAddress = customerAuthAddress[indexPath.row]
             defaults.set(true, forKey: "didSelectAddress")
             self.navigationController?.pushViewController(checkout, animated: true)

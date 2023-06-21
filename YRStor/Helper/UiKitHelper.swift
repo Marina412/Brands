@@ -10,18 +10,19 @@ import UIKit
 
 class UikitHelper{
     
-     static func noDataImage(imageName : String , view:UIView, table : UITableView , activityIndicator: UIActivityIndicatorView){
-        let imageView = UIImageView(image: UIImage(named: imageName))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(imageView)
+    static func noDataImage(image : UIImageView , view:UIView, table : UITableView , activityIndicator: UIActivityIndicatorView){
+       
+        image.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(image)
         
         NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: 100),
-            imageView.heightAnchor.constraint(equalToConstant: 100)
+            image.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            image.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            image.widthAnchor.constraint(equalToConstant: 100),
+            image.heightAnchor.constraint(equalToConstant: 100)
         ])
         table.isHidden = true
         activityIndicator.isHidden = true
     }
 }
+

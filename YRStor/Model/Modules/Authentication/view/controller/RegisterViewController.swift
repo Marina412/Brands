@@ -8,6 +8,7 @@
 import UIKit
 
 class RegisterViewController: UIViewController {
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var firstNameTx: UITextField!
     @IBOutlet weak var lastNameTx: UITextField!
     @IBOutlet weak var emailTx: UITextField!
@@ -25,6 +26,8 @@ class RegisterViewController: UIViewController {
         super.viewDidLoad()
         haveEmail()
         self.navigationItem.setHidesBackButton(true, animated: false)
+        tabBarController?.tabBar.isHidden = true
+        activityIndicator.isHidden = true
     }
     
     func setUpEmail(){
@@ -120,17 +123,41 @@ class RegisterViewController: UIViewController {
     }
     
     @IBAction func RegisterBtn(_ sender: Any) {
-        
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating() 
         if(validateData()){
             defaults.set(true, forKey: "isLogging")
-            if(defaults.value(forKey: "isFavOrCart") as! String == Constant.IS_FAV){
-                let fav = self.storyboard?.instantiateViewController(withIdentifier: "FavouritesViewController") as! FavouritesViewController
-                self.navigationController?.pushViewController(fav, animated: true)
+            activityIndicator.isHidden = true
+            var navigation = defaults.value(forKey: "isFavOrCart") as! String
+            
+            switch navigation {
                 
-            }else{
+            case Constant.IS_SHOPPING_CART:
                 let shoppingBag = self.storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as! ShoppingCartViewController
                 self.navigationController?.pushViewController(shoppingBag, animated: true)
                 
+            case Constant.IS_FAV:
+                let fav = self.storyboard?.instantiateViewController(withIdentifier: "FavouritesViewController") as! FavouritesViewController
+                self.navigationController?.pushViewController(fav, animated: true)
+                
+            case Constant.IS_ADDRESS:
+                let address = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+                self.navigationController?.pushViewController(address, animated: true)
+                
+            case Constant.IS_CATEGORY:
+                let category = self.storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
+                self.navigationController?.pushViewController(category, animated: true)
+              
+            case Constant.IS_BRANDS:
+                let brands = self.storyboard?.instantiateViewController(withIdentifier: "BrandProductsViewController") as! BrandProductsViewController
+                self.navigationController?.pushViewController(brands, animated: true)
+                
+            case Constant.IS_PRODUCT_INFO:
+                let search = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
+                self.navigationController?.pushViewController(search, animated: true)
+                
+            default:
+                print("No match")
             }
             
         }
@@ -139,6 +166,7 @@ class RegisterViewController: UIViewController {
             let alert = UIAlertController(title: "Invaild Data", message: "Please Confirm All Data", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true)
+            activityIndicator.isHidden = true
         }
     }
     func haveEmail(){
@@ -162,4 +190,10 @@ class RegisterViewController: UIViewController {
         let LoginVC = self.storyboard?.instantiateViewController(withIdentifier: "LogInViewController") as! LogInViewController
         self.navigationController?.pushViewController(LoginVC, animated: true)
     }
+    
+//    @IBAction func logInAsGuest(_ sender: Any) {
+//        let storyboard = UIStoryboard(name: "HomeStoryboard", bundle: nil)
+//        let guestVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+//        self.navigationController?.pushViewController(guestVC, animated: true)
+//    }
 }

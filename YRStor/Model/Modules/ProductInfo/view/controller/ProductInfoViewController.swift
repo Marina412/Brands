@@ -8,7 +8,7 @@
 import UIKit
 
 class ProductInfoViewController: UIViewController {
-
+    
     @IBOutlet var addToCartOutlet: UIView!
     
     
@@ -23,7 +23,7 @@ class ProductInfoViewController: UIViewController {
     @IBOutlet weak var imageCollection: UICollectionView!
     
     @IBOutlet weak var productPrice: UILabel!
- 
+    
     @IBOutlet weak var productDescription: UITextView!
     
     @IBOutlet weak var productBrand: UILabel!
@@ -34,29 +34,30 @@ class ProductInfoViewController: UIViewController {
     @IBOutlet weak var stepperOutlet: UIStepper!
     
     var currentPage = 0{
-            didSet{
-                pageControl.currentPage = currentPage
-            }
+        didSet{
+            pageControl.currentPage = currentPage
         }
+    }
     
     var product : Product?
     var productInfoViewModel = ProductInfoViewModel(repo: Repo(networkManager: NetworkManager()))
-var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
-var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
-        
-        
+    var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
+    var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         
+        tabBarController?.tabBar.isHidden = false
         setUpView()
         setUpProductDetails()
         checkIsFavProduct()
     }
     
     
-    
+  
     
     func checkIsFavProduct(){
-      
+        
         favViewModel.getAllFav()
         favViewModel.bindResult = {() in
             let res = self.favViewModel.viewModelResult
@@ -64,13 +65,13 @@ var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
             guard let customerFav = CustomerHelper.getFavForCustomers(favs: allFav) else {return}
             self.cartViewModel.draftId = String(customerFav.draftId ?? 0)
             self.cartViewModel.resDraft = customerFav
-           
+            
             guard let products = customerFav.lineItems else {return}
-                for favProduct in products{
-                    if(favProduct.productId == String(self.product?.id ?? 0)){
-                        self.fabBtnCheck.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                    }
+            for favProduct in products{
+                if(favProduct.productId == String(self.product?.id ?? 0)){
+                    self.fabBtnCheck.setImage(UIImage(systemName: "heart.fill"), for: .normal)
                 }
+            }
         }
         
     }
@@ -130,7 +131,7 @@ var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
         }
         
     }
-        
+    
     
     func putInCart(draft : FavProduct){
         var newDraft = draft
@@ -159,72 +160,72 @@ var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
     }
     
     
-  func checkCustomerFavs(){
-      let email = self.cartViewModel.defaults.string(forKey: "email")
-      var draftId : String = ""
-      var isNew = false
-      var isExists = false
-      favViewModel.getAllFav()
-      favViewModel.bindResult = {() in
-          let res = self.favViewModel.viewModelResult
-          guard var allDrafts = res?.draftOrders else {return}
-          if allDrafts.count == 0 {
-              self.addNewFavList()
-          }
-          else{
-              for draft in allDrafts{
-                  if(draft.email == email && draft.favOrShopping == Constant.IS_FAV){
-                      self.cartViewModel.resDraft = draft
-                      isExists = true
-                      
-                  }
-                  else{
-                      isNew = true
-                  }
-              }
-              if(isExists){
-                  var isFound = false
-                  for var productId in allDrafts[0].lineItems!{
-                      if(productId.productTitle == String(self.product?.title ?? "")){
-                          productId.quantity = productId.quantity + (Int(self.productQuantity.text ?? "") ?? 0)
-                          
-                          var newDraft = allDrafts[0]
-                          self.cartViewModel.draftId = String(allDrafts[0].draftId ?? 0)
-                          var draft = Drafts(draftOrder: newDraft)
-                          self.cartViewModel.editShoppingCart(draftOrder:draft, draftId: self.cartViewModel.draftId ?? "")
-                          isFound = true
-                          print("line itemss \(allDrafts[0].lineItems)")
-                          break
-                      }
-                  }
-                  if(!isFound){
-                      self.putInFavsList(draft: self.cartViewModel.resDraft ?? FavProduct())
-                  }
-              }
-              
-              if(isNew && isExists == false){
-                  self.addNewFavList()
-              }
-              self.activityIndicator.isHidden = true
-              self.activityIndicator.stopAnimating()
-              self.addToCartOutlet.isHidden = false
-              
-          }
-      }
-      
-  }
+    func checkCustomerFavs(){
+        let email = self.cartViewModel.defaults.string(forKey: "email")
+        var draftId : String = ""
+        var isNew = false
+        var isExists = false
+        favViewModel.getAllFav()
+        favViewModel.bindResult = {() in
+            let res = self.favViewModel.viewModelResult
+            guard var allDrafts = res?.draftOrders else {return}
+            if allDrafts.count == 0 {
+                self.addNewFavList()
+            }
+            else{
+                for draft in allDrafts{
+                    if(draft.email == email && draft.favOrShopping == Constant.IS_FAV){
+                        self.cartViewModel.resDraft = draft
+                        isExists = true
+                        
+                    }
+                    else{
+                        isNew = true
+                    }
+                }
+                if(isExists){
+                    var isFound = false
+                    for var productId in allDrafts[0].lineItems!{
+                        if(productId.productTitle == String(self.product?.title ?? "")){
+                            productId.quantity = productId.quantity + (Int(self.productQuantity.text ?? "") ?? 0)
+                            
+                            var newDraft = allDrafts[0]
+                            self.cartViewModel.draftId = String(allDrafts[0].draftId ?? 0)
+                            var draft = Drafts(draftOrder: newDraft)
+                            self.cartViewModel.editShoppingCart(draftOrder:draft, draftId: self.cartViewModel.draftId ?? "")
+                            isFound = true
+                            print("line itemss \(allDrafts[0].lineItems)")
+                            break
+                        }
+                    }
+                    if(!isFound){
+                        self.putInFavsList(draft: self.cartViewModel.resDraft ?? FavProduct())
+                    }
+                }
+                
+                if(isNew && isExists == false){
+                    self.addNewFavList()
+                }
+                self.activityIndicator.isHidden = true
+                self.activityIndicator.stopAnimating()
+                self.addToCartOutlet.isHidden = false
+                
+            }
+        }
+        
+    }
     
-  func putInFavsList(draft : FavProduct){
-      var newDraft = draft
-      newDraft.favOrShopping = Constant.IS_FAV
-      self.cartViewModel.draftId = String(draft.draftId ?? 0)
-      var newProduct = [LineItems(productId: String(self.product?.id ?? 0) ,productTitle: self.product?.title,productPrice: self.product?.variants?[0].price, quantity: Int(stepperOutlet.value))]
-      newDraft.lineItems?.append(contentsOf: newProduct)
-      var draft = Drafts(draftOrder: newDraft)
-      cartViewModel.editShoppingCart(draftOrder:draft, draftId: self.cartViewModel.draftId ?? "")
-      print("edit existing draftOrder  \(draft.draftOrder.lineItems?.count)")
-      
-  }
+    func putInFavsList(draft : FavProduct){
+        var newDraft = draft
+        newDraft.favOrShopping = Constant.IS_FAV
+        self.cartViewModel.draftId = String(draft.draftId ?? 0)
+        var newProduct = [LineItems(productId: String(self.product?.id ?? 0) ,productTitle: self.product?.title,productPrice: self.product?.variants?[0].price, quantity: Int(stepperOutlet.value))]
+        newDraft.lineItems?.append(contentsOf: newProduct)
+        var draft = Drafts(draftOrder: newDraft)
+        cartViewModel.editShoppingCart(draftOrder:draft, draftId: self.cartViewModel.draftId ?? "")
+        print("edit existing draftOrder  \(draft.draftOrder.lineItems?.count)")
+        
+    }
     func addNewFavList(){
         
         let email = self.cartViewModel.defaults.string(forKey: "email")
@@ -245,7 +246,7 @@ var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
             print("deleted from if")
             fabBtnCheck.setImage(UIImage(systemName: "heart"), for: .normal)
         }else{
-    fabBtnCheck.setImage(UIImage(systemName: "heart"), for: .normal)
+            fabBtnCheck.setImage(UIImage(systemName: "heart"), for: .normal)
             var newProduct : [LineItems] = []
             var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
             favViewModel.getAllFav()
@@ -262,17 +263,18 @@ var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
                         self.cartViewModel.resDraft?.favOrShopping = Constant.IS_FAV
                         var newDraft = Drafts(draftOrder: self.cartViewModel.resDraft ?? FavProduct())
                         self.cartViewModel.editShoppingCart(draftOrder: newDraft, draftId: String(self.cartViewModel.resDraft?.draftId ?? 0))
-                        }
                     }
+                }
                 self.fabBtnCheck.setImage(UIImage(systemName: "heart"), for: .normal)
             }
             
         }
-            
-        }
-      
-     
+        
+    }
+    
+    
     func setUpView(){
+        
         self.productInfoViewModel.productImages = product?.images
         imageCollection.delegate = self
         imageCollection.dataSource = self
@@ -280,9 +282,9 @@ var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
         setUpProductDetails()
         self.activityIndicator.isHidden = true
         
-      
         
-       
+        
+        
     }
     func setUpProductDetails(){
         productName.text = product?.title
@@ -293,24 +295,36 @@ var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
         productName.lineBreakMode = .byWordWrapping
         UITextView.textViewStyle(textView: productDescription)
         productQuantity.text = "\(Int(stepperOutlet.value))"
-      
+        
     }
-
     
-   
+    
+    
     
     @IBAction func favBtn(_ sender: Any) {
-        if(fabBtnCheck.currentImage == (UIImage(systemName: "heart.fill"))){
-            fabBtnCheck.setImage(UIImage(systemName: "heart"), for: .normal)
-            deleteFavProduct()
-            print("deleted from fav")
-        }else{
-            fabBtnCheck.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            checkCustomerFavs()
-            print("added to fav")
-        }
+        
+//        var email = UserDefaults.standard.value(forKey: "email")
+//        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
+//        UserDefaults.standard.set(Constant.IS_PRODUCT_INFO, forKey: "isFavOrCart")
+//        if ((isLogin != nil) == false && email as! String == ""){
+//                   let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+//                                self.navigationController?.pushViewController(register, animated: true)
+//               }
+        
+      //  else if ((isLogin != nil) == true){
+            if(fabBtnCheck.currentImage == (UIImage(systemName: "heart.fill"))){
+                fabBtnCheck.setImage(UIImage(systemName: "heart"), for: .normal)
+                deleteFavProduct()
+                print("deleted from fav")
+            }else{
+                fabBtnCheck.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                checkCustomerFavs()
+                print("added to fav")
+            }
+        
     }
-   
+    
+    
     
     @IBAction func stepperAction(_ sender: Any) {
         productQuantity.text = "\(Int(stepperOutlet.value))"
@@ -323,7 +337,17 @@ var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
     }
     
     @IBAction func addToCartBtn(_ sender: Any) {
-        checkCustomerCart()
+        
+//        let email = UserDefaults.standard.string(forKey: "email")
+//        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
+//        UserDefaults.standard.set(Constant.IS_PRODUCT_INFO, forKey: "isFavOrCart")
+//        if ((isLogin != nil) == false && email == ""){
+//            let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+//            self.navigationController?.pushViewController(register, animated: true)
+//        }
+       // else if ((isLogin != nil) == true) {
+            checkCustomerCart()
+      //  }
     }
 }
 

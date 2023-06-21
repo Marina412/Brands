@@ -59,6 +59,10 @@ struct Constant{
        
        static let IS_FAV = "Fav"
        static let IS_SHOPPING_CART = "ShoppingCart"
+        static let IS_CATEGORY = "Category"
+    static let IS_BRANDS = "Brands"
+    static let IS_ADDRESS = "Address"
+    static let IS_PRODUCT_INFO = "IsProductInfo"
         
     static let HEADER = HTTPHeader (name: "Content-Type", value :"application/json")
     

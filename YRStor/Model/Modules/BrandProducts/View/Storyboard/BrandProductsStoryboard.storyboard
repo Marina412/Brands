@@ -74,6 +74,14 @@
             </objects>
             <point key="canvasLocation" x="457" y="-6"/>
         </scene>
+        <!--RegisterViewController-->
+        <scene sceneID="pyV-7c-eM5">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="RegisterViewController" storyboardName="RegisterSB" referencedIdentifier="RegisterViewController" id="6rd-kd-wOH" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IEt-ea-hvl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="445" y="44"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">

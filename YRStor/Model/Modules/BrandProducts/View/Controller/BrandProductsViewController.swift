@@ -13,14 +13,19 @@ class BrandProductsViewController: UIViewController {
     @IBOutlet weak var brandName: UILabel!
     @IBOutlet weak var productsCollectionView: UICollectionView!
     @IBOutlet weak var filterSearchBar: UISearchBar!
-    
+    let defaults = UserDefaults.standard
     var brandId:Int?
     var brandTitle:String?
     var brandProductsVM:BrandProductsViewModel!
     let disposeBag = DisposeBag()
     let activityIndicator = UIActivityIndicatorView(style: .large)
+    var favProducts :[String] = []
+    var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
+    var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBarController?.tabBar.isHidden = false
+        UserDefaults.standard.set(Constant.IS_BRANDS, forKey: "isFavOrCart")
         indicatorSetUp()
         brandName.text = brandTitle?.localizedCapitalized
         let remote = NetworkManager()
@@ -41,39 +46,31 @@ class BrandProductsViewController: UIViewController {
                 self.productsCollectionView.isHidden = false
             }
         }
+        checkIsFavProduct()
     }
-    
-//    func getDraftId(product :Product) -> (product:Product,draftId:  String){
-//        var favProduct = Product()
-//        var draftId = ""
-//        var viewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
-//        viewModel.getAllFav()
-//        viewModel.bindResult = {() in
-//            let res = viewModel.viewModelResult
-//            guard let allDrafts = res else {return}
-//            guard var customerDrafts = CustomerHelper.getFavForCustomers(favs: allDrafts.draftOrders) else {return}
-//            for draft in customerDrafts {
-//                if(draft.lineItems?[0].productId == String(product.id ?? 0)){
-//                    draftId = String(draft.draftId ?? 0)
-//                    guard let products = draft.lineItems else {return}
-//                    for id in products{
-//                        if(id.productId == String(product.id ?? 0)){
-//                            print("ids equal each other second loop ")
-//                            favProduct.id = product.id
-//                            favProduct.title = product.title
-//                            favProduct.variants?[0].price = product.variants?[0].price
-//                            favProduct.image?.src = product.image?.src
-//                            favProduct.productType = product.productType
-//                            favProduct.isFav = true
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        return (favProduct,draftId)
-//
-//    }
+    func checkIsFavProduct(){
+     
+        favViewModel.getAllFav()
+        favViewModel.bindResult = {() in
+            let res = self.favViewModel.viewModelResult
+            guard let allFav = res?.draftOrders else {return}
+            
+            
+            guard let customerFav = CustomerHelper.getFavForCustomers(favs: allFav) else {return}
+            
+            guard let favIds = customerFav.lineItems?.count  else {return}
+            
+            for id in customerFav.lineItems!{
+                self.favProducts.append(id.productId ?? "")
+              
+            }
+            
+            self.productsCollectionView.reloadData()
+        }
+    }
 }
+    
+
 extension BrandProductsViewController:UICollectionViewDelegateFlowLayout{
   
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -95,12 +92,22 @@ extension BrandProductsViewController{
 }
 extension BrandProductsViewController{
     func setUpProductsCollectionView(){
+        var isFav = false
         productsCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        brandProductsVM.poductsObservablRS.bind(to: productsCollectionView.rx.items){
-            collectionView, index, item in
-            let productCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCollectionViewCell", for: IndexPath(row: index, section: 0)) as! ProductCollectionViewCell
-            productCell.cellSetUp(product: item,  currency:self.brandProductsVM.curencyType)
-            return productCell
+        brandProductsVM.poductsObservablRS.bind(to: productsCollectionView.rx.items(cellIdentifier: "productsCell",cellType: ProductCollectionViewCell.self)) { index, element, cell in
+ 
+           isFav = self.favProducts.contains(String(element.id ?? 0))
+            cell.cellSetUp(product: element, currency: UserDefaults.standard.string(forKey: Constant.CURRENCY) ?? "", isFav: isFav)
+//            cell.categoryButtonAction = {() in
+//                let category = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+//                self.navigationController?.pushViewController(category, animated: true)
+//
+//            }
+//            cell.BrandsButtonAction = {() in
+//                let brands = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+//                self.navigationController?.pushViewController(brands, animated: true)
+//            }
+
         }.disposed(by:disposeBag)
         
         productsCollectionView.rx.itemSelected.subscribe(onNext:{
@@ -123,6 +130,6 @@ extension BrandProductsViewController: UISearchBarDelegate{
 
 extension BrandProductsViewController{
     private func registerXibCells(){
-        productsCollectionView.register(UINib(nibName: "ProductCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProductCollectionViewCell")
+        productsCollectionView.register(UINib(nibName: "ProductCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "productsCell")
     }
 }

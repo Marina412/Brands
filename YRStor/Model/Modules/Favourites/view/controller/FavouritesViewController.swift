@@ -14,10 +14,13 @@ class FavouritesViewController: UIViewController {
     var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
     let activityIndicator = UIActivityIndicatorView(style: .large)
     let defaults = UserDefaults.standard
+    let imageView = UIImageView(image: UIImage(named: "noFavImage"))
     
     override func viewWillAppear(_ animated: Bool) {
         
+        tabBarController?.tabBar.isHidden = false
         print(" cart view model arrayyy \(cartViewModel.resDraft?.lineItems)")
+     
         let isLoggin = defaults.bool(forKey: "isLogging")
         defaults.set(Constant.IS_FAV, forKey: "isFavOrCart")
         if (isLoggin == false){
@@ -44,7 +47,14 @@ class FavouritesViewController: UIViewController {
             
             self.favTable.reloadData()
             guard var customerDraft = CustomerHelper.getFavForCustomers(favs: allDrafts.draftOrders) else {return }
-            
+            if(customerDraft.lineItems?.count == nil){
+                UikitHelper.noDataImage(image: self.imageView, view: self.view, table: self.favTable, activityIndicator: self.activityIndicator)
+                self.imageView.isHidden = false
+            }else if(customerDraft.lineItems?.count != nil){
+                self.imageView.isHidden = true
+                self.favTable.isHidden = false
+                self.favTable.reloadData()
+            }
             guard var customerCartProducts = customerDraft.lineItems else {return}
             self.cartViewModel.resDraft = customerDraft
             self.cartViewModel.products = customerCartProducts
@@ -66,9 +76,7 @@ class FavouritesViewController: UIViewController {
                         }
                     }
                 }
-                if(cartProducts.count == 0){
-                    UikitHelper.noDataImage(imageName: "noFavImage", view: self.view, table: self.favTable, activityIndicator: self.activityIndicator)
-                }
+
                 self.cartViewModel.products = customerCartProducts
                 self.cartViewModel.resDraft = customerDraft
                 self.cartViewModel.resDraft?.lineItems = customerCartProducts
@@ -122,7 +130,9 @@ extension FavouritesViewController : UITableViewDelegate , UITableViewDataSource
                 if(self.cartViewModel.resDraft?.lineItems?.count == 1 ){
                     self.cartViewModel.deleteFavListInDatabase(draftId: self.cartViewModel.draftId, indexPath: indexPath.row, completion: {
                         
-                        UikitHelper.noDataImage(imageName: "noFavImage", view: self.view, table: self.favTable, activityIndicator: self.activityIndicator)
+                        
+                        UikitHelper.noDataImage(image: self.imageView, view: self.view, table: self.favTable, activityIndicator: self.activityIndicator)
+                        self.imageView.isHidden = false
                     })
                 }
                 else{

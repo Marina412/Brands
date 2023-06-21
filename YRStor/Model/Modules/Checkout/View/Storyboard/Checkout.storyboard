@@ -73,7 +73,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="changeAddress:" destination="vfw-7a-rOH" eventType="touchUpInside" id="nln-E3-kVx"/>
+                                            <action selector="changeAddress:" destination="vfw-7a-rOH" eventType="touchUpInside" id="Ca5-gA-RGW"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -226,7 +226,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="ApplyCuponCodeBtn:" destination="vfw-7a-rOH" eventType="touchUpInside" id="0jF-vv-YQz"/>
+                                            <action selector="ApplyCuponCodeBtn:" destination="vfw-7a-rOH" eventType="touchUpInside" id="RK0-xX-2hw"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OcJ-cV-7Uu">
@@ -292,7 +292,7 @@
                         <outlet property="TotalLbl" destination="ksx-PP-RDk" id="Te2-ET-Uqy"/>
                         <outlet property="addressLabel" destination="eOX-Qk-Eqx" id="IJp-mL-28z"/>
                         <outlet property="applePayBtn" destination="hdH-gv-RoT" id="fsb-MX-tSJ"/>
-                        <outlet property="applyBtn" destination="2AW-NI-OxW" id="c1Z-36-AvV"/>
+                        <outlet property="applyBtn" destination="2AW-NI-OxW" id="wp2-Fj-cUG"/>
                         <outlet property="cardView1" destination="ba7-yA-Pj8" id="MY2-R0-ASf"/>
                         <outlet property="cardView2" destination="ORT-aM-04K" id="QWU-M3-jok"/>
                         <outlet property="cardView3" destination="8Bg-u0-Khk" id="IsI-Bm-eoK"/>

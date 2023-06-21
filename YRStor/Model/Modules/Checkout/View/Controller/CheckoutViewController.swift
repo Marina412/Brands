@@ -27,12 +27,14 @@ class CheckoutViewController: UIViewController{
     var addressResult: Address = Address()
     var checkOutItems : FavProduct = FavProduct()
     var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
-    var total:String = ""
+    
     var didSelectAddress = Address()
    private var paymentRequest:PKPaymentRequest? //= {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+      
 //        if(addressResult?.country == "" ){
 //            let alert = UIAlertController(title: "Shopify", message: "Please add Address first ", preferredStyle: .alert)
 //            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
@@ -98,28 +100,30 @@ class CheckoutViewController: UIViewController{
     }
     @IBAction func changeAddress(_ sender: Any) {
         let address=self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+    
         self.navigationController?.pushViewController(address, animated: true)
     }
     @IBAction func ApplyCuponCodeBtn(_ sender: Any) {
-        var intCupon = 1.0
-        switch(cuponCodeTxtField.text){
-        case "15%":
-            intCupon = 0.15
-        case "25%":
-            intCupon = 0.25
-        case "50%":
-            intCupon = 0.5
-        default:
-            intCupon = 1
+       
+            var intCupon = 1.0
+            switch(cuponCodeTxtField.text){
+            case "15%":
+                intCupon = 0.15
+            case "25%":
+                intCupon = 0.25
+            case "50%":
+                intCupon = 0.5
+            default:
+                intCupon = 1
+            }
+            if let intTotal = Double(checkOutItems.totalPrice ?? ""){
+                let result = intTotal - (intTotal * intCupon)
+                self.totalLbl.text =  HelperFunctions.priceEXchange(curencyType: self.addressViewModel.curencyType, price: String(result) , rates: self.addressViewModel.rates) + " " + self.addressViewModel.curencyType
+            } else {
+                print("One of the strings is not a valid integer.")
+            }
         }
-        if let intTotal = Double(checkOutItems.totalPrice ?? ""){
-            let result = intTotal - (intTotal * intCupon)
-            self.totalLbl.text =  HelperFunctions.priceEXchange(curencyType: self.addressViewModel.curencyType, price: String(result) , rates: self.addressViewModel.rates) + " " + self.addressViewModel.curencyType
-        } else {
-            print("One of the strings is not a valid integer.")
-        }
-
-    }
+    
     @IBAction func selectPaymentMethod(_ sender: UIButton) {
         if sender == cashOnDeliveryBtn{
             cashOnDeliveryBtn.isSelected = true
@@ -163,6 +167,7 @@ extension CheckoutViewController{
                 print("order done")
                 //delete shop
                 let ordersVC = self.storyboard?.instantiateViewController(withIdentifier: "OrdersViewController") as! OrdersViewController
+            
                 self.navigationController?.pushViewController(ordersVC, animated: true)
             }
             else{

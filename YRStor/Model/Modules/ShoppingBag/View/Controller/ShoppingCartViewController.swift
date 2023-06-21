@@ -25,6 +25,7 @@ class ShoppingCartViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBarController?.tabBar.isHidden = false
        
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -45,6 +46,7 @@ class ShoppingCartViewController: UIViewController {
                 if let updatedCount = change[.newKey] as? Int {
                     (tabBarController!.tabBar.items![2] as! UITabBarItem).badgeValue = "\(itemNumbers)"
                 }
+        
         let defaults = UserDefaults.standard
         let isLoggin = defaults.bool(forKey: "isLogging")
         defaults.set(Constant.IS_SHOPPING_CART, forKey: "isFavOrCart")
@@ -80,6 +82,12 @@ class ShoppingCartViewController: UIViewController {
             let res = self.viewModel.viewModelResult
             guard let allDrafts = res else {return}
             guard var customerDraft = CustomerHelper.getCustomerCart(drafts: allDrafts.draftOrders) else {return}
+            if(customerDraft.lineItems?.count != nil){
+                
+                self.noDataImage.isHidden = true
+                self.cartTable.isHidden = false
+                self.cartTable.reloadData()
+            }
             guard var customerCartProducts = customerDraft.lineItems else {return}
             self.cartViewModel.resDraft = customerDraft
             self.cartViewModel.products = customerCartProducts
@@ -101,12 +109,7 @@ class ShoppingCartViewController: UIViewController {
                         }
                     }
                 }
-                if(self.cartViewModel.resDraft?.lineItems?.count == 0){
-                    UikitHelper.noDataImage(imageName: "noShoppingCart", view: self.view, table: self.cartTable, activityIndicator: self.activityIndicator)
-                    self.totalPriceLbl.isHidden = true
-                    self.numberOfItem.isHidden = true
-                    self.checkoutBtn.isHidden = true
-                }
+             
                 self.cartViewModel.products = customerCartProducts
                 self.cartViewModel.resDraft = customerDraft
                 self.cartViewModel.resDraft?.lineItems = customerCartProducts
@@ -167,10 +170,12 @@ extension ShoppingCartViewController : UITableViewDelegate,UITableViewDataSource
                 if(self.cartViewModel.resDraft?.lineItems?.count == 1 ){
                     self.cartViewModel.deleteFavListInDatabase(draftId: self.cartViewModel.draftId, indexPath: indexPath.row, completion: {
                         
-                        UikitHelper.noDataImage(imageName: "noShoppingCart", view: self.view, table: self.cartTable, activityIndicator: self.activityIndicator)
+                        
+                        UikitHelper.noDataImage(image: self.noDataImage, view: self.view, table: self.cartTable, activityIndicator: self.activityIndicator)
+                        self.noDataImage.isHidden = false
                         self.totalPriceLbl.isHidden = true
+                        self.numberOfItem.isHidden = true
                         self.checkoutBtn.isHidden = true
-                        self.totalItemsLb.isHidden = true
                         
                     })
                 }

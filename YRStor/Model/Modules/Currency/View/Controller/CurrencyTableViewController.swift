@@ -10,17 +10,17 @@ import UIKit
 class CurrencyTableViewController: UITableViewController {
     var currencyVM: CurrencyViewModel!
     var currencyLists: [Currency] = [
-        Currency(flagImage:"EgyptFlag" ,currencyName: "Egyptian Pound", selected: false),
-        Currency(flagImage:"AmericaFlag",currencyName: "Dollar", selected: false),
-        Currency(flagImage:"EuropeFlag",currencyName: "Euro", selected: false),
-        Currency(flagImage:"SARFlag",currencyName: "SAR Riyal", selected: false),
-        Currency(flagImage:"UAEFlag",currencyName: "UAE Dirham", selected: false)]
-    private var selectedCurrency: Int? {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-    
+          Currency(flagImage:"EgyptFlag" ,currencyName: Constant.EGYPT_CURRENCY, selected: false),
+          Currency(flagImage:"AmericaFlag",currencyName: Constant.AMERICAN_CURRENCY, selected: false),
+          Currency(flagImage:"EuropeFlag",currencyName: Constant.EUROPE_CURRENCY, selected: false),
+          Currency(flagImage:"SARFlag",currencyName:Constant.SAR_CURRENCY, selected: false),
+          Currency(flagImage:"UAEFlag",currencyName: Constant.UAE_CURRENCY, selected: false)]
+      private var selectedCurrency: Int? {
+          didSet {
+              tableView.reloadData()
+          }
+      }
+      
     override func viewDidLoad() {
         super.viewDidLoad()
         title="Shopify"
@@ -51,7 +51,7 @@ class CurrencyTableViewController: UITableViewController {
         cell.flagImage.image = UIImage(named: currencyLists[indexPath.row].flagImage)
         cell.currencyName.text = currencyLists[indexPath.row].currencyName
         let selected = indexPath.row == selectedCurrency
-        cell.isSelected(selected)
+        cell.isSelected(selected,index:indexPath.row)
         return cell
   
     }

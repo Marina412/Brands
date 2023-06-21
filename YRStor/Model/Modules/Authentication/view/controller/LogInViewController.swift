@@ -8,18 +8,21 @@
 import UIKit
 
 class LogInViewController: UIViewController {
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var emailTx: UITextField!
     @IBOutlet weak var passwordTx: UITextField!
     @IBOutlet weak var showHideBtn: UIButton!
     @IBOutlet weak var logInBtn: UIButton!
     
-    let defaults = UserDefaults.standard
+  
     var authViewModel = AuthViewModel(repo: Repo(networkManager: NetworkManager()))
     var customers = [Customer()]
     override func viewDidLoad() {
         super.viewDidLoad()
         passwordTx.isSecureTextEntry = true
         getAllCustomers()
+        tabBarController?.tabBar.isHidden = true
+        activityIndicator.isHidden = true
         
     }
     
@@ -62,7 +65,7 @@ class LogInViewController: UIViewController {
             
         }
         return isCustomerFound
-
+        
     }
     
     @IBAction func showPassBtn(_ sender: Any) {
@@ -71,37 +74,65 @@ class LogInViewController: UIViewController {
     }
     
     @IBAction func logInBtn(_ sender: Any) {
-        
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
         if(validateCustomer()){
             defaults.set(true, forKey: "isLogging")
-
-            if(defaults.value(forKey: "isFavOrCart") as! String == Constant.IS_SHOPPING_CART){
-                let shoppingBag = self.storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as! ShoppingCartViewController
-                            self.navigationController?.pushViewController(shoppingBag, animated: true)
-           
-            }else{
-                let fav = self.storyboard?.instantiateViewController(withIdentifier: "FavouritesViewController") as! FavouritesViewController
-                          self.navigationController?.pushViewController(fav, animated: true)
-                          
+            activityIndicator.isHidden = true
+            var navigation = defaults.value(forKey: "isFavOrCart") as! String
+            if(navigation == Constant.IS_ADDRESS){
                 
+                let address = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+                self.navigationController?.pushViewController(address, animated: true)            }
+            
+            switch navigation {
+            case Constant.IS_SHOPPING_CART:
+                let shoppingBag = self.storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as! ShoppingCartViewController
+                self.navigationController?.pushViewController(shoppingBag, animated: true)
+                
+            case Constant.IS_FAV:
+                let fav = self.storyboard?.instantiateViewController(withIdentifier: "FavouritesViewController") as! FavouritesViewController
+                self.navigationController?.pushViewController(fav, animated: true)
+                
+                
+                
+            case Constant.IS_CATEGORY:
+                let category = self.storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
+                self.navigationController?.pushViewController(category, animated: true)
+                
+            case Constant.IS_BRANDS:
+                let brands = self.storyboard?.instantiateViewController(withIdentifier: "BrandProductsViewController") as! BrandProductsViewController
+                self.navigationController?.pushViewController(brands, animated: true)
+                
+            case Constant.IS_PRODUCT_INFO:
+                let search = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
+                self.navigationController?.pushViewController(search, animated: true)
+                
+                
+            default:
+                print("No match")
             }
-
+            
+            
+            
         }
-        
-        else{
-            print("not done, not found ")
-            let alert = UIAlertController(title: "Invalid Data", message: "InCorrect Email or Password", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
+            else{
+                print("not done, not found ")
+                let alert = UIAlertController(title: "Invalid Data", message: "InCorrect Email or Password", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                activityIndicator.isHidden = true
+            }
+            
+            
         }
-
-        
-    }
     
-    @IBAction func createNewAccountBtn(_ sender: Any) {
         
-        let RegisterVC = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-        self.navigationController?.pushViewController(RegisterVC, animated: true)
-        
+        @IBAction func createNewAccountBtn(_ sender: Any) {
+            
+            let RegisterVC = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+            self.navigationController?.pushViewController(RegisterVC, animated: true)
+            
+        }
     }
-}
+

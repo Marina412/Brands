@@ -7,6 +7,22 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--SearchViewController-->
+        <scene sceneID="qlX-MJ-rzk">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="SearchViewController" storyboardName="SearchStoryboard" referencedIdentifier="SearchViewController" id="XAu-J6-gZS" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="caQ-wa-1Fl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="541" y="-169"/>
+        </scene>
+        <!--BrandProductsViewController-->
+        <scene sceneID="10T-dG-ksW">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="BrandProductsViewController" storyboardName="BrandProductsStoryboard" referencedIdentifier="BrandProductsViewController" id="Et0-hW-gFI" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oke-zL-pss" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="523" y="-113"/>
+        </scene>
         <!--LogInViewController-->
         <scene sceneID="WrW-9W-hp9">
             <objects>
@@ -30,6 +46,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TiA-3c-kYy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="582" y="27"/>
+        </scene>
+        <!--LocationViewController-->
+        <scene sceneID="JrS-9l-MLJ">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="LocationViewController" storyboardName="Location" referencedIdentifier="LocationViewController" id="KR2-Cf-ACb" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aJp-CK-oFu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="546" y="88"/>
+        </scene>
+        <!--CategoryViewController-->
+        <scene sceneID="g7b-Fd-CmP">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="CategoryViewController" storyboardName="CategoryStoryboard" referencedIdentifier="CategoryViewController" id="ftP-8b-1Pn" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MOJ-js-Ew0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="576" y="148"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="Thw-Mh-TQ0">
@@ -89,7 +121,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="op8-fR-uCO">
-                                <rect key="frame" x="100" y="615" width="193" height="35"/>
+                                <rect key="frame" x="100" y="585" width="193" height="35"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
@@ -177,7 +209,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3si-M1-5Kp">
-                                <rect key="frame" x="96" y="658" width="201" height="35"/>
+                                <rect key="frame" x="96" y="628" width="201" height="35"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Already Have Account?"/>
@@ -185,6 +217,9 @@
                                     <action selector="AlreadyHaveAccount:" destination="OaJ-k0-B9g" eventType="touchUpInside" id="nmS-57-r8F"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DS0-SZ-sPv">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="7fP-Ah-nuR"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -194,6 +229,7 @@
                             <constraint firstItem="lis-r8-fM5" firstAttribute="top" secondItem="N5m-4D-YYb" secondAttribute="bottom" constant="20" id="2hp-Qb-Rv2"/>
                             <constraint firstItem="eWJ-bZ-JqJ" firstAttribute="top" secondItem="eI5-B4-Jzk" secondAttribute="bottom" constant="10" id="3IJ-u0-MBS"/>
                             <constraint firstItem="klU-ns-GXv" firstAttribute="top" secondItem="nWP-BC-4qA" secondAttribute="bottom" constant="20" id="3i2-S2-Vwk"/>
+                            <constraint firstItem="7fP-Ah-nuR" firstAttribute="trailing" secondItem="DS0-SZ-sPv" secondAttribute="trailing" id="4s3-yM-dIo"/>
                             <constraint firstItem="7fP-Ah-nuR" firstAttribute="trailing" secondItem="N5m-4D-YYb" secondAttribute="trailing" constant="20" id="7FE-Ug-3LB"/>
                             <constraint firstItem="7fP-Ah-nuR" firstAttribute="trailing" secondItem="op8-fR-uCO" secondAttribute="trailing" constant="100" id="7TY-NK-SuN"/>
                             <constraint firstItem="7fP-Ah-nuR" firstAttribute="trailing" secondItem="wcP-S3-iCX" secondAttribute="trailing" constant="140" id="7Yx-AG-IpC"/>
@@ -210,11 +246,12 @@
                             <constraint firstItem="IqR-On-1Ip" firstAttribute="leading" secondItem="eWJ-bZ-JqJ" secondAttribute="trailing" constant="44" id="RaM-BY-HjY"/>
                             <constraint firstItem="N5m-4D-YYb" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="20" id="S80-zN-0HH"/>
                             <constraint firstItem="7fP-Ah-nuR" firstAttribute="trailing" secondItem="d2W-fj-vVU" secondAttribute="trailing" constant="20" id="TIH-Ku-RcA"/>
+                            <constraint firstItem="DS0-SZ-sPv" firstAttribute="top" secondItem="7fP-Ah-nuR" secondAttribute="top" id="VWz-84-CDH"/>
                             <constraint firstItem="f8o-Gf-Qs7" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="20" id="Y17-5w-2aJ"/>
                             <constraint firstItem="eI5-B4-Jzk" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="20" id="YL5-ax-DAU"/>
                             <constraint firstItem="eI5-B4-Jzk" firstAttribute="top" secondItem="f2P-Hv-aGt" secondAttribute="top" id="Ye4-fb-mdD"/>
                             <constraint firstItem="f2P-Hv-aGt" firstAttribute="top" secondItem="wcP-S3-iCX" secondAttribute="bottom" constant="57.329999999999998" id="ZQw-r8-C7U"/>
-                            <constraint firstItem="op8-fR-uCO" firstAttribute="top" secondItem="ml7-5w-LSU" secondAttribute="bottom" constant="50" id="ZTn-Ml-P0o"/>
+                            <constraint firstItem="op8-fR-uCO" firstAttribute="top" secondItem="ml7-5w-LSU" secondAttribute="bottom" constant="20" id="ZTn-Ml-P0o"/>
                             <constraint firstItem="7fP-Ah-nuR" firstAttribute="trailing" secondItem="f2P-Hv-aGt" secondAttribute="trailing" constant="89" id="ad2-VC-eRF"/>
                             <constraint firstItem="P1e-jt-aUR" firstAttribute="top" secondItem="eWJ-bZ-JqJ" secondAttribute="bottom" constant="20" id="cCn-TC-bxK"/>
                             <constraint firstItem="ml7-5w-LSU" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="20" id="dRM-fy-L4A"/>
@@ -224,14 +261,17 @@
                             <constraint firstItem="7fP-Ah-nuR" firstAttribute="trailing" secondItem="IqR-On-1Ip" secondAttribute="trailing" constant="20" id="hPs-jy-dmQ"/>
                             <constraint firstItem="klU-ns-GXv" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="20" id="hwn-uJ-Zi4"/>
                             <constraint firstItem="wcP-S3-iCX" firstAttribute="top" secondItem="7fP-Ah-nuR" secondAttribute="top" constant="10" id="i7u-T6-5BL"/>
+                            <constraint firstItem="7fP-Ah-nuR" firstAttribute="bottom" secondItem="DS0-SZ-sPv" secondAttribute="bottom" id="l6f-q0-DOI"/>
                             <constraint firstItem="op8-fR-uCO" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="100" id="nTl-O0-gl2"/>
                             <constraint firstItem="nWP-BC-4qA" firstAttribute="top" secondItem="lis-r8-fM5" secondAttribute="bottom" constant="10" id="okV-HO-rOb"/>
+                            <constraint firstItem="DS0-SZ-sPv" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" id="rYg-2j-1XE"/>
                             <constraint firstItem="ml7-5w-LSU" firstAttribute="top" secondItem="klU-ns-GXv" secondAttribute="bottom" constant="10" id="sWo-bR-l9y"/>
                             <constraint firstItem="eWJ-bZ-JqJ" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="20" id="ugV-Wx-vuO"/>
                             <constraint firstItem="7fP-Ah-nuR" firstAttribute="trailing" secondItem="3si-M1-5Kp" secondAttribute="trailing" constant="96" id="xTN-O2-Q2Y"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="DS0-SZ-sPv" id="Wu9-Py-Z59"/>
                         <outlet property="emailTx" destination="d2W-fj-vVU" id="qhO-D9-Z6f"/>
                         <outlet property="firstNameTx" destination="eWJ-bZ-JqJ" id="ulg-EW-wt5"/>
                         <outlet property="lastNameTx" destination="IqR-On-1Ip" id="eOQ-xl-CEX"/>

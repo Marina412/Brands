@@ -42,11 +42,14 @@ class FavViewModel {
     }
     func getAllFav(){
         repo.getAllFav { favArr in
+            
+           // favArr?.draftOrders[0]
+            
             guard let favArr else{return}
             var productPrice = HelperFunctions.priceEXchange(curencyType: self.curencyType, price: favArr.draftOrders[0].lineItems?[0].productPrice ?? "0", rates: self.rates)
  
             var AllFav = favArr
-          //  AllFav.draftOrders[0].lineItems?[0].productPrice = productPrice
+            AllFav.draftOrders[0].lineItems?[0].productPrice = productPrice
             self.viewModelResult = AllFav
         }
     }
