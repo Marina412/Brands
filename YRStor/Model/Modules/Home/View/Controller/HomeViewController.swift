@@ -9,6 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+
     @IBOutlet weak var adsCollectionView: UICollectionView!{
         didSet{
             adsCollectionView.delegate = self
@@ -24,30 +25,50 @@ class HomeViewController: UIViewController {
     let userDefaults = UserDefaults.standard
     let activityIndicator = UIActivityIndicatorView(style: .large)
     
+//    override func viewWillAppear(_ animated: Bool) {
+//        if  HelperFunctions.hasConnectivity(){
+//           
+//            homeVM.getAllCategoriesFromApi {
+//                [weak self] in
+//                guard let self else { return }
+//                DispatchQueue.main.async {
+//                    self.activityIndicator.stopAnimating()
+//                    self.brandsCollectionView.isHidden = false
+//                    self.brandsCollectionView.reloadData()
+//                }
+//            }
+//        }
+//        else{
+//            self.present( HelperFunctions.showWorining(completionHandler: {
+//                print("no conection")
+//            }), animated: true, completion: nil)
+//        }
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         indicatorSetUp()
-        self.brandsCollectionView.isHidden = true
-        userDefaults.set(false, forKey: "AddressShoppingCart")
-        userDefaults.set(false, forKey: "didSelectAddress")
-        self.userDefaults.set(false, forKey: "touchCopon")
-        let remote = NetworkManager()
-        let repo = Repo(networkManager: remote)
-        homeVM = HomeViewModel(repo: repo)
-        brandsCollectionView.delegate = self
-        brandsCollectionView.dataSource = self
-        setTimer()
-        registerXibCells()
-        navigationBarButtons()
-        homeVM.getAllCategoriesFromApi {
-            [weak self] in
-            guard let self else { return }
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.brandsCollectionView.isHidden = false 
-                self.brandsCollectionView.reloadData()
+            self.brandsCollectionView.isHidden = true
+            userDefaults.set(false, forKey: "AddressShoppingCart")
+            userDefaults.set(false, forKey: "didSelectAddress")
+            self.userDefaults.set(false, forKey: "touchCopon")
+            let remote = NetworkManager()
+            let repo = Repo(networkManager: remote)
+            homeVM = HomeViewModel(repo: repo)
+            brandsCollectionView.delegate = self
+            brandsCollectionView.dataSource = self
+            setTimer()
+            registerXibCells()
+            navigationBarButtons()
+            homeVM.getAllCategoriesFromApi {
+                [weak self] in
+                guard let self else { return }
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    self.brandsCollectionView.isHidden = false
+                    self.brandsCollectionView.reloadData()
+                }
             }
-        }
+       
     }
     func setTimer(){
         timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(increaseCurrentPage), userInfo: nil, repeats: true)
@@ -150,7 +171,6 @@ extension HomeViewController : UICollectionViewDataSource{
         case adsCollectionView:
             let adsCell = collectionView.dequeueReusableCell(withReuseIdentifier: "AdsCollectionViewCell", for: indexPath) as? AdsCollectionViewCell
             adsCell?.adsImage.image = UIImage(named: homeAdvertismentPhoto[indexPath.row])
-            adsCell?.adsImage.layer.cornerRadius = 50.0
             return adsCell ?? AdsCollectionViewCell()
         case brandsCollectionView:
             let brandCell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandCollectionViewCell", for: indexPath) as? BrandCollectionViewCell

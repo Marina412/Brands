@@ -39,7 +39,6 @@ class CategoryViewController: UIViewController {
 //            [weak self] in
 //            guard let self else { return }
 //            DispatchQueue.main.async {
-//                print("test 4")
 //                self.activityIndicator.stopAnimating()
 //                self.productsCollectionView.isHidden = false
 //            }
@@ -51,7 +50,7 @@ class CategoryViewController: UIViewController {
             guard let self else { return }
             self.catigoryVM.filterProudactsBySubCategory(categoryName: Constant.ACCESSORIES)
         }
-        filterFloaty.addItem(Constant.T_SHIRTS, icon: UIImage(named: "tShirt")){
+        filterFloaty.addItem(Constant.T_SHIRTS, icon: UIImage(named: "T-SHIRTS")){
             [weak self]
             item in
             guard let self else { return }
@@ -77,12 +76,15 @@ class CategoryViewController: UIViewController {
         print("selected index = \(sender.selectedSegmentIndex)")
         switch sender.selectedSegmentIndex{
         case 0:
-            catigoryVM.filterProudactsByMainCategory(categoryName: Constant.WOMEN)
+            print("nofilter")
+            catigoryVM.filterProudactsByMainCategory(categoryName: "")
         case 1:
-            catigoryVM.filterProudactsByMainCategory(categoryName: Constant.MEN)
+            catigoryVM.filterProudactsByMainCategory(categoryName: Constant.WOMEN)
         case 2:
-            catigoryVM.filterProudactsByMainCategory(categoryName: Constant.KID)
+            catigoryVM.filterProudactsByMainCategory(categoryName: Constant.MEN)
         case 3:
+            catigoryVM.filterProudactsByMainCategory(categoryName: Constant.KID)
+        case 4:
             catigoryVM.filterProudactsByMainCategory(categoryName: Constant.SALE)
         default :
             print("")
@@ -187,10 +189,9 @@ extension CategoryViewController{
         
         categoryWMSegment.borderColor = .lightGray
         categoryWMSegment.borderWidth = 2
-        
-        categoryWMSegment.buttonTitles = " Woman,Man,Kid,Sale"
-        categoryWMSegment.buttonImages = "woman,man,kid,sale"
-        categoryWMSegment.buttonImagesSelected = "selected,selected,selected,selected"
+        categoryWMSegment.buttonTitles = "All,Woman,Man,Kid,Sale"
+//        categoryWMSegment.buttonImages = "selected,woman,man,kid,sale"
+//       categoryWMSegment.buttonImagesSelected = "selected,selected,selected,selected,selected"
         categoryWMSegment.animate = true
     }
     private func registerXibCells(){

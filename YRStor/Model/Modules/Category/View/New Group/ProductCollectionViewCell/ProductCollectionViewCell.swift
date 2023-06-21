@@ -44,7 +44,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
         //self.product = product
         cartViewModel?.product = LineItems(productId: String(product.id ?? 0),productTitle: product.title,productPrice: product.variants?[0].price, productImage: product.image?.src)
         print("product id in cell \(self.product.id ?? 0 )")
-        productImage.kf.setImage(with: URL(string:product.image?.src ?? ""), placeholder: UIImage(named: "man"))
+        productImage.kf.setImage(with: URL(string:product.image?.src ?? "logo"), placeholder: UIImage(named: "logo"))
         productTitle.text = product.title?.localizedCapitalized
         productType.text = product.productType?.localizedCapitalized
         productPrice.text = product.variants?[0].price

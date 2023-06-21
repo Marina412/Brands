@@ -67,10 +67,13 @@ class CategoryViewModel{
     }
     
     func filterProudactsByMainCategory(categoryName:String){
+        print(categoryName)
         if categoryName != ""
         {
             let filteredProducts : [Product] = allProducts.filter({
-                $0.tags?.lowercased().contains(categoryName.lowercased()) == true
+                
+               return $0.tags?.lowercased().contains(categoryName.lowercased()) == true
+               
             })
             poductsObservablRS.onNext(filteredProducts)
         }

@@ -3,8 +3,8 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,8 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cxK-za-F2s">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cxK-za-F2s">
                                 <rect key="frame" x="25" y="294" width="343" height="455"/>
+                                <color key="backgroundColor" name="whiteForLightBlackForDark"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="455" id="gTJ-hb-Mps"/>
                                 </constraints>
@@ -30,10 +31,12 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="j26-n1-S95">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="j26-n1-S95">
                                 <rect key="frame" x="0.0" y="80" width="393" height="140"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" name="whiteForLightBlackForDark"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="140" id="v6G-LM-hBA"/>
+                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="H3f-ii-kjb">
                                     <size key="itemSize" width="397" height="187"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -77,23 +80,37 @@
                                 <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="currentPageIndicatorTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </pageControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Brands" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UaT-NL-hvo">
-                                <rect key="frame" x="25" y="252" width="343" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Brands" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UaT-NL-hvo">
+                                <rect key="frame" x="25" y="249" width="343" height="34"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="28"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" name="blackForLightWhiteForDark"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select last card to take your cupon code  " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CAB-x9-siY">
+                                <rect key="frame" x="39" y="225" width="315" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" name="lightGreyForLightDarkGreyForDark"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="whiteForLightBlackForDark"/>
                         <constraints>
                             <constraint firstItem="Fgs-Y8-lxu" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="87" id="2Bj-PB-9w2"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="cxK-za-F2s" secondAttribute="trailing" constant="25" id="3j5-Q6-Di5"/>
+                            <constraint firstItem="UaT-NL-hvo" firstAttribute="top" secondItem="CAB-x9-siY" secondAttribute="bottom" constant="6" id="DJd-Ni-i43"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="cxK-za-F2s" secondAttribute="bottom" constant="20" id="Iru-FS-DdX"/>
+                            <constraint firstItem="j26-n1-S95" firstAttribute="centerX" secondItem="UaT-NL-hvo" secondAttribute="centerX" id="Lbh-A3-Z6K"/>
+                            <constraint firstItem="UaT-NL-hvo" firstAttribute="leading" secondItem="cxK-za-F2s" secondAttribute="leading" id="UXI-fZ-vuK"/>
+                            <constraint firstItem="j26-n1-S95" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="dRE-TA-AqD"/>
+                            <constraint firstItem="CAB-x9-siY" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="39" id="eR2-nq-Euo"/>
+                            <constraint firstItem="j26-n1-S95" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="topMargin" constant="-23" id="gLP-yn-08a"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="CAB-x9-siY" secondAttribute="trailing" constant="39" id="mU3-hi-w2Z"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Fgs-Y8-lxu" secondAttribute="trailing" constant="130" id="ocu-nc-6ml"/>
                             <constraint firstItem="cxK-za-F2s" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="25" id="rCy-eS-0Cy"/>
+                            <constraint firstItem="CAB-x9-siY" firstAttribute="top" secondItem="j26-n1-S95" secondAttribute="bottom" constant="5" id="roE-dV-7ak"/>
                             <constraint firstItem="Fgs-Y8-lxu" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="130" id="wiw-gg-Ah0"/>
+                            <constraint firstItem="j26-n1-S95" firstAttribute="centerX" secondItem="Fgs-Y8-lxu" secondAttribute="centerX" id="xKo-Tb-6OV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="KBn-fk-DNF"/>
@@ -265,8 +282,14 @@
         <image name="grid" catalog="system" width="128" height="113"/>
         <image name="heart" catalog="system" width="128" height="107"/>
         <image name="house" catalog="system" width="128" height="104"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <namedColor name="blackForLightWhiteForDark">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="lightGreyForLightDarkGreyForDark">
+            <color red="0.57414853570000002" green="0.57416242360000003" blue="0.57415497299999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="whiteForLightBlackForDark">
+            <color red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
