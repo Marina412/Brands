@@ -100,6 +100,9 @@ class HelperFunctions{
                 UserDefaults.standard.setValue(Constant.AMERICAN_CURRENCY, forKey: Constant.CURRENCY)
             }
         }
+  
     }
+
+
     
 

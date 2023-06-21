@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Reachability
 class FavouritesViewController: UIViewController {
     
     @IBOutlet weak var favTable: UITableView!
@@ -15,13 +15,17 @@ class FavouritesViewController: UIViewController {
     let activityIndicator = UIActivityIndicatorView(style: .large)
     let defaults = UserDefaults.standard
     let imageView = UIImageView(image: UIImage(named: "noFavImage"))
-    
+    var reachability = try! Reachability()
     override func viewWillAppear(_ animated: Bool) {
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+       do{
+         try reachability.startNotifier()
+       }catch{
+         print("could not start reachability notifier")
+       }
         tabBarController?.tabBar.isHidden = false
         print(" cart view model arrayyy \(cartViewModel.resDraft?.lineItems)")
-     
-        let isLoggin = defaults.bool(forKey: "isLogging")
+         let isLoggin = defaults.bool(forKey: "isLogging")
         defaults.set(Constant.IS_FAV, forKey: "isFavOrCart")
         if (isLoggin == false){
             favTable.isHidden = true
@@ -36,6 +40,12 @@ class FavouritesViewController: UIViewController {
         }
     }
     
+    @objc func reachabilityChanged(note: Notification) {}
+    override func viewDidDisappear(_ animated: Bool) {
+        reachability.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
+     }
+    
 //    self.cartViewModel.resDraft = nil
 //        self.favTable.reloadData()
     func getDrafts(){
@@ -44,7 +54,6 @@ class FavouritesViewController: UIViewController {
             
             let res = self.viewModel.viewModelResult
             guard let allDrafts = res else {return}
-            
             self.favTable.reloadData()
             guard var customerDraft = CustomerHelper.getFavForCustomers(favs: allDrafts.draftOrders) else {return }
             if(customerDraft.lineItems?.count == nil){
@@ -76,7 +85,6 @@ class FavouritesViewController: UIViewController {
                         }
                     }
                 }
-
                 self.cartViewModel.products = customerCartProducts
                 self.cartViewModel.resDraft = customerDraft
                 self.cartViewModel.resDraft?.lineItems = customerCartProducts
@@ -90,7 +98,6 @@ class FavouritesViewController: UIViewController {
         }
     }
 
-    
     func setUpView(){
         self.navigationItem.setHidesBackButton(true, animated: false)
         favTable.dataSource = self
@@ -103,8 +110,6 @@ class FavouritesViewController: UIViewController {
     }
     
 }
-
-    
 
 extension FavouritesViewController : UITableViewDelegate , UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -121,51 +126,70 @@ extension FavouritesViewController : UITableViewDelegate , UITableViewDataSource
         return 200
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if editingStyle == .delete {
-            let alert = UIAlertController(title: "Delete", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { action in
-                
-                if(self.cartViewModel.resDraft?.lineItems?.count == 1 ){
-                    self.cartViewModel.deleteFavListInDatabase(draftId: self.cartViewModel.draftId, indexPath: indexPath.row, completion: {
-                        
-                        
-                        UikitHelper.noDataImage(image: self.imageView, view: self.view, table: self.favTable, activityIndicator: self.activityIndicator)
-                        self.imageView.isHidden = false
-                    })
-                }
-                else{
-                    self.cartViewModel.products.remove(at: indexPath.row)
-                    self.cartViewModel.resDraft?.lineItems = self.cartViewModel.products
-                    self.cartViewModel.draft.draftOrder = self.cartViewModel.resDraft ?? FavProduct()
-                    self.favTable.reloadData()
-                    self.cartViewModel.editShoppingCart(draftOrder: self.cartViewModel.draft, draftId: self.cartViewModel.draftId)
+        if (reachability.connection != .unavailable){
+            
+            if editingStyle == .delete {
+                let alert = UIAlertController(title: "Delete", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { action in
                     
+                    if(self.cartViewModel.resDraft?.lineItems?.count == 1 ){
+                        self.cartViewModel.deleteFavListInDatabase(draftId: self.cartViewModel.draftId, indexPath: indexPath.row, completion: {
+                            
+                            
+                            UikitHelper.noDataImage(image: self.imageView, view: self.view, table: self.favTable, activityIndicator: self.activityIndicator)
+                            self.imageView.isHidden = false
+                        })
+                    }
+                    else{
+                        self.cartViewModel.products.remove(at: indexPath.row)
+                        self.cartViewModel.resDraft?.lineItems = self.cartViewModel.products
+                        self.cartViewModel.draft.draftOrder = self.cartViewModel.resDraft ?? FavProduct()
+                        self.favTable.reloadData()
+                        self.cartViewModel.editShoppingCart(draftOrder: self.cartViewModel.draft, draftId: self.cartViewModel.draftId)
+                    }
                 }
-                
+                                             ))
+                self.present(alert, animated: true)
             }
-                                         ))
+        }
+        else{
+            let alert = UIAlertController(title: "Goallll", message: " Sorry!! you are offline", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true)
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        var productSelected = cartViewModel.resDraft?.lineItems?[indexPath.row]
-        var newProduct = Product()
-        for product in cartViewModel.cartProductsDetails{
-            if(String(product.id ?? 0 ) == productSelected?.productId ){
-                newProduct.id = product.id
-                newProduct.bodyHTML = product.bodyHTML
-                newProduct.title = product.title
-                newProduct.images = product.images
-                newProduct.variants?[0].price = product.variants?[0].price
+        if (reachability.connection != .unavailable){
+            var productSelected = cartViewModel.resDraft?.lineItems?[indexPath.row]
+            var newProduct = Product()
+            for product in cartViewModel.cartProductsDetails{
+                if(String(product.id ?? 0 ) == productSelected?.productId ){
+                    newProduct.id = product.id
+                    newProduct.bodyHTML = product.bodyHTML
+                    newProduct.title = product.title
+                    newProduct.images = product.images
+                    newProduct.variants?[0].price = product.variants?[0].price
+                }
             }
-            
+            let productInfo = self.storyboard?.instantiateViewController(withIdentifier: "ProductInfoViewController") as! ProductInfoViewController
+            productInfo.product = newProduct
+            self.navigationController?.pushViewController(productInfo, animated: true)
         }
-        let productInfo = self.storyboard?.instantiateViewController(withIdentifier: "ProductInfoViewController") as! ProductInfoViewController
-        productInfo.product = newProduct
-        self.navigationController?.pushViewController(productInfo, animated: true)
-        
+        else{
+            let alert = UIAlertController(title: "Goallll", message: " Sorry!! you are offline", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
+        }
     }
 }

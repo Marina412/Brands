@@ -8,10 +8,12 @@
 import Foundation
 class HomeViewModel{
     let repo:RepoProtocol
+    let defaults = UserDefaults.standard
     var brands:[Collection]=[]
-    var cupons:[String] = ["15%","25%","50%"]
+    var cupons:[String]!
     init(repo:RepoProtocol) {
         self.repo = repo
+        self.cupons = defaults.stringArray(forKey: "SavedArray")
     }
     func getAllCategoriesFromApi(completion: @escaping ()->()){
         repo.getAllCollections { [weak self] collectionsResult in
@@ -23,5 +25,15 @@ class HomeViewModel{
             completion()
         }
     }
+    
+    func removeItemFromCupon(index:Int){
+        cupons.remove(at: index)
+        defaults.set(cupons, forKey: "SavedArray")
+    }
+    
+    func loadCupon(){
+        self.cupons = defaults.stringArray(forKey: "SavedArray")
+    }
+    
 }
 

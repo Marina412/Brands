@@ -7,11 +7,14 @@
 import CoreLocation
 import UIKit
 import MapKit
+import Reachability
+
 
 class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarDelegate {
     
     @IBOutlet weak var searchTxtField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
+    var reachability = try! Reachability()
     let manager = CLLocationManager()
     let defaults = UserDefaults.standard
     var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
@@ -29,23 +32,62 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             showAlert(msg: "Please enable location Service",type: "locationService")
         }
     }
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+       do{
+         try reachability.startNotifier()
+       }catch{
+         print("could not start reachability notifier")
+       }
+       }
     
+    @objc func reachabilityChanged(note: Notification) {}
+    override func viewDidDisappear(_ animated: Bool) {
+        reachability.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
+     }
     @IBAction func saveLocation(_ sender: Any) {
-        saveAddress()
-        let controller=self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
-        self.navigationController?.pushViewController(controller, animated: true)
+        if (reachability.connection != .unavailable){
+            saveAddress()
+            let controller=self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+        else{
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline, Plz check your connectivity", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+           
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
+        }
     }
     
     
     @IBAction func SearchOnMap(_ sender: Any) {
-        let location = searchTxtField.text!
-        if location != ""{
-            SearchForLocation(loc: location)
+        if (reachability.connection != .unavailable){
+            let location = searchTxtField.text!
+            if location != ""{
+                SearchForLocation(loc: location)
+            }
+            else{
+                let alert = UIAlertController(title: "Shopify", message: "please enter location", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+                present(alert,animated: true,completion: nil)
+            }
         }
         else{
-            let alert = UIAlertController(title: "Shopify", message: "please enter location", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-            present(alert,animated: true,completion: nil)
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline, Plz check your connectivity", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+           
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
         }
     }
     

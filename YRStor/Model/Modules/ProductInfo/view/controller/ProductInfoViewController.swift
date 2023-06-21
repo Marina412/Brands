@@ -6,33 +6,24 @@
 //
 
 import UIKit
+import Reachability
 
 class ProductInfoViewController: UIViewController {
     
     @IBOutlet var addToCartOutlet: UIView!
-    
-    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var cartBtnOutlet: UIButton!
-    
     @IBOutlet weak var reviewsBtnOutlet: UIButton!
     @IBOutlet weak var productName: UILabel!
-    
     @IBOutlet weak var pageControl: UIPageControl!
-    
     @IBOutlet weak var imageCollection: UICollectionView!
-    
     @IBOutlet weak var productPrice: UILabel!
-    
     @IBOutlet weak var productDescription: UITextView!
-    
     @IBOutlet weak var productBrand: UILabel!
-    
     @IBOutlet weak var fabBtnCheck: UIButton!
-    
     @IBOutlet weak var productQuantity: UILabel!
     @IBOutlet weak var stepperOutlet: UIStepper!
-    
+    var reachability = try! Reachability()
     var currentPage = 0{
         didSet{
             pageControl.currentPage = currentPage
@@ -46,15 +37,22 @@ class ProductInfoViewController: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+       do{
+         try reachability.startNotifier()
+       }catch{
+         print("could not start reachability notifier")
+       }
         tabBarController?.tabBar.isHidden = false
         setUpView()
         setUpProductDetails()
         checkIsFavProduct()
     }
-    
-    
-  
+    @objc func reachabilityChanged(note: Notification) {}
+    override func viewDidDisappear(_ animated: Bool) {
+        reachability.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
+     }
     
     func checkIsFavProduct(){
         
@@ -302,16 +300,16 @@ class ProductInfoViewController: UIViewController {
     
     
     @IBAction func favBtn(_ sender: Any) {
-        
-//        var email = UserDefaults.standard.value(forKey: "email")
-//        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
-//        UserDefaults.standard.set(Constant.IS_PRODUCT_INFO, forKey: "isFavOrCart")
-//        if ((isLogin != nil) == false && email as! String == ""){
-//                   let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-//                                self.navigationController?.pushViewController(register, animated: true)
-//               }
-        
-      //  else if ((isLogin != nil) == true){
+        if (reachability.connection != .unavailable){
+            //        var email = UserDefaults.standard.value(forKey: "email")
+            //        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
+            //        UserDefaults.standard.set(Constant.IS_PRODUCT_INFO, forKey: "isFavOrCart")
+            //        if ((isLogin != nil) == false && email as! String == ""){
+            //                   let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+            //                                self.navigationController?.pushViewController(register, animated: true)
+            //               }
+            
+            //  else if ((isLogin != nil) == true){
             if(fabBtnCheck.currentImage == (UIImage(systemName: "heart.fill"))){
                 fabBtnCheck.setImage(UIImage(systemName: "heart"), for: .normal)
                 deleteFavProduct()
@@ -321,33 +319,84 @@ class ProductInfoViewController: UIViewController {
                 checkCustomerFavs()
                 print("added to fav")
             }
+        }
+        else{
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline,Plz check connectivity", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+           
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
+        }
+
         
     }
     
     
     
     @IBAction func stepperAction(_ sender: Any) {
-        productQuantity.text = "\(Int(stepperOutlet.value))"
+        if (reachability.connection != .unavailable){
+            productQuantity.text = "\(Int(stepperOutlet.value))"
+        }
+        else{
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline,Plz check connectivity", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+           
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
+        }
     }
     
     @IBAction func reviewsBtn(_ sender: Any) {
-        let reviewVC = self.storyboard?.instantiateViewController(withIdentifier: "ReviewViewController")
-        as! ReviewsViewController
-        self.navigationController?.pushViewController(reviewVC, animated: true)
+        if (reachability.connection != .unavailable){
+            let reviewVC = self.storyboard?.instantiateViewController(withIdentifier: "ReviewViewController")
+            as! ReviewsViewController
+            self.navigationController?.pushViewController(reviewVC, animated: true)
+        }
+        else{
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline,Plz check connectivity", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+           
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
+        }
     }
     
     @IBAction func addToCartBtn(_ sender: Any) {
-        
-//        let email = UserDefaults.standard.string(forKey: "email")
-//        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
-//        UserDefaults.standard.set(Constant.IS_PRODUCT_INFO, forKey: "isFavOrCart")
-//        if ((isLogin != nil) == false && email == ""){
-//            let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-//            self.navigationController?.pushViewController(register, animated: true)
-//        }
-       // else if ((isLogin != nil) == true) {
+        if (reachability.connection != .unavailable){
+            //        let email = UserDefaults.standard.string(forKey: "email")
+            //        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
+            //        UserDefaults.standard.set(Constant.IS_PRODUCT_INFO, forKey: "isFavOrCart")
+            //        if ((isLogin != nil) == false && email == ""){
+            //            let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+            //            self.navigationController?.pushViewController(register, animated: true)
+            //        }
+            // else if ((isLogin != nil) == true) {
             checkCustomerCart()
-      //  }
+            //  }
+        }
+        else{
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline,Plz check connectivity", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+           
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
+        }
     }
 }
 

@@ -7,9 +7,10 @@
 
 import UIKit
 import Floaty
+import Reachability
 
 class LocationViewController: UIViewController {
-    
+    var reachability = try! Reachability()
     @IBOutlet weak var floating: Floaty!
     @IBOutlet weak var locationCollectionView: UICollectionView!
     var customerAddressViewModel = CustomerAddressViewModel (repo:Repo(networkManager:NetworkManager()))
@@ -17,10 +18,7 @@ class LocationViewController: UIViewController {
     var customerAuthAddress : [Address] = []
     var checkOutItems : FavProduct = FavProduct()
     var checkOutDelegate:CheckOutDelegate!
-
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         locationCollectionView.delegate = self
@@ -47,7 +45,12 @@ class LocationViewController: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+        do{
+            try reachability.startNotifier()
+        }catch{
+            print("could not start reachability notifier")
+        }
         tabBarController?.tabBar.isHidden = false
         let defaults = UserDefaults.standard
         let isLoggin = defaults.bool(forKey: "isLogging")
@@ -62,25 +65,43 @@ class LocationViewController: UIViewController {
             
         }
     }
+    
+    @objc func reachabilityChanged(note: Notification) {}
+    override func viewDidDisappear(_ animated: Bool) {
+        reachability.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
+    }
     func getAllAddresses(){
-        let defaults = UserDefaults.standard
-        let customerId = defaults.integer(forKey: "customerId")
-        var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
-        addressViewModel.getAllAdresses(customerId:String(customerId))
-        addressViewModel.bindResult = {() in
-            let res = addressViewModel.viewModelResult
-            guard let allAddresses = res?.addresses else {return}
-            for customerAddresses in allAddresses{
-                if(customerAddresses.customer_id == Int(customerId)){
-                    self.customerAuthAddress.append(customerAddresses)
+        if (reachability.connection != .unavailable){
+            let defaults = UserDefaults.standard
+            let customerId = defaults.integer(forKey: "customerId")
+            var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
+            addressViewModel.getAllAdresses(customerId:String(customerId))
+            addressViewModel.bindResult = {() in
+                let res = addressViewModel.viewModelResult
+                guard let allAddresses = res?.addresses else {return}
+                for customerAddresses in allAddresses{
+                    if(customerAddresses.customer_id == Int(customerId)){
+                        self.customerAuthAddress.append(customerAddresses)
+                    }
+                }
+                DispatchQueue.main.async{
+                    self.locationCollectionView.reloadData()
                 }
             }
-            DispatchQueue.main.async{
-                self.locationCollectionView.reloadData()
+        }
+        else{
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+            
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
             }
         }
     }
-    
 }
 extension LocationViewController:UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -93,7 +114,7 @@ extension LocationViewController:UICollectionViewDelegate,UICollectionViewDataSo
         
         if indexPath.row == 0 {
             cell.removeBtnOutlet.isHidden = true
-           }
+        }
         else{
             cell.removeBtnOutlet.isHidden = false
         }
@@ -106,7 +127,7 @@ extension LocationViewController:UICollectionViewDelegate,UICollectionViewDataSo
                 let alertController = UIAlertController(title: "Failed", message: "you can not delete the deafult address", preferredStyle: .alert)
                 
                 let okAction = UIAlertAction(title: "OK", style: .default)
-                 alertController.addAction(okAction)
+                alertController.addAction(okAction)
                 self?.present(alertController, animated: true, completion: nil)
             }else{
                 let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (action) in
@@ -128,15 +149,29 @@ extension LocationViewController:UICollectionViewDelegate,UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: (locationCollectionView.frame.width - 10), height: (locationCollectionView.frame.height-5))
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if (defaults.bool(forKey: "AddressShoppingCart") == true){
-            defaults.set(true, forKey: "didSelectAddress")
-            self.navigationController?.popViewController(animated: true)
-            checkOutDelegate.getAddress(address: customerAuthAddress[indexPath.row])
-
+        if (reachability.connection != .unavailable){
+            if (defaults.bool(forKey: "AddressShoppingCart") == true){
+                defaults.set(true, forKey: "didSelectAddress")
+                self.navigationController?.popViewController(animated: true)
+                checkOutDelegate.getAddress(address: customerAuthAddress[indexPath.row])
+            }
+        }
+        else{
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+            
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
         }
     }
 }
+
                         
 
 

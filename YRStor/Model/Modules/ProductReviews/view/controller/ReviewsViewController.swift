@@ -19,20 +19,15 @@ class ReviewsViewController: UIViewController {
     var review = Review()
     override func viewDidLoad() {
         super.viewDidLoad()
- 
         setUpTable()
     }
     
     func setUpTable(){
-        
         reviewsTable.dataSource = self
         reviewsTable.delegate = self
         reviewsTable.register(UINib(nibName: "ReviewsCell", bundle: nil), forCellReuseIdentifier: "reviewCell")
-        
     }
-    
-
-}
+ }
 
 extension ReviewsViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -40,7 +35,6 @@ extension ReviewsViewController : UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewsCell
         cell.configureCell(revieww: reviews[indexPath.row])
         return cell

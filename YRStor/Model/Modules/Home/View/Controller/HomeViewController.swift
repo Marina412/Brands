@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import Reachability
 
 class HomeViewController: UIViewController {
-    
-    
+    var reachability = try! Reachability()
+
     @IBOutlet weak var adsCollectionView: UICollectionView!{
         didSet{
             adsCollectionView.delegate = self
@@ -25,8 +26,16 @@ class HomeViewController: UIViewController {
     let userDefaults = UserDefaults.standard
     let activityIndicator = UIActivityIndicatorView(style: .large)
     
-    //    override func viewWillAppear(_ animated: Bool) {
-    //        if  HelperFunctions.hasConnectivity(){
+       override func viewWillAppear(_ animated: Bool) {
+           homeVM.loadCupon()
+           NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+          do{
+            try reachability.startNotifier()
+          }catch{
+            print("could not start reachability notifier")
+          }
+           
+           //        if  HelperFunctions.hasConnectivity(){
     //
     //            homeVM.getAllCategoriesFromApi {
     //                [weak self] in
@@ -43,7 +52,14 @@ class HomeViewController: UIViewController {
     //                print("no conection")
     //            }), animated: true, completion: nil)
     //        }
-    //    }
+       }
+    
+    @objc func reachabilityChanged(note: Notification) {}
+    override func viewDidDisappear(_ animated: Bool) {
+        reachability.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
+     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         HelperFunctions.curencyDefualtsFirstTime()
@@ -127,32 +143,47 @@ extension HomeViewController : UICollectionViewDelegate{
         pageControl.currentPage = indexPath.row
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        switch collectionView{
-        case adsCollectionView:
-            if indexPath.row == homeAdvertismentPhoto.count - 1{
-                if (homeVM.cupons == []){
-                    let alert = UIAlertController(title: "Shopify", message: "Sorry you donn't have cupons", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default))
-                    self.present(alert,animated: true)
-                }else{
-                    let alert = UIAlertController(title: "Shopify", message: "Added your coupon \(homeVM.cupons[0]) you can use it when you Payed", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Yes", style: .default,handler: {  action in
-                        self.userDefaults.set(self.homeVM.cupons[0], forKey: Constant.CUPON_CODE)
-                        self.userDefaults.set(true, forKey: "touchCopon")
-                    }))
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-                    self.present(alert,animated: true)
-                }
-            }
-        case brandsCollectionView:
-            let brandProductsVC = self.storyboard?.instantiateViewController(withIdentifier: "BrandProductsViewController") as! BrandProductsViewController
-            brandProductsVC.brandId = homeVM.brands[indexPath.row].collectionID
-            brandProductsVC.brandTitle = homeVM.brands[indexPath.row].title
-            self.navigationController?.pushViewController(brandProductsVC, animated: true)
-        default:
-            print("")
+        if (reachability.connection != .unavailable){
             
+            switch collectionView{
+            case adsCollectionView:
+                if indexPath.row == homeAdvertismentPhoto.count - 1{
+                    if (homeVM.cupons == []){
+                        let alert = UIAlertController(title: "Shopify", message: "Sorry you donn't have cupons", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default))
+                        self.present(alert,animated: true)
+                    }else{
+                        guard homeVM.cupons != nil else {return}
+                        let alert = UIAlertController(title: "Shopify", message: "Added your coupon \(homeVM.cupons[0] ) you can use it when you Payed", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Yes", style: .default,handler: {  action in
+                            self.userDefaults.set(self.homeVM.cupons[0], forKey: Constant.CUPON_CODE)
+                            self.userDefaults.set(true, forKey: "touchCopon")
+                        }))
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                        self.present(alert,animated: true)
+                    }
+                }
+            case brandsCollectionView:
+                let brandProductsVC = self.storyboard?.instantiateViewController(withIdentifier: "BrandProductsViewController") as! BrandProductsViewController
+                brandProductsVC.brandId = homeVM.brands[indexPath.row].collectionID
+                brandProductsVC.brandTitle = homeVM.brands[indexPath.row].title
+                self.navigationController?.pushViewController(brandProductsVC, animated: true)
+            default:
+                print("")
+                
+            }
+        }
+        
+        else{
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline,Plz check your connection", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+            
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
         }
     }
 }

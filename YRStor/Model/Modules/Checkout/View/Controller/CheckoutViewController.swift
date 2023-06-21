@@ -7,6 +7,7 @@
 
 import UIKit
 import PassKit
+import Reachability
 
 class CheckoutViewController: UIViewController,CheckOutDelegate{
     
@@ -28,6 +29,7 @@ class CheckoutViewController: UIViewController,CheckOutDelegate{
     var checkOutItems : FavProduct!
     var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
     var didSelectAddress = Address()
+    var reachability = try! Reachability()
     private var paymentRequest:PKPaymentRequest?
     
     override func viewDidLoad() {
@@ -64,8 +66,22 @@ class CheckoutViewController: UIViewController,CheckOutDelegate{
     override func viewWillAppear(_ animated: Bool) {
         calculateTotal()
         showCupon()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+        do{
+            try reachability.startNotifier()
+        }catch{
+            print("could not start reachability notifier")
+        }
+        self.tabBarController?.tabBar.isHidden = false
     }
+    @objc func reachabilityChanged(note: Notification) {
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        reachability.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
+    }
+    
     func getAddress(address: Address) {
         self.addressResult = address
         self.addressLabel.text = (self.addressResult.address1 ?? "") + "," + (self.addressResult.city ?? "")
@@ -76,22 +92,37 @@ class CheckoutViewController: UIViewController,CheckOutDelegate{
         addressViewModel.getAllAdresses(customerId: String(customerId))
         addressViewModel.bindResult = {() in
             let res = self.addressViewModel.viewModelResult
-            guard let oneAddress = res?.addresses?[0] else {return}
-            self.addressResult = oneAddress
-            if(self.defaults.bool(forKey: "didSelectAddress") == true){
-                self.addressLabel.text = (self.didSelectAddress.address1 ?? "") + "," + (self.didSelectAddress.city ?? "")
+//            if(self.getOneAddress() == nil){
+//
+//                let addressVC = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+//                self.navigationController?.pushViewController(addressVC, animated: true)
+//            }
+            guard res?.addresses != nil else {
+                let addressVC = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+                    self.navigationController?.pushViewController(addressVC, animated: true)
+                return
+                
+            }
+            if(!(res?.addresses!.isEmpty ?? false)){
+                self.addressResult = res?.addresses![0] ?? Address()
+                if(self.defaults.bool(forKey: "didSelectAddress") == true){
+                    self.addressLabel.text = (self.didSelectAddress.address1 ?? "") + "," + (self.didSelectAddress.city ?? "")
+                }
+                else{
+                    self.addressLabel.text = (self.addressResult.address1 ?? "") + "," + (self.addressResult.city ?? "")
+                }
+                self.phoneLbl.text = self.addressResult.phone
             }
             else{
-                self.addressLabel.text = (self.addressResult.address1 ?? "") + "," + (self.addressResult.city ?? "")
+                let addressVC = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+                                    self.navigationController?.pushViewController(addressVC, animated: true)
             }
-            self.phoneLbl.text = self.addressResult.phone
         }
     }
     
     func calculateTotal(){
         totalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
         subTotalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ??  "0", rates: addressViewModel.rates) + " " + addressViewModel.curencyType
-        
     }
     
     func showCupon(){
@@ -103,10 +134,22 @@ class CheckoutViewController: UIViewController,CheckOutDelegate{
         }
     }
     @IBAction func changeAddress(_ sender: Any) {
-        let address=self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
-        address.checkOutItems = checkOutItems
-        address.checkOutDelegate = self
-        self.navigationController?.pushViewController(address, animated: true)
+        if (reachability.connection != .unavailable){
+            let address=self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+            address.checkOutItems = checkOutItems
+            address.checkOutDelegate = self
+            self.navigationController?.pushViewController(address, animated: true)
+        }
+        else{
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline check connectivity", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
+        }
     }
     
     @IBAction func ApplyCuponCodeBtn(_ sender: Any) {
@@ -143,26 +186,38 @@ class CheckoutViewController: UIViewController,CheckOutDelegate{
         
     }
     @IBAction func PlaceOrderBtn(_ sender: Any) {
-        let alert = UIAlertController(title: "Shoify", message: " Are you sure you want to confirm  payment?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Yes", style: .default,handler: {  action in
-            if (self.homeVM.cupons.count != 0){
-                self.homeVM.cupons.remove(at: 0)
-            }
-            if ( self.defaults.string(forKey: Constant.PAY_Method) == "applePay"){
-                let controller = PKPaymentAuthorizationViewController(paymentRequest: self.paymentRequest ?? PKPaymentRequest())
-                if controller != nil{
-                    controller!.delegate = self
-                    self.present(controller!,animated:true){
-                        self.addOrder()
+        if (reachability.connection != .unavailable){
+            let alert = UIAlertController(title: "Shoify", message: " Are you sure you want to confirm  payment?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Yes", style: .default,handler: {  action in
+                if (self.homeVM.cupons.count != 0){
+                    self.homeVM.removeItemFromCupon(index: 0)
+                }
+                if ( self.defaults.string(forKey: Constant.PAY_Method) == "applePay"){
+                    let controller = PKPaymentAuthorizationViewController(paymentRequest: self.paymentRequest ?? PKPaymentRequest())
+                    if controller != nil{
+                        controller!.delegate = self
+                        self.present(controller!,animated:true){
+                            self.addOrder()
+                        }
                     }
                 }
+                else{
+                    self.addOrder()
+                }
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .cancel))
+            self.present(alert, animated: true)
+        }
+        else{
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline check connectivity", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
             }
-            else{
-                self.addOrder()
-            }
-        }))
-        alert.addAction(UIAlertAction(title: "No", style: .cancel))
-        self.present(alert, animated: true)
+        }
     }
 }
 
@@ -175,19 +230,20 @@ extension CheckoutViewController{
             if ((res) != nil){
                 print("order done")
                 //delete shop
-                let ordersVC = self.storyboard?.instantiateViewController(withIdentifier: "OrdersViewController") as! OrdersViewController
-            
-                self.navigationController?.pushViewController(ordersVC, animated: true)
+
             }
             else{
-                print("order did not sava")
+                print("order did not save")
             }
         }
     }
 }
 extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
-        controller.dismiss(animated: true, completion: nil)
+        controller.dismiss(animated: true) {
+            let ordersVC = self.storyboard?.instantiateViewController(withIdentifier: "OrdersViewController") as! OrdersViewController
+            self.navigationController?.pushViewController(ordersVC, animated: true)
+        }
     }
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment,handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {

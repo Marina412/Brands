@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Reachability
 
 class LogInViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -14,7 +15,7 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var showHideBtn: UIButton!
     @IBOutlet weak var logInBtn: UIButton!
     
-  
+    var reachability = try! Reachability()
     var authViewModel = AuthViewModel(repo: Repo(networkManager: NetworkManager()))
     var customers = [Customer()]
     override func viewDidLoad() {
@@ -25,6 +26,22 @@ class LogInViewController: UIViewController {
         activityIndicator.isHidden = true
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+       do{
+         try reachability.startNotifier()
+       }catch{
+         print("could not start reachability notifier")
+       }
+   
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    @objc func reachabilityChanged(note: Notification) {}
+    override func viewDidDisappear(_ animated: Bool) {
+        reachability.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
+     }
     
     func getAllCustomers(){
         authViewModel.getAllCustomers()
@@ -74,48 +91,50 @@ class LogInViewController: UIViewController {
     }
     
     @IBAction func logInBtn(_ sender: Any) {
-        activityIndicator.isHidden = false
-        activityIndicator.startAnimating()
-        if(validateCustomer()){
-            defaults.set(true, forKey: "isLogging")
-            activityIndicator.isHidden = true
-            var navigation = defaults.value(forKey: "isFavOrCart") as! String
-            if(navigation == Constant.IS_ADDRESS){
-                
-                let address = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
-                self.navigationController?.pushViewController(address, animated: true)            }
+        if (reachability.connection != .unavailable){
             
-            switch navigation {
-            case Constant.IS_SHOPPING_CART:
-                let shoppingBag = self.storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as! ShoppingCartViewController
-                self.navigationController?.pushViewController(shoppingBag, animated: true)
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
+            if(validateCustomer()){
+                defaults.set(true, forKey: "isLogging")
+                activityIndicator.isHidden = true
+                var navigation = defaults.value(forKey: "isFavOrCart") as! String
+                if(navigation == Constant.IS_ADDRESS){
+                    
+                    let address = self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
+                    self.navigationController?.pushViewController(address, animated: true)            }
                 
-            case Constant.IS_FAV:
-                let fav = self.storyboard?.instantiateViewController(withIdentifier: "FavouritesViewController") as! FavouritesViewController
-                self.navigationController?.pushViewController(fav, animated: true)
+                switch navigation {
+                case Constant.IS_SHOPPING_CART:
+                    let shoppingBag = self.storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as! ShoppingCartViewController
+                    self.navigationController?.pushViewController(shoppingBag, animated: true)
+                    
+                case Constant.IS_FAV:
+                    let fav = self.storyboard?.instantiateViewController(withIdentifier: "FavouritesViewController") as! FavouritesViewController
+                    self.navigationController?.pushViewController(fav, animated: true)
+                    
+                    
+                    
+                case Constant.IS_CATEGORY:
+                    let category = self.storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
+                    self.navigationController?.pushViewController(category, animated: true)
+                    
+                case Constant.IS_BRANDS:
+                    let brands = self.storyboard?.instantiateViewController(withIdentifier: "BrandProductsViewController") as! BrandProductsViewController
+                    self.navigationController?.pushViewController(brands, animated: true)
+                    
+                case Constant.IS_PRODUCT_INFO:
+                    let search = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
+                    self.navigationController?.pushViewController(search, animated: true)
+                    
+                    
+                default:
+                    print("No match")
+                }
                 
                 
                 
-            case Constant.IS_CATEGORY:
-                let category = self.storyboard?.instantiateViewController(withIdentifier: "CategoryViewController") as! CategoryViewController
-                self.navigationController?.pushViewController(category, animated: true)
-                
-            case Constant.IS_BRANDS:
-                let brands = self.storyboard?.instantiateViewController(withIdentifier: "BrandProductsViewController") as! BrandProductsViewController
-                self.navigationController?.pushViewController(brands, animated: true)
-                
-            case Constant.IS_PRODUCT_INFO:
-                let search = self.storyboard?.instantiateViewController(withIdentifier: "SearchViewController") as! SearchViewController
-                self.navigationController?.pushViewController(search, animated: true)
-                
-                
-            default:
-                print("No match")
             }
-            
-            
-            
-        }
             else{
                 print("not done, not found ")
                 let alert = UIAlertController(title: "Invalid Data", message: "InCorrect Email or Password", preferredStyle: .alert)
@@ -123,7 +142,18 @@ class LogInViewController: UIViewController {
                 self.present(alert, animated: true)
                 activityIndicator.isHidden = true
             }
-            
+        }
+        else{
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline, Plz check connectivity", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alert, animated: true)
+           
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start notifier")
+            }
+        }
             
         }
     
