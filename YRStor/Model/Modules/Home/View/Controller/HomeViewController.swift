@@ -34,24 +34,6 @@ class HomeViewController: UIViewController {
           }catch{
             print("could not start reachability notifier")
           }
-           
-           //        if  HelperFunctions.hasConnectivity(){
-    //
-    //            homeVM.getAllCategoriesFromApi {
-    //                [weak self] in
-    //                guard let self else { return }
-    //                DispatchQueue.main.async {
-    //                    self.activityIndicator.stopAnimating()
-    //                    self.brandsCollectionView.isHidden = false
-    //                    self.brandsCollectionView.reloadData()
-    //                }
-    //            }
-    //        }
-    //        else{
-    //            self.present( HelperFunctions.showWorining(completionHandler: {
-    //                print("no conection")
-    //            }), animated: true, completion: nil)
-    //        }
        }
     
     @objc func reachabilityChanged(note: Notification) {}
@@ -113,8 +95,6 @@ extension HomeViewController{
     func navigationBarButtons(){
         self.navigationController?.navigationBar.tintColor =  #colorLiteral(red: 0.06274510175, green: 0, blue: 0.1921568662, alpha: 1)
         let profilBtn = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(self.navToProfile))
-        //profilBtn.addBadge(text: "\(count)" , withOffset: CGPoint(x: -60, y: 0))
-        
         let searchBtn = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(self.navToSearchScreen))
         navigationItem.rightBarButtonItems = [profilBtn,searchBtn]
     }

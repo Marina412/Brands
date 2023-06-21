@@ -32,7 +32,7 @@ extension OrderDetailsViewController{
         orderDate.text = order?.createdAt?.substring(to: endCar)
         adress.text = order?.address
         payedBy.text = order?.payType
-        totalPrice.text = (order?.currentTotalPrice ?? "") + " " + (order?.currencyType ?? "")
+        totalPrice.text = HelperFunctions.priceEXchange(price:(order?.currentTotalPrice ?? "0"))
     }
     private func registerXibCells(){
         itemsCollectionView.register(UINib(nibName: "OrderItemColletionViewCellCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "OrderItemColletionViewCellCollectionViewCell")
@@ -56,8 +56,7 @@ extension OrderDetailsViewController : UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let orderDetailsCell = collectionView.dequeueReusableCell(withReuseIdentifier: "OrderItemColletionViewCellCollectionViewCell", for: indexPath) as? OrderItemColletionViewCellCollectionViewCell
-        orderDetailsCell?.cellSetUp(order: order?.lineItems?[indexPath.row] ?? OrderLineItems(),currency: order?.currencyType ?? "")
-        
+        orderDetailsCell?.cellSetUp(order: order?.lineItems?[indexPath.row] ?? OrderLineItems())
         return orderDetailsCell ?? OrderItemColletionViewCellCollectionViewCell()
         
     }

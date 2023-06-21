@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 
 class FavTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var addToCartOutlet: UIButton!
     @IBOutlet weak var view: UIView!
@@ -26,20 +26,20 @@ class FavTableViewCell: UITableViewCell {
     var index : IndexPath = IndexPath()
     let defaults = UserDefaults.standard
     var products : [LineItems] = [LineItems()]
-   
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         activityIndicator.isHidden = true
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
-    func configureCell( draft : FavProduct,indexPath : IndexPath ,currency:String){
+    func configureCell( draft : FavProduct,indexPath : IndexPath){
         cartViewModel.product = draft.lineItems?[indexPath.row] ?? LineItems()
         cartViewModel.draftId = String(draft.draftId ?? 0)
         defaults.double(forKey: "totalPrice")
@@ -48,12 +48,10 @@ class FavTableViewCell: UITableViewCell {
         draftt.draftOrder  = draft
         draftId = draft.draftId ?? 0
         productTitle.text = draft.lineItems?[indexPath.row].productTitle
-        var productPriceExchange =  HelperFunctions.priceEXchange(curencyType: favViewModel.curencyType, price: draft.lineItems?[indexPath.row].productPrice ?? "0", rates: favViewModel.rates)
-               productPrice.text = productPriceExchange + " " + favViewModel.curencyType
-       
+        productPrice.text = HelperFunctions.priceEXchange(price:(draft.lineItems?[indexPath.row].productPrice ?? "0"))
         productImage.kf.setImage(with: URL(string:  draft.lineItems?[indexPath.row].productImage ?? ""))
-
-     UIView.elevationCardView(view: view)
+        
+        UIView.elevationCardView(view: view)
         
     }
     @IBAction func addToCartBtn(_ sender: Any) {
@@ -62,12 +60,12 @@ class FavTableViewCell: UITableViewCell {
         addToCartOutlet.isHidden = true
         self.checkCustomerCart()
         print("add to cart in fav clickeddd")
- 
+        
     }
     
 }
 extension FavTableViewCell{
-   
+    
     
     func checkCustomerCart(){
         let email = self.cartViewModel.defaults.string(forKey: "email")

@@ -18,10 +18,10 @@ class OrderItemColletionViewCellCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    func cellSetUp(order:OrderLineItems,currency:String){
+    func cellSetUp(order:OrderLineItems){
         productImage.kf.setImage(with: URL(string:order.image ?? ""), placeholder: UIImage(named: "logo"))
         productTitle.text = order.productTitle
         productsCount.text = "\(order.productQuantity ?? 0) items"
-        productsTotalPrice.text = (order.productPrice ?? "0") + " " + currency
+        productsTotalPrice.text = HelperFunctions.priceEXchange(price:(order.productPrice ?? "0"))
     }
 }

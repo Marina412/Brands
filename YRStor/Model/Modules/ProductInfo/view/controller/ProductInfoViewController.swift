@@ -279,10 +279,7 @@ class ProductInfoViewController: UIViewController {
         pageControl.numberOfPages = self.productInfoViewModel.productImages.count
         setUpProductDetails()
         self.activityIndicator.isHidden = true
-        
-        
-        
-        
+
     }
     func setUpProductDetails(){
         productName.text = product?.title

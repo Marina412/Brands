@@ -49,31 +49,27 @@ class BrandProductsViewController: UIViewController {
         checkIsFavProduct()
     }
     func checkIsFavProduct(){
-     
+        
         favViewModel.getAllFav()
         favViewModel.bindResult = {() in
             let res = self.favViewModel.viewModelResult
             guard let allFav = res?.draftOrders else {return}
-            
-            
             guard let customerFav = CustomerHelper.getFavForCustomers(favs: allFav) else {return}
-            
             guard let favIds = customerFav.lineItems?.count  else {return}
-            
             for id in customerFav.lineItems!{
                 self.favProducts.append(id.productId ?? "")
-              
+                
             }
             
             self.productsCollectionView.reloadData()
         }
     }
 }
-    
+
 
 extension BrandProductsViewController:UICollectionViewDelegateFlowLayout{
-  
-     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if collectionView.numberOfItems(inSection: section) == 1  {
             let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
@@ -95,19 +91,19 @@ extension BrandProductsViewController{
         var isFav = false
         productsCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
         brandProductsVM.poductsObservablRS.bind(to: productsCollectionView.rx.items(cellIdentifier: "productsCell",cellType: ProductCollectionViewCell.self)) { index, element, cell in
- 
-           isFav = self.favProducts.contains(String(element.id ?? 0))
-            cell.cellSetUp(product: element, currency: UserDefaults.standard.string(forKey: Constant.CURRENCY) ?? "", isFav: isFav)
-//            cell.categoryButtonAction = {() in
-//                let category = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-//                self.navigationController?.pushViewController(category, animated: true)
-//
-//            }
-//            cell.BrandsButtonAction = {() in
-//                let brands = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-//                self.navigationController?.pushViewController(brands, animated: true)
-//            }
-
+            
+            isFav = self.favProducts.contains(String(element.id ?? 0))
+            cell.cellSetUp(product: element, isFav: isFav)
+            //            cell.categoryButtonAction = {() in
+            //                let category = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+            //                self.navigationController?.pushViewController(category, animated: true)
+            //
+            //            }
+            //            cell.BrandsButtonAction = {() in
+            //                let brands = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+            //                self.navigationController?.pushViewController(brands, animated: true)
+            //            }
+            
         }.disposed(by:disposeBag)
         
         productsCollectionView.rx.itemSelected.subscribe(onNext:{
@@ -115,7 +111,7 @@ extension BrandProductsViewController{
             let productInfo = self.storyboard?.instantiateViewController(withIdentifier: "ProductInfoViewController") as! ProductInfoViewController
             productInfo.product = self.brandProductsVM.allProducts[index.row]
             self.navigationController?.pushViewController(productInfo, animated: true)
-         }).disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
         
     }
 }

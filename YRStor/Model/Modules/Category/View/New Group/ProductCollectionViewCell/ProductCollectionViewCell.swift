@@ -39,7 +39,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
     }
     
     
-    func cellSetUp(product:Product, currency:String , isFav : Bool){
+    func cellSetUp(product:Product,isFav : Bool){
         if(isFav){
             favourit.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }else{
@@ -52,8 +52,8 @@ class ProductCollectionViewCell: UICollectionViewCell {
         productImage.kf.setImage(with: URL(string:product.image?.src ?? "logo"), placeholder: UIImage(named: "logo"))
         productTitle.text = product.title?.localizedCapitalized
         productType.text = product.productType?.localizedCapitalized
-        productPrice.text = product.variants?[0].price
-        currencyLab.text = currency
+        productPrice.text = HelperFunctions.priceEXchange(price:(product.variants?[0].price ?? "0"))
+        currencyLab.text = ""
         
         
     }

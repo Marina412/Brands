@@ -18,7 +18,7 @@ class OrderCollectionViewCell: UICollectionViewCell {
         let endCar = (order.createdAt?.firstIndex(of: "T"))!
         orderDate.text = order.createdAt?.substring(to: endCar)
         orderPaydType.text = order.payType
-        orderPrice.text = (order.currentTotalPrice ?? "0") + " " + (order.currencyType ?? "USD")
+        orderPrice.text = HelperFunctions.priceEXchange(price:(order.currentTotalPrice ?? "0"))
 
     }
 }

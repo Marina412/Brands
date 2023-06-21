@@ -36,7 +36,8 @@ class CheckoutViewController: UIViewController,CheckOutDelegate{
         super.viewDidLoad()
         cuponCodeTxtField.text = ""
         defaults.set(true, forKey: "AddressShoppingCart")
-        totalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
+        totalLbl.text =  HelperFunctions.priceEXchange(price:checkOutItems.totalPrice ?? "0" )
+        
         getOneAddress()
         homeVM = HomeViewModel(repo: Repo(networkManager: NetworkManager()))
         
@@ -121,8 +122,8 @@ class CheckoutViewController: UIViewController,CheckOutDelegate{
     }
     
     func calculateTotal(){
-        totalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
-        subTotalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ??  "0", rates: addressViewModel.rates) + " " + addressViewModel.curencyType
+        totalLbl.text = HelperFunctions.priceEXchange(price:checkOutItems.totalPrice ?? "0" )
+        subTotalLbl.text = HelperFunctions.priceEXchange(price:checkOutItems.totalPrice ?? "0" )
     }
     
     func showCupon(){
@@ -166,7 +167,8 @@ class CheckoutViewController: UIViewController,CheckOutDelegate{
         }
         if let intTotal = Double(checkOutItems.totalPrice ?? ""){
             let result = intTotal - (intTotal * intCupon)
-            self.totalLbl.text =  HelperFunctions.priceEXchange(curencyType: self.addressViewModel.curencyType, price: String(result) , rates: self.addressViewModel.rates) + " " + self.addressViewModel.curencyType
+            self.totalLbl.text = HelperFunctions.priceEXchange(price:String(result) ?? "0" )
+            
         } else {
             print("One of the strings is not a valid integer.")
         }

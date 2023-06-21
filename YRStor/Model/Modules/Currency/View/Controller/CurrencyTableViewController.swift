@@ -8,7 +8,6 @@
 import UIKit
 
 class CurrencyTableViewController: UITableViewController {
-    var currencyVM: CurrencyViewModel!
     var currencyLists: [Currency] = [
           Currency(flagImage:"EgyptFlag" ,currencyName: Constant.EGYPT_CURRENCY, selected: false),
           Currency(flagImage:"AmericaFlag",currencyName: Constant.AMERICAN_CURRENCY, selected: false),

@@ -12,8 +12,6 @@ class ShoppingCartViewModel{
     var products : [LineItems] = []
     var draftId = ""
     var productIds : [String] = []
-    var curencyType :String = "USD"
-    var rates = Rates()
     let defaults = UserDefaults.standard
     var cartProductsDetails : [Product] = []
     var product : LineItems = LineItems()

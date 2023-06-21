@@ -172,7 +172,7 @@ extension ShoppingCartViewController : UITableViewDelegate,UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ShopCart", for: indexPath) as! ShopCart
         
-        cell.configureCell(draft: cartViewModel.resDraft ?? FavProduct(), indexPath: indexPath,currency: viewModel.curencyType)
+        cell.configureCell(draft: cartViewModel.resDraft ?? FavProduct(), indexPath: indexPath)
         cell.cellViewModel.stepperAction = { [weak self] totalPrice  in
             self?.totalPriceLbl.text = "Total :  \(String(totalPrice))"
 

@@ -24,7 +24,7 @@ class CategoryViewController: UIViewController {
     let defaults = UserDefaults.standard
     var favViewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
     var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,14 +38,6 @@ class CategoryViewController: UIViewController {
         catigoryVM = CategoryViewModel(repo: repo)
         setUpProductsCollectionView()
         setUpSearchBar()
-//        catigoryVM.setUpData(){
-//            [weak self] in
-//            guard let self else { return }
-//            DispatchQueue.main.async {
-//                self.activityIndicator.stopAnimating()
-//                self.productsCollectionView.isHidden = false
-//            }
-//        }
         filterFloaty.openAnimationType = .none
         filterFloaty.addItem(Constant.ACCESSORIES, icon: UIImage(named: "accessory")){
             [weak self]
@@ -108,30 +100,22 @@ class CategoryViewController: UIViewController {
     }
     
     func checkIsFavProduct(){
-     
+        
         favViewModel.getAllFav()
         favViewModel.bindResult = {() in
             let res = self.favViewModel.viewModelResult
             guard let allFav = res?.draftOrders else {return}
-            
-            
             guard let customerFav = CustomerHelper.getFavForCustomers(favs: allFav) else {return}
-            print("all fav \(customerFav.lineItems?.count)")
-            
             guard let favIds = customerFav.lineItems?.count  else {return}
             
             for id in customerFav.lineItems!{
                 self.favProducts.append(id.productId ?? "")
-              
+                
             }
-            
             self.productsCollectionView.reloadData()
         }
     }
 }
-
-
-
 extension CategoryViewController{
     func indicatorSetUp(){
         activityIndicator.center = view.center
@@ -143,42 +127,42 @@ extension CategoryViewController{
 }
 extension CategoryViewController:UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-       if collectionView.numberOfItems(inSection: section) == 1  {
-           let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-           return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
-       }
-       return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-   }
+        if collectionView.numberOfItems(inSection: section) == 1  {
+            let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
+        }
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
 }
 extension CategoryViewController{
- 
+    
     func setUpProductsCollectionView(){
         var isFav = false
         print("test1")
         productsCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-            catigoryVM.poductsObservablRS.bind(to: productsCollectionView.rx.items(cellIdentifier: "productsCell",cellType: ProductCollectionViewCell.self)) { index, element, cell in
-     
-               isFav = self.favProducts.contains(String(element.id ?? 0))
-                
-                cell.cellSetUp(product: element, currency: UserDefaults.standard.string(forKey: Constant.CURRENCY) ?? "", isFav: isFav)
-//                cell.categoryButtonAction = {() in
-//                    let category = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-//                    self.navigationController?.pushViewController(category, animated: true)
-//                    
-//                }
-//                cell.BrandsButtonAction = {() in
-//                    let category = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-//                    self.navigationController?.pushViewController(category, animated: true)
-//
-//                }
-  
+        catigoryVM.poductsObservablRS.bind(to: productsCollectionView.rx.items(cellIdentifier: "productsCell",cellType: ProductCollectionViewCell.self)) { index, element, cell in
+            
+            isFav = self.favProducts.contains(String(element.id ?? 0))
+            
+            cell.cellSetUp(product: element, isFav: isFav)
+            //                cell.categoryButtonAction = {() in
+            //                    let category = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+            //                    self.navigationController?.pushViewController(category, animated: true)
+            //                    
+            //                }
+            //                cell.BrandsButtonAction = {() in
+            //                    let category = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
+            //                    self.navigationController?.pushViewController(category, animated: true)
+            //
+            //                }
+            
         }.disposed(by:disposeBag)
         productsCollectionView.rx.itemSelected.subscribe(onNext:{
             index in
             let productInfo = self.storyboard?.instantiateViewController(withIdentifier: "ProductInfoViewController") as! ProductInfoViewController
             productInfo.product = self.catigoryVM.allProducts[index.row]
             self.navigationController?.pushViewController(productInfo, animated: true)
-         }).disposed(by: disposeBag)
+        }).disposed(by: disposeBag)
     }
 }
 
@@ -196,8 +180,8 @@ extension CategoryViewController{
         categoryWMSegment.borderColor = .lightGray
         categoryWMSegment.borderWidth = 2
         categoryWMSegment.buttonTitles = "All,Woman,Man,Kid,Sale"
-//        categoryWMSegment.buttonImages = "selected,woman,man,kid,sale"
-//       categoryWMSegment.buttonImagesSelected = "selected,selected,selected,selected,selected"
+        //        categoryWMSegment.buttonImages = "selected,woman,man,kid,sale"
+        //       categoryWMSegment.buttonImagesSelected = "selected,selected,selected,selected,selected"
         categoryWMSegment.animate = true
     }
     private func registerXibCells(){

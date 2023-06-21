@@ -20,8 +20,6 @@ class OrdersViewController: UIViewController {
         let repo = Repo(networkManager: remote)
         ordersVM = OrdersViewModel(repo: repo)
         registerXibCells()
-        print( UserDefaults.standard.string(forKey: "email"))
-    
         setUpOrdersCollectionView()
     }
     override func viewWillAppear(_ animated: Bool) {

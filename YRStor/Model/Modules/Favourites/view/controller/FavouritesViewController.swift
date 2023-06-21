@@ -118,7 +118,7 @@ extension FavouritesViewController : UITableViewDelegate , UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "favCell", for: indexPath) as! FavTableViewCell
-        cell.configureCell(draft: cartViewModel.resDraft ?? FavProduct(), indexPath: indexPath,currency: viewModel.curencyType)
+        cell.configureCell(draft: cartViewModel.resDraft ?? FavProduct(), indexPath: indexPath)
        
         return cell
     }

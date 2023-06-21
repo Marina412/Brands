@@ -41,15 +41,14 @@ class ShopCart: UITableViewCell {
         
         // Configure the view for the selected state
     }
-    func configureCell( draft : FavProduct,indexPath : IndexPath ,currency:String){
+    func configureCell( draft : FavProduct,indexPath : IndexPath){
         defaults.double(forKey: "totalPrice")
         defaults.set(draft.totalPrice, forKey: "totalPrice")
         index = indexPath
         draftt.draftOrder  = draft
         draftId = draft.draftId ?? 0
         productTitle.text = draft.lineItems?[indexPath.row].productTitle
-        var productPriceExchange =  HelperFunctions.priceEXchange(curencyType: cellViewModel.curencyType, price: draft.lineItems?[indexPath.row].productPrice ?? "0", rates: cellViewModel.rates)
-               productPrice.text = productPriceExchange + " " + cellViewModel.curencyType
+        productPrice.text = HelperFunctions.priceEXchange(price:(draft.lineItems?[indexPath.row].productPrice ?? "0"))
         
         self.productPriceValue = draft.lineItems?[indexPath.row].productPrice ?? ""
         productImage.kf.setImage(with: URL(string:  draft.lineItems?[indexPath.row].productImage ?? ""))

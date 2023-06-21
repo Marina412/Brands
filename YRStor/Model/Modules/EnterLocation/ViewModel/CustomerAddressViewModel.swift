@@ -24,22 +24,10 @@ class CustomerAddressViewModel {
             bindOneResult()
         }
     }
-    var curencyType :String = "USD"
-    var rates = Rates()
     
     init(repo: RepoProtocol?) {
         self.repo = repo
-        currencySetUp()
     }
-    func currencySetUp(){
-        curencyType =  UserDefaults.standard.string(forKey: Constant.CURRENCY) ?? "USD"
-        repo?.getCurrency{
-            [weak self] res in
-                guard let self else { return }
-                guard let res else {return}
-            self.rates = res
-        }
-  }
 
     func saveCustomerAddress(address : CustomerAddress , customerId : String){
         repo?.saveAddressToDatabase(address: address , customerId: customerId)

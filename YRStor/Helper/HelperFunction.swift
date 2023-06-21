@@ -13,59 +13,38 @@ class HelperFunctions{
         image.layer.cornerRadius = image.frame.height / 2
         image.clipsToBounds = true
     }
-    static func priceEXchange(curencyType:String , price:String,rates:Rates)->String{
+    static func currencySetUp()->Rates{
+        var rates = Rates()
+        Repo(networkManager: NetworkManager()).getCurrency{
+            res in
+            guard let res else {return}
+            rates = res
+        }
+        return rates
+    }
+    static func priceEXchange(price:String)->String{
         var priceEx:String = ""
+        var curencyType =  UserDefaults.standard.string(forKey: Constant.CURRENCY) ?? "USD"
+        var rates = currencySetUp()
+        print(rates)
         switch curencyType{
         case Constant.EGYPT_CURRENCY:
-            priceEx = String (format: "%.3f", (Double(price) ?? 0) * (rates.EGP ?? 1) )
+            priceEx = String (format: "%.2f", (Double(price) ?? 0) * (rates.EGP ?? 1) ) + " " + Constant.EGYPT_CURRENCY
         case Constant.AMERICAN_CURRENCY:
-            priceEx = price
+            priceEx = price + " " + Constant.AMERICAN_CURRENCY
         case Constant.EUROPE_CURRENCY:
-            priceEx = String (format: "%.3f", (Double(price) ?? 0) * (rates.EUR ?? 1) )
+            priceEx = String (format: "%.2f", (Double(price) ?? 0) * (rates.EUR ?? 1) ) + " " + Constant.EUROPE_CURRENCY
         case Constant.SAR_CURRENCY:
-            priceEx = String (format: "%.3f", (Double(price) ?? 0) * (rates.SAR ?? 1) )
+            print(price)
+            priceEx = String (format: "%.2f", (Double(price) ?? 0) * (rates.SAR ?? 1) ) + " " + Constant.SAR_CURRENCY
+            print(priceEx)
         case Constant.UAE_CURRENCY:
-            priceEx = String (format: "%.3f", (Double(price) ?? 0) * (rates.AED ?? 1) )
+            priceEx = String (format: "%.2f", (Double(price) ?? 0) * (rates.AED ?? 1) ) + " " + Constant.UAE_CURRENCY
         default:
             print("")
         }
         return priceEx
         
-    }
-    static func productPriceEXchange(curencyType:String , allProducts:[Product],rates:Rates)->[Product]{
-        var filteredProducts : [Product] = []
-        switch curencyType{
-        case Constant.EGYPT_CURRENCY:
-            filteredProducts = allProducts.map({item in
-                var x = item
-                x.variants?[0].price = String (format: "%.3f", (Double(item.variants?[0].price ?? "0") ?? 0) * (rates.EGP ?? 1) )
-                return x
-            })
-        case Constant.AMERICAN_CURRENCY:
-            filteredProducts = allProducts
-            
-        case Constant.EUROPE_CURRENCY:
-            filteredProducts = allProducts.map({item in
-                var x = item
-                x.variants?[0].price = String(format: "%.3f", (Double(item.variants?[0].price ?? "0") ?? 0) * (rates.EUR ?? 1) )
-                return x
-            })
-        case Constant.SAR_CURRENCY:
-            filteredProducts = allProducts.map({item in
-                var x = item
-                x.variants?[0].price = String( format: "%.3f",(Double(item.variants?[0].price ?? "0") ?? 0) * (rates.SAR ?? 1) )
-                return x
-            })
-        case Constant.UAE_CURRENCY:
-            filteredProducts = allProducts.map({item in
-                var x = item
-                x.variants?[0].price = String(format: "%.3f", (Double(item.variants?[0].price ?? "0") ?? 0) * (rates.AED ?? 1) )
-                return x
-            })
-        default:
-            print("")
-        }
-        return filteredProducts
     }
     static func formFavModelToProduct(shopCartProduct:FavProduct)->[OrderLineItems]{
         var orderProductItems : [OrderLineItems] = []
