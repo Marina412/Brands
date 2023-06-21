@@ -21,7 +21,7 @@ class CheckoutViewController: UIViewController{
     @IBOutlet weak var subTotalLbl: UILabel!
     @IBOutlet weak var phoneLbl: UILabel!
     @IBOutlet weak var applyBtn: UIButton!
-    
+    var paymentMethod :String = ""
     var homeVM:HomeViewModel!
     let defaults = UserDefaults.standard
     var addressResult: Address = Address()
@@ -159,9 +159,9 @@ class CheckoutViewController: UIViewController{
 
 extension CheckoutViewController{
     func addOrder(){
-        addressViewModel.postOrder(order: Order(
-            created_at: HelperFunctions.getTimestamp(), currency: defaults.string(forKey: Constant.CURRENCY), email: defaults.string(forKey: Constant.EMAIL), current_total_price: totalLbl.text, line_items: HelperFunctions.formFavModelToProduct(shopCartProduct: checkOutItems), reference: Constant.PAY_Method, note: addressLabel.text
-        )){
+        addressViewModel.postOrder(order:PostOrders(order: Order(
+            currencyType: defaults.string(forKey: Constant.CURRENCY), currentTotalPrice: totalLbl.text, userEmail: defaults.string(forKey: Constant.EMAIL), address: addressLabel.text, payType: defaults.string(forKey: Constant.PAY_Method), lineItems: HelperFunctions.formFavModelToProduct(shopCartProduct: checkOutItems)
+        ))){
             res in
             if ((res) != nil){
                 print("order done")

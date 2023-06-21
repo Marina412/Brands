@@ -18,14 +18,12 @@ protocol NetworkManagerProtocol{
     func deleteAddressInDatabase(customerId : Int , addressId : Int)
     func editShoppingCartInDatabase(apiUrl: String, draftOrder: Drafts , draftId : String)
     func saveShoppingCartInDataBase(apiUrl: String,favProduct: FavProduct,completion: @escaping (Drafts?)->())
-    func postOrder(apiUrl: String,order:Order,completion: @escaping (String?)->())
+    func postOrder(apiUrl: String,order:PostOrders,completion: @escaping (PostOrders?)->())
     
 }
 
 class NetworkManager : NetworkManagerProtocol{
-    
-    
-    func getDataFromApi<T: Decodable>(apiUrl: String,val: T.Type,completion: @escaping (T?)->()) {
+ func getDataFromApi<T: Decodable>(apiUrl: String,val: T.Type,completion: @escaping (T?)->()) {
         let url = URL(string: apiUrl)
         
         guard let newURL = url else{
@@ -390,30 +388,41 @@ class NetworkManager : NetworkManagerProtocol{
         }
     }
 }
-    extension NetworkManager{
-    func postOrder(apiUrl: String,order:Order,completion: @escaping (String?)->()){
+extension NetworkManager{
+    func postOrder(apiUrl: String,order:PostOrders,completion: @escaping (PostOrders?)->()){
         let url = URL(string: apiUrl)
         guard let url else{return}
-        AF.request(url,method: .post,parameters: HelperFunctions.orderToParameters(order: order),encoding: JSONEncoding.default, headers: HTTPHeaders([Constant.HEADER])).validate().response{
-            response in
+        var request = URLRequest(url: url)
+        do{
+            let parameters: [String: Any] = try! order.asDictionary()
+            print(parameters)
+            request.httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: [])
+        }catch let error{
+            print("\n\nerror\(error.localizedDescription)\n\n")
+        }
+        let headers = [ "Content-Type": "application/json"]
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.allHTTPHeaderFields = headers
+        request.httpShouldHandleCookies = false
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+       // AF.request(request).validate().response{ response in
+       AF.request(request).responseDecodable(of: PostOrders.self) { (response) in
+            print("--- API Call Details ---")
+            print("Endpoint:", url)
+            
+            if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
+                print("Response:", responseString)
+            } else {
+                print("Response: No Data")
+            }
             switch response.result {
-            case .success(_):
-                if let responseData = response.data, let responseString = String(data: responseData, encoding: .utf8) {
-                    print(responseString)
-                    completion(responseString)
-                } else {
-                    print("Response: No Data")
-                }
+            case .success(let value):
+                completion(value)
             case .failure(let error):
-                print("error here \n \n \(String(describing:error)) \n\n ")
                 completion(nil)
             }
         }
     }
     
 }
-
-
-
-
-
+    

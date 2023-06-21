@@ -4,45 +4,57 @@
 //
 //  Created by marina on 09/06/2023.
 //
-
 import Foundation
 struct Orders: Codable{
     var orders: [Order]
+    enum CodingKeys: String, CodingKey {
+        case orders
+    }
 }
-struct Order: Codable{
-    var created_at: String?
-    var currency: String?
-    var email: String?
-    var current_total_price: String?
-    var line_items: [OrderProductItems]?
-    var reference:String?//pay type
-    var note: String?//adress
+struct Order: Codable {
+    var createdAt: String?
+    var currencyType: String?
+    var currentTotalPrice: String?
+    var userEmail: String?
+    var address: String?//ad
+    var payType: String?//pay///////
+    var lineItems: [OrderLineItems]?
+    enum CodingKeys: String, CodingKey {
+        case createdAt = "created_at"
+        case currencyType = "currency"
+        case currentTotalPrice = "current_total_price"
+        case userEmail = "email"
+        case address = "note"
+        case payType = "tags"
+        case lineItems = "line_items"
+    }
 }
-struct OrderProductItems: Codable{
-    var price: String?
-    var product_id: Int?
-    var quantity: Int?
-    var title: String?
-    var sku : String?
+struct OrderLineItems: Codable {
+    var productPrice: String?
+    var productID: Int?
+    var productQuantity: Int?
+    var image: String?
+    var productTitle: String?
+    enum CodingKeys: String, CodingKey {
+        case productPrice = "price"
+        case productID = "product_id"
+        case productQuantity = "quantity"
+        case image = "sku"
+        case  productTitle = "title"
+    }
 }
-
-//{
-//    "order":{
-//            "created_at": "Fri, 16 Jun 2023 09:13:52",
-//            "currency": "EUR",
-//            "current_total_price": 10,
-//            "email": "marina@gmail.com",
-//            "line_items": [
-//                {
-//                    "product_id":555555,
-//                    "title":"item.title",
-//                    "price":50,
-//                    "quantity":5,
-//                    "sku":"item.productImage"
-//                }
-//            ]
-//            ,
-//            "shipping_address": {
-//               "address1": "Zagazig"
-//            }
-//    }
+struct PostOrders: Codable {
+    var order: Order?
+    enum CodingKeys: String, CodingKey {
+        case order
+    }
+}
+extension Encodable{
+    func asDictionary() throws -> [String: Any] {
+        let data = try JSONEncoder().encode(self)
+        guard let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {
+            throw NSError()
+        }
+        return dictionary
+    }
+}

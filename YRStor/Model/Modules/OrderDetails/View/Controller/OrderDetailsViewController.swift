@@ -7,7 +7,7 @@
 
 import UIKit
 
-class OrderDetailsViewController: UIViewController {
+class OrderDetailsViewController: UIViewController, UICollectionViewDelegate {
     
     @IBOutlet weak var orderDate: UILabel!
     @IBOutlet weak var adress: UILabel!
@@ -26,32 +26,37 @@ class OrderDetailsViewController: UIViewController {
     }
     
 }
-
 extension OrderDetailsViewController{
     func renderUi(){
-        orderDate.text = order?.created_at
-        adress.text = order?.note
-        payedBy.text = order?.reference
-        totalPrice.text = order?.current_total_price
+        let endCar = (order?.createdAt?.firstIndex(of: "T"))!
+        orderDate.text = order?.createdAt?.substring(to: endCar)
+        adress.text = order?.address
+        payedBy.text = order?.payType
+        totalPrice.text = (order?.currentTotalPrice ?? "") + " " + (order?.currencyType ?? "")
     }
     private func registerXibCells(){
         itemsCollectionView.register(UINib(nibName: "OrderItemColletionViewCellCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "OrderItemColletionViewCellCollectionViewCell")
     }
 }
-
-extension OrderDetailsViewController : UICollectionViewDelegate{
-    
+extension OrderDetailsViewController:UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+       if collectionView.numberOfItems(inSection: section) == 1  {
+           let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+           return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: collectionView.frame.width - flowLayout.itemSize.width)
+       }
+       return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+   }
 }
 extension OrderDetailsViewController : UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return order?.line_items?.count ?? 0
+        return order?.lineItems?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let orderDetailsCell = collectionView.dequeueReusableCell(withReuseIdentifier: "OrderItemColletionViewCellCollectionViewCell", for: indexPath) as? OrderItemColletionViewCellCollectionViewCell
-        orderDetailsCell?.cellSetUp(order: order?.line_items?[indexPath.row] ?? OrderProductItems())
+        orderDetailsCell?.cellSetUp(order: order?.lineItems?[indexPath.row] ?? OrderLineItems(),currency: order?.currencyType ?? "")
         
         return orderDetailsCell ?? OrderItemColletionViewCellCollectionViewCell()
         

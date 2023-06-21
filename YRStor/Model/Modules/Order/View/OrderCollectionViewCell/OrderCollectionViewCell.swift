@@ -15,9 +15,10 @@ class OrderCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
     func cellSetUp(order:Order){
-        orderDate.text = order.created_at
-        orderPaydType.text = order.reference
-        orderPrice.text = order.current_total_price
+        let endCar = (order.createdAt?.firstIndex(of: "T"))!
+        orderDate.text = order.createdAt?.substring(to: endCar)
+        orderPaydType.text = order.payType
+        orderPrice.text = (order.currentTotalPrice ?? "0") + " " + (order.currencyType ?? "USD")
 
     }
 }

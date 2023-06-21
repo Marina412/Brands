@@ -67,99 +67,13 @@ class HelperFunctions{
         }
         return filteredProducts
     }
-    
-    static func orderToParameters(order:Order)->[String: Any]{
-        var lineItems :[[String:Any]] = [[:]]
-        order.line_items?.forEach{
-            item in
-            lineItems.append(
-                [
-                    "product_id": item.product_id ??  "",
-                    "title": item.title ??  "",
-                    "price": item.price ??  "",
-                    "quantity": item.quantity ??  "",
-                    "sku": item.sku ??  ""
-                ])
-        }
-        return ["order":[
-            "created_at": order.created_at ?? "",
-            "currency": order.currency ?? "",
-            "current_total_price": order.current_total_price ?? "",
-            "email": order.email ?? "",
-            "note":  order.note ?? "",
-            "reference": order.reference ?? "",
-            "line_items": [
-                lineItems
-            ]
-        ]
-        ]
-        
-    }
-    
-    static func getTimestamp() ->String{
-        let date = Date()
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let dateString = df.string(from: date)
-        print(dateString)
-        return dateString
-    }
-    
-    static func hasConnectivity() -> Bool {
-        do {
-            let reachability: Reachability = try Reachability()
-            let networkStatus = reachability.connection
-            switch networkStatus {
-            case .unavailable:
-                return false
-            case .wifi, .cellular:
-                return true
-            default:
-                return false
-                
-            }
-        }
-        catch {
-            return false
-        }
-    }
-    static func showWorining(completionHandler:@escaping ()->Void)->UIAlertController{
-        let alert = UIAlertController(title: "Worning", message: "Please Check Your Connection!!!", preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: "OK", style: .default, handler: { _ in
-            print("ok worn")
-            completionHandler()
-        })
-        
-        let imgTitle = UIImage(systemName:"wifi.slash")
-        let imgViewTitle = UIImageView(frame: CGRect(x: 10, y: 10, width: 30, height: 30))
-        imgViewTitle.image = imgTitle
-        
-        alert.view.addSubview(imgViewTitle)
-        alert.addAction(action)
-        
-        return alert
-        
-    }
-    /*
-     
-     self.present( HelperFunctions.showWorining(completionHandler: {
-     action in
-     if action == "ok"{
-     }
-     else{
-     }
-     }), animated: true, completion: nil)
-     */
-    
-    
-    static func formFavModelToProduct(shopCartProduct:FavProduct)->[OrderProductItems]{
-        var orderProductItems : [OrderProductItems] = []
+    static func formFavModelToProduct(shopCartProduct:FavProduct)->[OrderLineItems]{
+        var orderProductItems : [OrderLineItems] = []
         orderProductItems.removeAll()
         shopCartProduct.lineItems?.forEach{
                 lineItem in
-                orderProductItems.append(OrderProductItems(
-                    price: lineItem.productPrice,product_id: Int(lineItem.productId ?? "0"),quantity: lineItem.quantity, title:lineItem.productTitle,sku:lineItem.productImage
+                orderProductItems.append(OrderLineItems(
+                    productPrice: lineItem.productPrice,productID: Int(lineItem.productId ?? "0"),productQuantity: lineItem.quantity, image:lineItem.productImage, productTitle:lineItem.productTitle
                 ))
             }
         return orderProductItems

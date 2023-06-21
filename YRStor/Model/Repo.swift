@@ -7,8 +7,7 @@
 
 import Foundation
 protocol RepoProtocol{
-    func postOrderToApi(order: Order,completion: @escaping (String?)->())
-    func getAllOrders(completion: @escaping ([Order]?)->())
+   
     func getAllProducts(completion: @escaping ([Product]?)->())
     func getAllCollections(completion: @escaping ([Collection]?)->())
     func getProductsByCollectionId(collectionId:Int ,completion: @escaping ([Product]?)->())
@@ -31,9 +30,13 @@ protocol RepoProtocol{
     func saveShoppingCartInDatabase(apiUrl: String, favProduct: FavProduct, completion: @escaping (Drafts?) -> ())
     
     func getCurrency(completion: @escaping (Rates?)->())
+
+    
+    func postOrderToApi(order: PostOrders,completion: @escaping (PostOrders?)->())
+    func getAllOrders(completion: @escaping ([Order]?)->())
 }
 class Repo : RepoProtocol{
-   
+    
     let networkManager : NetworkManagerProtocol?
     init(networkManager:NetworkManagerProtocol) {
         self.networkManager = networkManager
@@ -75,7 +78,7 @@ class Repo : RepoProtocol{
         networkManager?.getDataFromApi(apiUrl: Constant.GET_CUSTOMERS_URL, val:AllCustomers.self, completion: { res in
             completion(res)
         })
-    
+        
     }
     func saveFavProductToDatabase(favProduct: FavProduct) {
         networkManager?.saveFavProductInDatabase(apiUrl: Constant.POST_FAV_PRODUCT_URL, favProduct: favProduct)
@@ -100,7 +103,7 @@ class Repo : RepoProtocol{
     
     func saveAddressToDatabase(address: CustomerAddress,customerId:String) {
         networkManager?.saveAddressInDatabase(apiUrl: Constant.POST_ADDRESS_URL+customerId+"/addresses.json", address:address)
-
+        
     }
     
     func getAllAddressFromDatabase(customerId:String,completion: @escaping (AllAddress?) -> ()) {
@@ -110,9 +113,9 @@ class Repo : RepoProtocol{
     }
     func getONEAddressFromDatabase(customerId:String,completion: @escaping (AllAddress?) -> ()) {
         networkManager?.getAllAddressFromApi(apiUrl: Constant.POST_ADDRESS_URL+customerId+"/addresses.json"+"?limit=1", val:AllAddress.self, completion: { res in
-                   completion(res)
-               })
-       }
+            completion(res)
+        })
+    }
     
     func deleteAddreesInDatabase(customerId : Int , addressId : Int) {
         networkManager?.deleteAddressInDatabase(customerId: customerId, addressId: addressId)
@@ -131,7 +134,10 @@ class Repo : RepoProtocol{
             completion(res?.rates)
         })
     }
-    func postOrderToApi(order: Order,completion: @escaping (String?)->()){
+    
+}
+extension Repo{
+    func postOrderToApi(order: PostOrders,completion: @escaping (PostOrders?)->()){
         networkManager?.postOrder(apiUrl: Constant.POST_ORDERS_URL, order: order){
             res in
             completion(res)

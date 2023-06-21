@@ -12,15 +12,33 @@ class OrdersViewController: UIViewController {
     @IBOutlet weak var ordersCollectionView: UICollectionView!
     var ordersVM:OrdersViewModel!
     let disposeBag = DisposeBag()
+    let activityIndicator = UIActivityIndicatorView(style: .large)
     override func viewDidLoad() {
         super.viewDidLoad()
+        indicatorSetUp()
         let remote = NetworkManager()
         let repo = Repo(networkManager: remote)
         ordersVM = OrdersViewModel(repo: repo)
         registerXibCells()
         print( UserDefaults.standard.string(forKey: "email"))
-        ordersVM.getAllOrdersFromApi(userEmail:  UserDefaults.standard.string(forKey: "email") ?? "")
+    
         setUpOrdersCollectionView()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        ordersVM.getAllOrdersFromApi(userEmail:  UserDefaults.standard.string(forKey: "email") ?? "")
+        self.activityIndicator.stopAnimating()
+        self.ordersCollectionView.isHidden = false
+                
+        
+    }
+}
+extension OrdersViewController{
+    func indicatorSetUp(){
+        activityIndicator.center = view.center
+        activityIndicator.color = UIColor.black
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        ordersCollectionView.isHidden = true
     }
 }
 extension OrdersViewController{

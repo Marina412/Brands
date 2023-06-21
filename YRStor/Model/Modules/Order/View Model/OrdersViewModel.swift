@@ -15,12 +15,15 @@ class OrdersViewModel{
             self.repo = repo
         }
     func getAllOrdersFromApi(userEmail:String){
+        orders.removeAll()
         repo.getAllOrders { [weak self] ordersRes in
             guard let self else { return }
             guard let ordersRes else {return}
             for order in ordersRes{
-                if order.email?.contains(userEmail) == true{
+                print("order befor \(order)")
+                if order.userEmail == userEmail {
                     self.orders.append(order)
+                    print("order in \(order)")
                 }
             }
             self.ordersObservablRS.onNext(self.orders)
