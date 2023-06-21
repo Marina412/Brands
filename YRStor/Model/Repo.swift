@@ -28,10 +28,7 @@ protocol RepoProtocol{
     func deleteAddreesInDatabase(customerId : Int , addressId : Int)
     func editShoppingCartInDatabase(draftOrder: Drafts,draftId : String)
     func saveShoppingCartInDatabase(apiUrl: String, favProduct: FavProduct, completion: @escaping (Drafts?) -> ())
-    
     func getCurrency(completion: @escaping (Rates?)->())
-
-    
     func postOrderToApi(order: PostOrders,completion: @escaping (PostOrders?)->())
     func getAllOrders(completion: @escaping ([Order]?)->())
 }

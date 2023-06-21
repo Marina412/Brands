@@ -20,7 +20,7 @@ struct FavProduct :Decodable,Encodable{
     var lineItems : [LineItems]?
     var image : String?
     var favOrShopping : String?
-        var totalPrice: String?
+    var totalPrice: String?
     
     enum CodingKeys: String, CodingKey{
         case draftId = "id"

@@ -75,8 +75,8 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
     
     func saveAddress(){
         let customerId = defaults.integer(forKey: "customerId")
-        var address = Address(customer_id:customerId ,address1: globalLocation.locality)
-
+        var address = Address(customer_id:customerId ,address1: "\(globalLocation?.locality ?? ""),\(globalLocation?.country ?? "")")
+        print(address)
         var customerAddress = CustomerAddress(customer_address: address)
         addressViewModel.saveCustomerAddress(address:customerAddress, customerId: String(customerId))
 

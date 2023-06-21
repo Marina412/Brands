@@ -8,7 +8,7 @@
 import UIKit
 import PassKit
 
-class CheckoutViewController: UIViewController{
+class CheckoutViewController: UIViewController,CheckOutDelegate{
     
     @IBOutlet weak var cardView3: CardViews!
     @IBOutlet weak var cardView2: CardViews!
@@ -25,28 +25,31 @@ class CheckoutViewController: UIViewController{
     var homeVM:HomeViewModel!
     let defaults = UserDefaults.standard
     var addressResult: Address = Address()
-    var checkOutItems : FavProduct = FavProduct()
+    var checkOutItems : FavProduct!
     var addressViewModel = CustomerAddressViewModel(repo: Repo(networkManager: NetworkManager()))
-    
     var didSelectAddress = Address()
-   private var paymentRequest:PKPaymentRequest? //= {
-
+    private var paymentRequest:PKPaymentRequest?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-      
-//        if(addressResult?.country == "" ){
-//            let alert = UIAlertController(title: "Shopify", message: "Please add Address first ", preferredStyle: .alert)
-//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-//                self.dismiss(animated: true, completion: nil)
-//            }))
-//        }
-        
         cuponCodeTxtField.text = ""
         defaults.set(true, forKey: "AddressShoppingCart")
         totalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
         getOneAddress()
         homeVM = HomeViewModel(repo: Repo(networkManager: NetworkManager()))
+        
+        paymentRequest = {
+            let request = PKPaymentRequest()
+            request.merchantIdentifier = "merchant.com.YRStor"
+            request.supportedNetworks = [.masterCard,.visa,.quicPay]
+            request.supportedCountries = ["EG","US"]
+            request.merchantCapabilities = .capability3DS
+            request.countryCode = "EG"
+            request.currencyCode = "EGP"
+            request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Shopify", amount:NSDecimalNumber(string: totalLbl.text))]
+            return request
+        }()
+        
         cashOnDeliveryBtn.setImage(UIImage(systemName: "circle"), for: .normal)
         cashOnDeliveryBtn.setImage(UIImage(systemName: "circle.fill"), for: .selected)
         applePayBtn.setImage(UIImage(systemName: "circle"), for: .normal)
@@ -57,35 +60,21 @@ class CheckoutViewController: UIViewController{
         UIView.elevationCardView(view: cardView3)
         
     }
+    
     override func viewWillAppear(_ animated: Bool) {
-         paymentRequest = {
-            let request = PKPaymentRequest()
-            request.merchantIdentifier = "merchant.com.YRStor"
-            request.supportedNetworks = [.masterCard,.visa,.quicPay]
-            request.supportedCountries = ["EG","US"]
-            request.merchantCapabilities = .capability3DS
-            request.countryCode = "EG"
-            request.currencyCode = "EGP"
-             request.paymentSummaryItems = [PKPaymentSummaryItem(label: "Order", amount:NSDecimalNumber(value: Int(self.totalLbl.text ?? "0") ?? 0))]
-             
-            return request
-        }()
-        totalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
-        subTotalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ??  "0", rates: addressViewModel.rates) + " " + addressViewModel.curencyType
-        if (homeVM.cupons.count != 0 &&  self.defaults.bool(forKey: "touchCopon") == true){
-            cuponCodeTxtField.text = defaults.value(forKey: Constant.CUPON_CODE) as! String
-        }else{
-            cuponCodeTxtField.text = "No Cupon Code"
-            applyBtn.isHidden = true
-        }
+        calculateTotal()
+        showCupon()
+        
+    }
+    func getAddress(address: Address) {
+        self.addressResult = address
+        self.addressLabel.text = (self.addressResult.address1 ?? "") + "," + (self.addressResult.city ?? "")
     }
     
     func getOneAddress(){
         let customerId = defaults.integer(forKey: "customerId")
-        print("customerId \(customerId)")
         addressViewModel.getAllAdresses(customerId: String(customerId))
         addressViewModel.bindResult = {() in
-            print("enter bind ")
             let res = self.addressViewModel.viewModelResult
             guard let oneAddress = res?.addresses?[0] else {return}
             self.addressResult = oneAddress
@@ -98,31 +87,47 @@ class CheckoutViewController: UIViewController{
             self.phoneLbl.text = self.addressResult.phone
         }
     }
+    
+    func calculateTotal(){
+        totalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ?? "0", rates: addressViewModel.rates) + " " +  addressViewModel.curencyType
+        subTotalLbl.text = HelperFunctions.priceEXchange(curencyType: addressViewModel.curencyType, price: checkOutItems.totalPrice ??  "0", rates: addressViewModel.rates) + " " + addressViewModel.curencyType
+        
+    }
+    
+    func showCupon(){
+        if (homeVM.cupons.count != 0 &&  self.defaults.bool(forKey: "touchCopon") == true){
+            cuponCodeTxtField.text = defaults.value(forKey: Constant.CUPON_CODE) as! String
+        }else{
+            cuponCodeTxtField.text = "No Cupon Code"
+            applyBtn.isHidden = true
+        }
+    }
     @IBAction func changeAddress(_ sender: Any) {
         let address=self.storyboard?.instantiateViewController(withIdentifier: "LocationViewController") as! LocationViewController
-    
+        address.checkOutItems = checkOutItems
+        address.checkOutDelegate = self
         self.navigationController?.pushViewController(address, animated: true)
     }
+    
     @IBAction func ApplyCuponCodeBtn(_ sender: Any) {
-       
-            var intCupon = 1.0
-            switch(cuponCodeTxtField.text){
-            case "15%":
-                intCupon = 0.15
-            case "25%":
-                intCupon = 0.25
-            case "50%":
-                intCupon = 0.5
-            default:
-                intCupon = 1
-            }
-            if let intTotal = Double(checkOutItems.totalPrice ?? ""){
-                let result = intTotal - (intTotal * intCupon)
-                self.totalLbl.text =  HelperFunctions.priceEXchange(curencyType: self.addressViewModel.curencyType, price: String(result) , rates: self.addressViewModel.rates) + " " + self.addressViewModel.curencyType
-            } else {
-                print("One of the strings is not a valid integer.")
-            }
+        var intCupon = 1.0
+        switch(cuponCodeTxtField.text){
+        case "15%":
+            intCupon = 0.15
+        case "25%":
+            intCupon = 0.25
+        case "50%":
+            intCupon = 0.5
+        default:
+            intCupon = 1
         }
+        if let intTotal = Double(checkOutItems.totalPrice ?? ""){
+            let result = intTotal - (intTotal * intCupon)
+            self.totalLbl.text =  HelperFunctions.priceEXchange(curencyType: self.addressViewModel.curencyType, price: String(result) , rates: self.addressViewModel.rates) + " " + self.addressViewModel.curencyType
+        } else {
+            print("One of the strings is not a valid integer.")
+        }
+    }
     
     @IBAction func selectPaymentMethod(_ sender: UIButton) {
         if sender == cashOnDeliveryBtn{
@@ -138,24 +143,28 @@ class CheckoutViewController: UIViewController{
         
     }
     @IBAction func PlaceOrderBtn(_ sender: Any) {
-        if (homeVM.cupons.count != 0){
-            homeVM.cupons.remove(at: 0)
-        }
-        if ( defaults.string(forKey: Constant.PAY_Method) == "applePay"){
-            let controller = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest ?? PKPaymentRequest())
-            if controller != nil{
-                controller!.delegate = self
-                present(controller!,animated:true){
-                    self.addOrder()
+        let alert = UIAlertController(title: "Shoify", message: " Are you sure you want to confirm  payment?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default,handler: {  action in
+            if (self.homeVM.cupons.count != 0){
+                self.homeVM.cupons.remove(at: 0)
+            }
+            if ( self.defaults.string(forKey: Constant.PAY_Method) == "applePay"){
+                let controller = PKPaymentAuthorizationViewController(paymentRequest: self.paymentRequest ?? PKPaymentRequest())
+                if controller != nil{
+                    controller!.delegate = self
+                    self.present(controller!,animated:true){
+                        self.addOrder()
+                    }
                 }
             }
-        }
-        else{
-            addOrder()
-        }
+            else{
+                self.addOrder()
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel))
+        self.present(alert, animated: true)
     }
 }
-
 
 extension CheckoutViewController{
     func addOrder(){

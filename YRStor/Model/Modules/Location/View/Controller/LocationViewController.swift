@@ -15,16 +15,14 @@ class LocationViewController: UIViewController {
     var customerAddressViewModel = CustomerAddressViewModel (repo:Repo(networkManager:NetworkManager()))
     var allAddresses : AllAddress?
     var customerAuthAddress : [Address] = []
+    var checkOutItems : FavProduct = FavProduct()
+    var checkOutDelegate:CheckOutDelegate!
 
     
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-        
         locationCollectionView.delegate = self
         locationCollectionView.dataSource = self
         title = "Address"
@@ -132,11 +130,10 @@ extension LocationViewController:UICollectionViewDelegate,UICollectionViewDataSo
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if (defaults.bool(forKey: "AddressShoppingCart") == true){
-            let checkout=self.storyboard?.instantiateViewController(withIdentifier: "CheckoutViewController") as! CheckoutViewController
-           
-            checkout.didSelectAddress = customerAuthAddress[indexPath.row]
             defaults.set(true, forKey: "didSelectAddress")
-            self.navigationController?.pushViewController(checkout, animated: true)
+            self.navigationController?.popViewController(animated: true)
+            checkOutDelegate.getAddress(address: customerAuthAddress[indexPath.row])
+
         }
     }
 }

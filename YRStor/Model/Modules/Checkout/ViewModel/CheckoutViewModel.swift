@@ -8,9 +8,9 @@
 import Foundation
 
 class CheckoutViewModel {
-    let date = Date() // It is not the local time, less than 8 hours
-    //print("The Date is :\(date)")
-}
+    let date = Date()
+    
+   }
 extension Date {
     static func localDate() -> Date {
         let nowUTC = Date()
