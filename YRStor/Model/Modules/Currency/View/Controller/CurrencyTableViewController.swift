@@ -30,6 +30,22 @@ class CurrencyTableViewController: UITableViewController {
         tableView.register(UINib(nibName: "RadioButtonTableViewCell", bundle: nil), forCellReuseIdentifier: "RadioButtonTableViewCell")
        
     }
+    override func viewWillAppear(_ animated: Bool) {
+           switch UserDefaults.standard.string(forKey: Constant.CURRENCY) {
+           case Constant.EGYPT_CURRENCY:
+               updateSelectedIndex(0)
+           case Constant.AMERICAN_CURRENCY:
+               updateSelectedIndex(1)
+           case Constant.EUROPE_CURRENCY:
+               updateSelectedIndex(2)
+           case Constant.SAR_CURRENCY:
+               updateSelectedIndex(3)
+           case Constant.UAE_CURRENCY:
+               updateSelectedIndex(4)
+           default:
+               print("")
+           }
+       }
     private func updateSelectedIndex(_ index: Int) {
         selectedCurrency = index
     }

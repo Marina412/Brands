@@ -48,7 +48,8 @@ class FavTableViewCell: UITableViewCell {
         draftt.draftOrder  = draft
         draftId = draft.draftId ?? 0
         productTitle.text = draft.lineItems?[indexPath.row].productTitle
-        productPrice.text = (draft.lineItems?[indexPath.row].productPrice ?? "0") + currency
+        var productPriceExchange =  HelperFunctions.priceEXchange(curencyType: favViewModel.curencyType, price: draft.lineItems?[indexPath.row].productPrice ?? "0", rates: favViewModel.rates)
+               productPrice.text = productPriceExchange + " " + favViewModel.curencyType
        
         productImage.kf.setImage(with: URL(string:  draft.lineItems?[indexPath.row].productImage ?? ""))
 

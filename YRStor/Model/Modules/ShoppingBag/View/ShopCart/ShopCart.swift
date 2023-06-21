@@ -48,7 +48,9 @@ class ShopCart: UITableViewCell {
         draftt.draftOrder  = draft
         draftId = draft.draftId ?? 0
         productTitle.text = draft.lineItems?[indexPath.row].productTitle
-        productPrice.text = (draft.lineItems?[indexPath.row].productPrice ?? "0") + currency
+        var productPriceExchange =  HelperFunctions.priceEXchange(curencyType: cellViewModel.curencyType, price: draft.lineItems?[indexPath.row].productPrice ?? "0", rates: cellViewModel.rates)
+               productPrice.text = productPriceExchange + " " + cellViewModel.curencyType
+        
         self.productPriceValue = draft.lineItems?[indexPath.row].productPrice ?? ""
         productImage.kf.setImage(with: URL(string:  draft.lineItems?[indexPath.row].productImage ?? ""))
         
