@@ -14,7 +14,9 @@ class MockRepo : RepoProtocol {
     }
     
     func getCustomersFromDatabase(completion: @escaping (YRStor.AllCustomers?) -> ()) {
-        
+        let customers = [Customer(id: 1,firstName: "huda",lastName: "kamal"),Customer(id: 2,firstName: "aya",lastName: "mohamed")]
+        let allCustomers = AllCustomers(customers: customers)
+        completion(allCustomers)
     }
     
     func saveFavProductToDatabase(favProduct: YRStor.FavProduct) {
@@ -22,10 +24,15 @@ class MockRepo : RepoProtocol {
     }
     
     func getAllFav(completion: @escaping (YRStor.FavProducts?) -> ()) {
-        
+        let Favs = [FavProduct(draftId: 1,email: "hudakamal92@gmail.com"),FavProduct(draftId: 2,email: "ayaMohamed@gmail.com")]
+        let allFav = FavProducts(draftOrders: Favs)
+        completion(allFav)
     }
     
     func deleteFavProductListInDatabase(draftId: String, completion: @escaping () -> ()) {
+        
+        completion()
+        
         
     }
     
@@ -38,6 +45,10 @@ class MockRepo : RepoProtocol {
     }
     
     func getAllAddressFromDatabase(customerId: String, completion: @escaping (YRStor.AllAddress?) -> ()) {
+        
+        let addresses  = [Address(customer_id: 1,country: "egypty",city: "cairo"),Address(customer_id: 2,city: "ismailia"),Address(customer_id: 3,country: "egypt")]
+        let allddresss = AllAddress(addresses: addresses)
+        completion(allddresss)
         
     }
     
