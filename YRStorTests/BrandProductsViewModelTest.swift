@@ -13,10 +13,20 @@ final class BrandProductsViewModelTest: XCTestCase {
     override func setUpWithError() throws {
         repo  = MockRepo(mockNetworkManager: MockNetworkManager())
         brandProductVM = BrandProductsViewModel(repo: repo!)
+        brandProductVM?.allProducts =  [Product(id: 1, title: "adidas" ,productType:"Acessory" ,variants: [Variant(price: "10")]),Product(id: 1, title: "adidas" ,productType:"Acessory" ,variants: [Variant(price: "10")]),Product(id: 1, title: "adidas" ,productType:"T_Shirt" ,variants: [Variant(price: "10")]),Product(id: 1, title: "adidas" ,productType:"Shoes" ,variants: [Variant(price: "10")])]
     }
     override func tearDownWithError() throws {
         repo = nil
         brandProductVM = nil
+    }
+    
+    func testsetUpData(){
+        //when
+        brandProductVM?.setUpData(brandId: 0){
+            //then
+            XCTAssertNotEqual(self.brandProductVM?.allProductsIDs.count , 0)
+        }
+        
     }
     func testGetAllProductsFromApiByCategorry(){
         //when
@@ -26,7 +36,8 @@ final class BrandProductsViewModelTest: XCTestCase {
         }
     }
     func testRepoGgetProductsByCollectionId(){
-        repo?.getProductsByCollectionId(collectionId: 0){          productsResult in
+        repo?.getProductsByCollectionId(collectionId: 0){
+            productsResult in
             //then
             XCTAssertNotEqual(productsResult?.count , 0)
         }
@@ -47,27 +58,17 @@ final class BrandProductsViewModelTest: XCTestCase {
             XCTAssertNotEqual(productsResult?.count , 0)
         }
     }
-    
-    func testCurrencySetUpCurrencyType(){
+    func testFilterProudactsNotSearch(){
         //when
-        brandProductVM?.currencySetUp()
+        brandProductVM?.filterProudacts(searchText: "")
         //then
-        XCTAssertNotEqual(brandProductVM?.curencyType , "")
-    }
-    func testCurrencySetUpExchange(){
-        //when
-        brandProductVM?.currencySetUp()
-        //then
-        XCTAssertNotEqual(brandProductVM?.rates.USD , 0.0)
-    }
-    func testRepoGetCurrency(){
-        //when
-        repo?.getCurrency{
-            res in
-            //then
-            XCTAssertNotEqual(res?.USD , 0.0)
+        XCTAssertEqual(brandProductVM?.filterProducts.count , 0)
         }
-    }
-    
+    func testFilterProudacts(){
+        //when
+         brandProductVM?.filterProudacts(searchText: "T_Shirt")
+        //then
+        XCTAssertNotEqual(brandProductVM?.filterProducts.count , 0)
+        }
 }
 

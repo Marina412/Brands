@@ -12,7 +12,7 @@ class CategoryViewModel{
     var allProducts:[Product]=[]
     var allProductsIDs:[Int]=[]
     let disposeBag = DisposeBag()
-
+    var filterProducts:[Product]=[]
     var poductsObservablRS : ReplaySubject <[Product]> = ReplaySubject<[Product]>.create(bufferSize: 10)
     init(repo:RepoProtocol) {
         self.repo = repo
@@ -63,6 +63,7 @@ class CategoryViewModel{
                return $0.tags?.lowercased().contains(categoryName.lowercased()) == true
                
             })
+            filterProducts = filteredProducts
             poductsObservablRS.onNext(filteredProducts)
         }
         else{
@@ -75,6 +76,7 @@ class CategoryViewModel{
             let filteredProducts : [Product] = allProducts.filter({
                 $0.productType?.lowercased() == categoryName.lowercased()
             })
+            filterProducts = filteredProducts
             poductsObservablRS.onNext(filteredProducts)
         }
         else{
@@ -89,7 +91,7 @@ class CategoryViewModel{
                 $0.productType?.lowercased().contains(searchText.lowercased()) == true ||
                 $0.title?.lowercased().contains(searchText.lowercased()) == true
             })
-            print(filteredProducts)
+            filterProducts = filteredProducts
             poductsObservablRS.onNext(filteredProducts)
         }
         else{

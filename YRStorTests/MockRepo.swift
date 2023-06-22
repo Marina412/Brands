@@ -9,6 +9,58 @@ import Foundation
 @testable import YRStor
 
 class MockRepo : RepoProtocol {
+    func saveCustomerToDatabas(customer: YRStor.Customer, completion: @escaping (YRStor.CustomerResponse?) -> ()) {
+        
+    }
+    
+    func getCustomersFromDatabase(completion: @escaping (YRStor.AllCustomers?) -> ()) {
+        
+    }
+    
+    func saveFavProductToDatabase(favProduct: YRStor.FavProduct) {
+        
+    }
+    
+    func getAllFav(completion: @escaping (YRStor.FavProducts?) -> ()) {
+        
+    }
+    
+    func deleteFavProductListInDatabase(draftId: String, completion: @escaping () -> ()) {
+        
+    }
+    
+    func getAllFavProducts(ids: String, completion: @escaping (YRStor.AllProudects?) -> ()) {
+        
+    }
+    
+    func saveAddressToDatabase(address: YRStor.CustomerAddress, customerId: String) {
+        
+    }
+    
+    func getAllAddressFromDatabase(customerId: String, completion: @escaping (YRStor.AllAddress?) -> ()) {
+        
+    }
+    
+    func getONEAddressFromDatabase(customerId: String, completion: @escaping (YRStor.AllAddress?) -> ()) {
+        
+    }
+    
+    func deleteAddreesInDatabase(customerId: Int, addressId: Int) {
+        
+    }
+    
+    func editShoppingCartInDatabase(draftOrder: YRStor.Drafts, draftId: String) {
+        
+    }
+    
+    func saveShoppingCartInDatabase(apiUrl: String, favProduct: YRStor.FavProduct, completion: @escaping (YRStor.Drafts?) -> ()) {
+        
+    }
+    
+    func postOrderToApi(order: YRStor.PostOrders, completion: @escaping (YRStor.PostOrders?) -> ()) {
+        
+    }
+    
     
     
     let networkManager: NetworkManagerProtocol?
@@ -23,7 +75,7 @@ class MockRepo : RepoProtocol {
     }
     
     func getAllCollections(completion: @escaping ([YRStor.Collection]?) -> ()) {
-        let collections = [Collection(collectionID: 1,title: "a"),Collection(collectionID: 2,title: "a"),Collection(collectionID: 3,title: "a"),Collection(collectionID: 4,title: "a"),Collection(collectionID: 5,title: "a")]
+        let collections = [Collection(collectionID: 1,title: "a"),Collection(collectionID: 2,title: "a"),Collection(collectionID: 3,title: "a"),Collection(collectionID: 4,title: "a"),Collection(collectionID: 5,title: "a"),Collection(collectionID: 1,title: "a"),Collection(collectionID: 2,title: "a"),Collection(collectionID: 3,title: "a"),Collection(collectionID: 4,title: "a"),Collection(collectionID: 5,title: "a"),Collection(collectionID: 1,title: "a"),Collection(collectionID: 2,title: "a"),Collection(collectionID: 3,title: "a"),Collection(collectionID: 4,title: "a"),Collection(collectionID: 5,title: "a"),Collection(collectionID: 1,title: "a")]
         completion(collections)
     }
     
@@ -38,7 +90,7 @@ class MockRepo : RepoProtocol {
     }
     
     func getAllOrders(completion: @escaping ([YRStor.Order]?) -> ()) {
-        let order = [Order(created_at: "",currency: "",email: "marina",current_total_price: "100", line_items: [OrderProductItems(price: "",product_id: 1,quantity: 2,title: "",sku: "")] ,reference: "",note: "")]
+        let order = [Order(currencyType: "",userEmail: "marina", lineItems: [OrderLineItems(productPrice: "",productID: 1,productQuantity: 2,image: "", productTitle: "")])]
         completion(order)
     }
     func getCurrency(completion: @escaping (YRStor.Rates?) -> ()) {

@@ -17,10 +17,10 @@ class HomeViewModel{
     }
     func getAllCategoriesFromApi(completion: @escaping ()->()){
         repo.getAllCollections { [weak self] collectionsResult in
-            guard let self else { return }
+           // guard let self else { return }
             guard let collectionsResult else {return}
             for brand in collectionsResult[4...15] {
-                self.brands.append(brand)
+                self?.brands.append(brand)
             }
             completion()
         }

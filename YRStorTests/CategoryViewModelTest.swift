@@ -14,10 +14,20 @@ final class CategoryViewModelTest: XCTestCase {
     override func setUpWithError() throws {
         repo  = MockRepo(mockNetworkManager: MockNetworkManager())
         categoryVM = CategoryViewModel(repo: repo!)
+        categoryVM?.allProducts =  [Product(id: 1, title: "adidas" ,productType:"Acessory" ,tags: "woman",variants: [Variant(price: "10")]),Product(id: 1, title: "adidas" ,productType:"Acessory",tags: "man" ,variants: [Variant(price: "10")]),Product(id: 1, title: "adidas" ,productType:"T_Shirt",tags: "kid" ,variants: [Variant(price: "10")]),Product(id: 1, title: "adidas" ,productType:"Shoes" ,tags: "sale",variants: [Variant(price: "10")])]
     }
     override func tearDownWithError() throws {
        repo = nil
         categoryVM = nil
+    }
+    
+    func testSetUpData(){
+        //when
+        categoryVM?.setUpData(){
+            //then
+            XCTAssertNotEqual(self.categoryVM?.allProductsIDs.count , 0)
+        }
+        
     }
     func testGetAllProductsFromApiByCategorry(){
         //when
@@ -50,25 +60,48 @@ final class CategoryViewModelTest: XCTestCase {
         }
     }
     
-    func testCurrencySetUpCurrencyType(){
+    func testFilterProudactsNotSearch(){
         //when
-        categoryVM?.currencySetUp()
+        categoryVM?.filterProudacts(searchText: "")
         //then
-        XCTAssertNotEqual(categoryVM?.curencyType , "")
-    }
-    func testCurrencySetUpExchange(){
-        //when
-        categoryVM?.currencySetUp()
-        //then
-        XCTAssertNotEqual(categoryVM?.rates.USD , 0.0)
-    }
-    func testRepoGetCurrency(){
-        //when
-        repo?.getCurrency{
-            res in
-            //then
-            XCTAssertNotEqual(res?.USD , 0.0)
+        XCTAssertEqual(categoryVM?.filterProducts.count , 0)
         }
-    }
-
+    func testFilterProudacts(){
+        //when
+        categoryVM?.filterProudacts(searchText: "T_Shirt")
+        //then
+        XCTAssertNotEqual(categoryVM?.filterProducts.count , 0)
+        }
+    
+    func testFilterProudactsByMainCategoryNotSearch(){
+        //when
+        categoryVM?.filterProudactsByMainCategory(categoryName: "")
+        //then
+        XCTAssertEqual(categoryVM?.filterProducts.count , 0)
+        }
+    func testFilterProudactsByMainCategory(){
+        //when
+        categoryVM?.filterProudactsByMainCategory(categoryName: "woman")
+        //then
+        XCTAssertNotEqual(categoryVM?.filterProducts.count , 0)
+        }
+    
+     func testFilterProudactsBySubCategoryNotSearch(){
+        //when
+        categoryVM?.filterProudactsBySubCategory(categoryName: "")
+        //then
+        XCTAssertEqual(categoryVM?.filterProducts.count , 0)
+        }
+    func testFilterProudactsBySubCategory(){
+        //when
+        categoryVM?.filterProudactsBySubCategory(categoryName: "T_Shirt")
+        //then
+        XCTAssertNotEqual(categoryVM?.filterProducts.count , 0)
+        }
+    
+    
+   
+    
+    
+    
 }

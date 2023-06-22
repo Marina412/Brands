@@ -11,6 +11,7 @@ import RxSwift
 class BrandProductsViewModel{
     let repo:RepoProtocol
     var allProducts:[Product]=[]
+    var filterProducts:[Product]=[]
     var allProductsIDs:[Int]=[]
     let disposeBag = DisposeBag()
     var poductsObservablRS : ReplaySubject <[Product]> = ReplaySubject<[Product]>.create(bufferSize: 10)
@@ -25,9 +26,9 @@ class BrandProductsViewModel{
             [weak self] productsResult in
             guard let self else { return }
             guard let productsResult else {return}
-            print(productsResult.count)
+            
             for product in productsResult{
-                self.allProductsIDs.append(product.id ?? 0)
+                self.allProductsIDs.append(product.id!)
             }
             completion()
         }
@@ -35,7 +36,7 @@ class BrandProductsViewModel{
     func getAllPoductsPricesFromApi(completion: @escaping ()->()){
         allProducts.removeAll()
         repo.getAllProductsPrice(productIds:allProductsIDs){[weak self] productsResult in
-            guard let self else { return }
+           guard let self else { return }
             guard let productsResult else {return}
             for product in productsResult{
                 self.allProducts.append(product)
@@ -61,6 +62,7 @@ class BrandProductsViewModel{
                 $0.productType?.lowercased().contains(searchText.lowercased()) == true ||
                 $0.title?.lowercased().contains(searchText.lowercased()) == true
             })
+            filterProducts = filteredProducts
             poductsObservablRS.onNext(filteredProducts)
         }
         else{

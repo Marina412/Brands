@@ -16,6 +16,7 @@ final class HomeViewModelTest: XCTestCase {
     override func setUpWithError() throws {
         repo  = MockRepo(mockNetworkManager: MockNetworkManager())
         homeVM = HomeViewModel(repo: repo!)
+       
     }
     override func tearDownWithError() throws {
        repo = nil
@@ -23,9 +24,11 @@ final class HomeViewModelTest: XCTestCase {
     }
     func testGetAllBransFromApi() {
         //when
-        homeVM?.getAllBransFromApi()
-        //then
-        XCTAssertNotEqual(homeVM?.brands.count , 0)
+        homeVM?.getAllCategoriesFromApi{
+            
+            //then
+            XCTAssertNotEqual(self.homeVM?.brands.count , 0)
+        }
     }
     func testRepoGetAllBransFromApi() {
         //when
@@ -34,6 +37,16 @@ final class HomeViewModelTest: XCTestCase {
             XCTAssertNotEqual(products?.count ,0 )
         })
         
+    }
+    func testremoveItemFromCupon(){
+        homeVM?.cupons = ["15%","25%","35%"]
+        homeVM?.removeItemFromCupon(index:1)
+        XCTAssertEqual( homeVM?.cupons.count ,2 )
+        
+    }
+    func testloadCupon(){
+        homeVM?.loadCupon()
+        XCTAssertNotEqual( homeVM?.cupons.count ,0 )
     }
 
 }
