@@ -231,7 +231,10 @@ extension CheckoutViewController{
             res in
             if ((res) != nil){
                 print("order done")
-                //delete shop
+                var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
+                cartViewModel.deleteFavListInDatabase(draftId: String(self.checkOutItems.draftId ?? 0), indexPath: nil) {
+                    cartViewModel.resDraft = nil
+                }
 
             }
             else{

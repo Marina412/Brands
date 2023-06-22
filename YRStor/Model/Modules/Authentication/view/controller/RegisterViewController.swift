@@ -41,7 +41,7 @@ class RegisterViewController: UIViewController {
          print("could not start reachability notifier")
        }
    
-        self.tabBarController?.tabBar.isHidden = false
+       
     }
     
     @objc func reachabilityChanged(note: Notification) {}

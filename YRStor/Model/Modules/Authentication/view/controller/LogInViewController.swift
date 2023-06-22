@@ -35,7 +35,7 @@ class LogInViewController: UIViewController {
          print("could not start reachability notifier")
        }
    
-        self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = true
     }
     @objc func reachabilityChanged(note: Notification) {}
     override func viewDidDisappear(_ animated: Bool) {

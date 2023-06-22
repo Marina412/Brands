@@ -290,7 +290,7 @@ class ProductInfoViewController: UIViewController {
         productName.text = product?.title
         productBrand.text = "Brand : " + (product?.vendor ?? "")
         productDescription.text = product?.bodyHTML
-        productPrice.text = "Price : " + (product?.variants?[0].price ?? "")
+        productPrice.text = "Price : " + (product?.variants?[0].price ?? "") + " " + (UserDefaults.standard.string(forKey: Constant.CURRENCY) ?? "USD")
         productName.numberOfLines = 0
         productName.lineBreakMode = .byWordWrapping
         UITextView.textViewStyle(textView: productDescription)

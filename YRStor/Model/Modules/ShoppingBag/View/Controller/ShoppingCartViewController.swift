@@ -263,7 +263,7 @@ extension ShoppingCartViewController : UITableViewDelegate,UITableViewDataSource
             self.navigationController?.pushViewController(productInfo, animated: true)
         }
         else{
-            let alert = UIAlertController(title: "Goallll", message: " Sorry!! you are offline", preferredStyle: .alert)
+            let alert = UIAlertController(title: "No Connection", message: " Sorry!! you are offline", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true)
            

@@ -53,6 +53,10 @@ class MockRepo : RepoProtocol {
     }
     
     func getONEAddressFromDatabase(customerId: String, completion: @escaping (YRStor.AllAddress?) -> ()) {
+        let addresse  =  Address(customer_id: 1 ,country: "egypt",city: "cairo")
+      let oneAddresse = AllAddress(addresses: [addresse])
+        
+        completion(oneAddresse)
         
     }
     
