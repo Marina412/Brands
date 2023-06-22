@@ -21,14 +21,16 @@ class RegisterViewController: UIViewController {
     let defaults = UserDefaults.standard
     var customerId = 0
     var customers :[Customer] = []
-    var alreadyHaveAcc :Bool?
+    var alreadyHaveAcc  = false
+    var phoneInvalid = false
     var reachability = try! Reachability()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        haveEmail()
-        self.navigationItem.setHidesBackButton(true, animated: false)
         tabBarController?.tabBar.isHidden = true
+        ChechBackendData()
+        self.navigationItem.setHidesBackButton(true, animated: false)
+       
         activityIndicator.isHidden = true
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -47,6 +49,46 @@ class RegisterViewController: UIViewController {
         reachability.stopNotifier()
         NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
      }
+    func ChechBackendData(){
+        authViewModel.getAllCustomers()
+        authViewModel.bindResult = {() in
+            let res = self.authViewModel.viewModelResult
+            guard let allCustomers = res?.customers else {return}
+            self.customers = allCustomers
+        }
+        
+    }
+    func phoneTaken(){
+        phoneInvalid = false
+        print("count \(self.customers.count)")
+        for customer in self.customers {
+            
+            if(customer.phone  == "+20" + (self.phoneTx.text ?? "") ){
+                print("text field  " + (self.phoneTx.text ?? ""))
+                //                print(self.customer.email)
+                self.phoneInvalid = true
+                
+            }
+            
+        }
+        print("already have \(alreadyHaveAcc)")
+        
+    }
+    
+    func haveEmail(){
+        alreadyHaveAcc = false
+            for customer in self.customers {
+                print( "customer email \( self.customer.email)")
+                if(self.emailTx.text == customer.email ){
+                    print("text field  " + (self.emailTx.text ?? ""))
+                    print(self.customer.email)
+                    self.alreadyHaveAcc = true
+                    print("enter if ")
+                }
+               
+            }
+        print("already have \(alreadyHaveAcc)")
+        }
     
     func setUpEmail(){
         
@@ -95,18 +137,28 @@ class RegisterViewController: UIViewController {
         var isValidate = false
         if(!firstNameTx.text!.isEmpty && !lastNameTx.text!.isEmpty && !emailTx.text!.isEmpty && !phoneTx.text!.isEmpty && !passwordTx.text!.isEmpty && !passwordConfirmationTx.text!.isEmpty ){
             
+            haveEmail()
+            phoneTaken()
             if(alreadyHaveAcc == true){
+                print("enterrr ifff ")
                 let alert = UIAlertController(title: "Shopify", message: "This email is already have an account! ", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true)
-                
+
             }
-            else{
+
+            if(phoneInvalid == true){
+                let alert = UIAlertController(title: "Shopify", message: "This phone is already taken! ", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            }
+            print("already \(alreadyHaveAcc) \(phoneInvalid)")
+            if(alreadyHaveAcc == false && phoneInvalid == false ) {
+                isValidate = true
+                print( "second  \(alreadyHaveAcc)")
                 customer.firstName = firstNameTx.text
                 customer.lastName = lastNameTx.text
                 setUpEmail()
                 setUpPassword()
-                setUpPhoneNumber()
                 authViewModel.saveCustomerInDatabase(customer: customer)
                 authViewModel.bindCustomerResult = { ()
                     let res = self.authViewModel.viewModelCustomerResult
@@ -119,21 +171,13 @@ class RegisterViewController: UIViewController {
                 self.defaults.set(emailTx.text, forKey: "email")
                 self.defaults.set(passwordTx.text, forKey: "password")
                 print("Registed Success")
-                isValidate = true
+               
             }
         }
         return isValidate
     }
     
-    func setUpPhoneNumber(){
-        if(isValidPhoneNumber(phoneTx.text ?? "")){
-            customer.phone = phoneTx.text
-        }else{
-            let alert = UIAlertController(title: "Invaild Phone Number", message: "Please Enter a Valid Phone Number ", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
-        }
-    }
+
     func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
         let phoneRegex = "^[0-9]{10}$"
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
@@ -186,7 +230,7 @@ class RegisterViewController: UIViewController {
             }
             else
             {
-                let alert = UIAlertController(title: "Invaild Data", message: "Please Confirm All Data", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Invaild Data", message: "Please Enter Valid  Data", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
                 self.present(alert, animated: true)
                 activityIndicator.isHidden = true
@@ -204,21 +248,7 @@ class RegisterViewController: UIViewController {
             }
         }
     }
-    func haveEmail(){
-         alreadyHaveAcc = false
-        authViewModel.getAllCustomers()
-        authViewModel.bindResult = {() in
-            let res = self.authViewModel.viewModelResult
-            guard let allCustomers = res?.customers else {return}
-            self.customers = allCustomers
-            for customer in self.customers {
-                if(self.emailTx.text == customer.email ){
-                    self.alreadyHaveAcc = true
-                }
-            }
-        }
-        
-    }
+    
     
     @IBAction func AlreadyHaveAccount(_ sender: Any) {
         
@@ -226,9 +256,9 @@ class RegisterViewController: UIViewController {
         self.navigationController?.pushViewController(LoginVC, animated: true)
     }
     
-//    @IBAction func logInAsGuest(_ sender: Any) {
-//        let storyboard = UIStoryboard(name: "HomeStoryboard", bundle: nil)
-//        let guestVC = self.storyboard?.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-//        self.navigationController?.pushViewController(guestVC, animated: true)
-//    }
+    @IBAction func logInAsGuest(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "HomeStoryboard", bundle: nil)
+        let guestVC = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+        self.navigationController?.pushViewController(guestVC, animated: true)
+    }
 }

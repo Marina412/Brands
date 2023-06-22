@@ -76,6 +76,9 @@ class ProductInfoViewController: UIViewController {
     
     
     func checkCustomerCart(){
+        self.activityIndicator.isHidden = false
+        self.activityIndicator.startAnimating()
+        self.cartBtnOutlet.isHidden = true
         let email = self.cartViewModel.defaults.string(forKey: "email")
         var draftId : String = ""
         var isNew = false
@@ -118,11 +121,15 @@ class ProductInfoViewController: UIViewController {
                     }
                     if(!isFound){
                         self.putInCart(draft: self.cartViewModel.resDraft ?? FavProduct())
+                        self.activityIndicator.isHidden = true
+                        self.cartBtnOutlet.isHidden = false
                     }
                 }
                 
                 if(isNew && isExists == false){
                     self.addNewCart()
+                    self.activityIndicator.isHidden = true
+                    self.cartBtnOutlet.isHidden = false
                 }
                 
             }
@@ -204,9 +211,7 @@ class ProductInfoViewController: UIViewController {
                 if(isNew && isExists == false){
                     self.addNewFavList()
                 }
-                self.activityIndicator.isHidden = true
-                self.activityIndicator.stopAnimating()
-                self.addToCartOutlet.isHidden = false
+
                 
             }
         }
@@ -298,23 +303,22 @@ class ProductInfoViewController: UIViewController {
     
     @IBAction func favBtn(_ sender: Any) {
         if (reachability.connection != .unavailable){
-            //        var email = UserDefaults.standard.value(forKey: "email")
-            //        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
-            //        UserDefaults.standard.set(Constant.IS_PRODUCT_INFO, forKey: "isFavOrCart")
-            //        if ((isLogin != nil) == false && email as! String == ""){
-            //                   let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-            //                                self.navigationController?.pushViewController(register, animated: true)
-            //               }
-            
-            //  else if ((isLogin != nil) == true){
-            if(fabBtnCheck.currentImage == (UIImage(systemName: "heart.fill"))){
-                fabBtnCheck.setImage(UIImage(systemName: "heart"), for: .normal)
-                deleteFavProduct()
-                print("deleted from fav")
-            }else{
-                fabBtnCheck.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                checkCustomerFavs()
-                print("added to fav")
+            var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
+            if(UserDefaults.standard.value(forKey: "email") as! String == "" && (isLogin != nil) == false){
+                let alert = UIAlertController(title: "Shopify", message: "Please Sign up or Sign In in application first ", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }
+            else{
+                if(fabBtnCheck.currentImage == (UIImage(systemName: "heart.fill"))){
+                    fabBtnCheck.setImage(UIImage(systemName: "heart"), for: .normal)
+                    deleteFavProduct()
+                    print("deleted from fav")
+                }else{
+                    fabBtnCheck.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                    checkCustomerFavs()
+                    print("added to fav")
+                }
             }
         }
         else{
@@ -371,17 +375,17 @@ class ProductInfoViewController: UIViewController {
     }
     
     @IBAction func addToCartBtn(_ sender: Any) {
+       
         if (reachability.connection != .unavailable){
-            //        let email = UserDefaults.standard.string(forKey: "email")
-            //        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
-            //        UserDefaults.standard.set(Constant.IS_PRODUCT_INFO, forKey: "isFavOrCart")
-            //        if ((isLogin != nil) == false && email == ""){
-            //            let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-            //            self.navigationController?.pushViewController(register, animated: true)
-            //        }
-            // else if ((isLogin != nil) == true) {
+          
+            var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
+            if(UserDefaults.standard.value(forKey: "email") as! String == "" && (isLogin != nil) == false){
+                let alert = UIAlertController(title: "Shopify", message: "Please Sign up or Sign In in application first ", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }else{
             checkCustomerCart()
-            //  }
+             }
         }
         else{
             let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline,Plz check connectivity", preferredStyle: .alert)

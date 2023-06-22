@@ -21,6 +21,15 @@ class LocationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tabBarController?.tabBar.isHidden = false
+        let defaults = UserDefaults.standard
+        let isLoggin = defaults.bool(forKey: "isLogging")
+        if (isLoggin == false){
+            let alert = UIAlertController(title: "Shopify", message: "Please Sign up or Sign In in application first ", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        }
         locationCollectionView.delegate = self
         locationCollectionView.dataSource = self
         title = "Address"
@@ -51,19 +60,11 @@ class LocationViewController: UIViewController {
         }catch{
             print("could not start reachability notifier")
         }
-        tabBarController?.tabBar.isHidden = false
-        let defaults = UserDefaults.standard
-        let isLoggin = defaults.bool(forKey: "isLogging")
-        defaults.set(Constant.IS_ADDRESS, forKey: "isFavOrCart")
-        if (isLoggin == false){
-            defaults.set(Constant.IS_ADDRESS, forKey: "isFavOrCart")
-            let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-            self.navigationController?.pushViewController(register, animated: true)
-        } else{
+       
             self.customerAuthAddress = []
             getAllAddresses()
             
-        }
+    
     }
     
     @objc func reachabilityChanged(note: Notification) {}

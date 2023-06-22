@@ -59,52 +59,42 @@ class ProductCollectionViewCell: UICollectionViewCell {
     }
     
     @IBAction func addToShoppingCartBtn(_ sender: Any) {
-//        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
-//        if(UserDefaults.standard.value(forKey: "email") as! String == "" && (isLogin != nil) == false){
-//
-//            if(defaults.string(forKey: "isFavOrCart") == Constant.IS_CATEGORY){
-//                categoryButtonAction?()
-//
-//            }else if(defaults.string(forKey: "isFavOrCart") == Constant.IS_BRANDS){
-//                BrandsButtonAction?()
-//            }
-//        }
+        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
+        if(UserDefaults.standard.value(forKey: "email") as! String == "" && (isLogin != nil) == false){
+          categoryButtonAction?()
+          
+        }
                     
-        //else if ((isLogin != nil) == true){
-            checkCustomerCart()
+        else {
+            self.checkCustomerCart()
             print("add to shopping cart")
-     //   }
+       }
     }
     @IBAction func addToFavouritBtn(_ sender: Any) {
-        print("add to fav")
+       
         
-//        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
-//        if(UserDefaults.standard.value(forKey: "email") as! String == "" && (isLogin != nil) == false){
-//
-//            if(defaults.string(forKey: "isFavOrCart") == Constant.IS_CATEGORY){
-//                categoryButtonAction?()
-//
-//            }else if(defaults.string(forKey: "isFavOrCart") == Constant.IS_BRANDS){
-//                BrandsButtonAction?()
-//            }
-  
-    
-                if(favourit.currentImage == (UIImage(systemName: "heart"))){
-                    print("click product id  \(product.id)")
-                    favourit.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                    checkCustomerFavs()
-                    
-                    
-                    // print("deleted clicked")
-                }
-                else{
-                    
-                    favourit.setImage(UIImage(systemName: "heart"), for: .normal)
-                    deleteFavProduct()
-                    //print("added to fav")
-                }
+        var isLogin = UserDefaults.standard.value(forKey: "isLoggin")
+        if(UserDefaults.standard.value(forKey: "email") as! String == "" && (isLogin != nil) == false){
+            categoryButtonAction?()
+            
+        }else{
+            
+            
+            if(favourit.currentImage == (UIImage(systemName: "heart"))){
+                print("click product id  \(product.id)")
+                favourit.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                checkCustomerFavs()
+                
+
             }
-        
+            else{
+                
+                favourit.setImage(UIImage(systemName: "heart"), for: .normal)
+                deleteFavProduct()
+                //print("added to fav")
+            }
+        }
+    }
         
         
         
@@ -206,6 +196,9 @@ class ProductCollectionViewCell: UICollectionViewCell {
         
         
         func checkCustomerCart(){
+            self.activityIndicator.isHidden = false
+            self.shoppingCart.isHidden = true
+            self.activityIndicator.startAnimating()
             let email = self.cartViewModel?.defaults.string(forKey: "email")
             var draftId : String = ""
             var isNew = false
@@ -232,9 +225,13 @@ class ProductCollectionViewCell: UICollectionViewCell {
                     if(isExists){
                         
                         self.putInCart(draft: self.cartViewModel?.resDraft ?? FavProduct())
+                        self.activityIndicator.isHidden = true
+                        self.shoppingCart.isHidden = false
                     }
                     if(isNew && isExists == false){
                         self.addNewCart()
+                        self.activityIndicator.isHidden = true
+                        self.shoppingCart.isHidden = false
                     }
                     
                 }

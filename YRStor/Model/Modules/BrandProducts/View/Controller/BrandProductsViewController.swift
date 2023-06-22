@@ -94,15 +94,13 @@ extension BrandProductsViewController{
             
             isFav = self.favProducts.contains(String(element.id ?? 0))
             cell.cellSetUp(product: element, isFav: isFav)
-            //            cell.categoryButtonAction = {() in
-            //                let category = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-            //                self.navigationController?.pushViewController(category, animated: true)
-            //
-            //            }
-            //            cell.BrandsButtonAction = {() in
-            //                let brands = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-            //                self.navigationController?.pushViewController(brands, animated: true)
-            //            }
+            cell.categoryButtonAction = {() in
+                let alert = UIAlertController(title: "Shopify", message: "Please Sign up or Sign In in application first ", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                
+            }
+ 
             
         }.disposed(by:disposeBag)
         

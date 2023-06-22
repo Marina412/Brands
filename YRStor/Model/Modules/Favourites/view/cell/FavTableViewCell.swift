@@ -68,6 +68,9 @@ extension FavTableViewCell{
     
     
     func checkCustomerCart(){
+        self.activityIndicator.isHidden = false
+        self.activityIndicator.startAnimating()
+        self.addToCartOutlet.isHidden = true
         let email = self.cartViewModel.defaults.string(forKey: "email")
         var draftId : String = ""
         var isNew = false
@@ -94,9 +97,13 @@ extension FavTableViewCell{
                 if(isExists){
                     
                     self.putInCart(draft: self.cartViewModel.resDraft ?? FavProduct())
+                    self.activityIndicator.isHidden = true
+                    self.addToCartOutlet.isHidden = false
                 }
                 if(isNew && isExists == false){
                     self.addNewCart()
+                    self.activityIndicator.isHidden = true
+                    self.addToCartOutlet.isHidden = false
                 }
                 
             }

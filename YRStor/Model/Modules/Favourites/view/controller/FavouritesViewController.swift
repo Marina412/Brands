@@ -46,15 +46,14 @@ class FavouritesViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
      }
     
-//    self.cartViewModel.resDraft = nil
-//        self.favTable.reloadData()
+
     func getDrafts(){
         viewModel.getAllFav()
         viewModel.bindResult = {() in
             
             let res = self.viewModel.viewModelResult
             guard let allDrafts = res else {return}
-            self.favTable.reloadData()
+           
             guard var customerDraft = CustomerHelper.getFavForCustomers(favs: allDrafts.draftOrders) else {return }
             if(customerDraft.lineItems?.count == nil){
                 UikitHelper.noDataImage(image: self.imageView, view: self.view, table: self.favTable, activityIndicator: self.activityIndicator)
@@ -62,7 +61,7 @@ class FavouritesViewController: UIViewController {
             }else if(customerDraft.lineItems?.count != nil){
                 self.imageView.isHidden = true
                 self.favTable.isHidden = false
-                self.favTable.reloadData()
+
             }
             guard var customerCartProducts = customerDraft.lineItems else {return}
             self.cartViewModel.resDraft = customerDraft

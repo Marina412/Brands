@@ -19,7 +19,7 @@ class ShoppingCartViewController: UIViewController {
     var viewModel = FavViewModel(repo: Repo(networkManager: NetworkManager()))
     var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
     let activityIndicator = UIActivityIndicatorView(style: .large)
-    let noDataImage  = UIImageView(image: UIImage(named: "noShoopingCart"))
+    let noDataImage  = UIImageView(image: UIImage(named: "noShoppingCart"))
     var totalPrice = ""
     let defaults = UserDefaults.standard
     var shoppingCountKeyPath = #keyPath(UserDefaults.shoppingBag)
@@ -88,20 +88,30 @@ class ShoppingCartViewController: UIViewController {
         activityIndicator.center = view.center
         activityIndicator.color = UIColor.black
         view.addSubview(activityIndicator)
-        view.addSubview(noDataImage)
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+        UikitHelper.noDataImage(image: self.noDataImage, view: self.view, table: self.cartTable, activityIndicator: self.activityIndicator)
+        self.checkoutBtn.isHidden = true
+      
         
     }
     func getDrafts(){
         viewModel.getAllFav()
-        viewModel.bindResult = {() in
+        viewModel.bindResult = { [self]() in
             let res = self.viewModel.viewModelResult
             guard let allDrafts = res else {return}
             guard var customerDraft = CustomerHelper.getCustomerCart(drafts: allDrafts.draftOrders) else {return}
+            
             if(customerDraft.lineItems?.count != nil){
-                
                 self.noDataImage.isHidden = true
                 self.cartTable.isHidden = false
                 self.cartTable.reloadData()
+                self.totalItemsLb.isHidden = false
+                self.checkOutletBtn.isHidden = false
+                self.numberOfItem.isHidden = false
+                self.checkoutBtn.isHidden = false
+                self.totalPriceLbl.isHidden = false
+                
             }
             guard var customerCartProducts = customerDraft.lineItems else {return}
             self.cartViewModel.resDraft = customerDraft

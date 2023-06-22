@@ -220,6 +220,16 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DS0-SZ-sPv">
                                 <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HRm-vt-enn">
+                                <rect key="frame" x="124.66666666666667" y="663" width="143.66666666666663" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Log In As Guest">
+                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="logInAsGuest:" destination="OaJ-k0-B9g" eventType="touchUpInside" id="9Pa-aS-fO8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="7fP-Ah-nuR"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -257,6 +267,7 @@
                             <constraint firstItem="ml7-5w-LSU" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="20" id="dRM-fy-L4A"/>
                             <constraint firstItem="3si-M1-5Kp" firstAttribute="top" secondItem="op8-fR-uCO" secondAttribute="bottom" constant="8" id="dj8-U2-GVT"/>
                             <constraint firstItem="P1e-jt-aUR" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="20" id="fii-p1-d0W"/>
+                            <constraint firstItem="HRm-vt-enn" firstAttribute="top" secondItem="3si-M1-5Kp" secondAttribute="bottom" id="ggA-E1-i0f"/>
                             <constraint firstItem="nWP-BC-4qA" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="20" id="gza-TK-aXA"/>
                             <constraint firstItem="7fP-Ah-nuR" firstAttribute="trailing" secondItem="IqR-On-1Ip" secondAttribute="trailing" constant="20" id="hPs-jy-dmQ"/>
                             <constraint firstItem="klU-ns-GXv" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="20" id="hwn-uJ-Zi4"/>
@@ -268,6 +279,7 @@
                             <constraint firstItem="ml7-5w-LSU" firstAttribute="top" secondItem="klU-ns-GXv" secondAttribute="bottom" constant="10" id="sWo-bR-l9y"/>
                             <constraint firstItem="eWJ-bZ-JqJ" firstAttribute="leading" secondItem="7fP-Ah-nuR" secondAttribute="leading" constant="20" id="ugV-Wx-vuO"/>
                             <constraint firstItem="7fP-Ah-nuR" firstAttribute="trailing" secondItem="3si-M1-5Kp" secondAttribute="trailing" constant="96" id="xTN-O2-Q2Y"/>
+                            <constraint firstItem="HRm-vt-enn" firstAttribute="centerX" secondItem="3si-M1-5Kp" secondAttribute="centerX" id="yCg-07-SHI"/>
                         </constraints>
                     </view>
                     <connections>

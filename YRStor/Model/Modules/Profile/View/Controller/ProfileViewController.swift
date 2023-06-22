@@ -112,16 +112,20 @@ extension ProfileViewController:UICollectionViewDelegate,UICollectionViewDataSou
                 if isLoggin{
                     self.performSegue(withIdentifier: "profileMyOrderSegue", sender: self)
                 }else{
-                    let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-                    self.navigationController?.pushViewController(register, animated: true)
+                    let alert = UIAlertController(title: "Shopify", message: "Please Sign up or Sign In in application first ", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true)
                 }
                 
             case 1:
                 if isLoggin{
                     self.performSegue(withIdentifier: "profileLocationSegue", sender: self)
                 }else{
-                    let register = self.storyboard?.instantiateViewController(withIdentifier: "RegisterViewController") as! RegisterViewController
-                    self.navigationController?.pushViewController(register, animated: true)
+                   
+                        let alert = UIAlertController(title: "Shopify", message: "Please Sign up or Sign In in application first ", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        self.present(alert, animated: true)
+                    
                 }
                 
                 
