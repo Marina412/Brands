@@ -8,6 +8,7 @@
 import UIKit
 
 class OrderItemColletionViewCellCollectionViewCell: UICollectionViewCell {
+    @IBOutlet weak var view: CardViews!
     
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productTitle: UILabel!
@@ -17,6 +18,7 @@ class OrderItemColletionViewCellCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        UIView.elevationCardView(view: view)
     }
     func cellSetUp(order:OrderLineItems){
         productImage.kf.setImage(with: URL(string:order.image ?? ""), placeholder: UIImage(named: "logo"))

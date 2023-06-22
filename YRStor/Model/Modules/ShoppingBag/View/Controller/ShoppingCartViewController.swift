@@ -31,6 +31,10 @@ class ShoppingCartViewController: UIViewController {
        
     }
     override func viewWillAppear(_ animated: Bool) {
+        totalPriceLbl.text = ""
+        totalItemsLb.text = ""
+        UikitHelper.noDataImage(image: noDataImage, view: view, table: cartTable, activityIndicator: activityIndicator)
+        noDataImage.isHidden = false
         NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
        do{
          try reachability.startNotifier()
@@ -263,7 +267,7 @@ extension ShoppingCartViewController : UITableViewDelegate,UITableViewDataSource
             self.navigationController?.pushViewController(productInfo, animated: true)
         }
         else{
-            let alert = UIAlertController(title: "No Connection", message: " Sorry!! you are offline", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Shopify", message: " Sorry!! you are offline", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true)
            

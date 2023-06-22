@@ -110,7 +110,7 @@ class SearchViewController: UIViewController ,UISearchBarDelegate {
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if (reachability.connection != .unavailable){
-            if !searchText.isEmpty {
+            if !searchText.isEmpty || searchText != " " {
                 self.noSearchImage.isHidden = true
                 let filteredItems = allProductsArr.value.filter { item in
                     return item.title?.lowercased().contains(searchText.lowercased()) ?? false

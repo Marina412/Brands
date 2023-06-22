@@ -8,11 +8,13 @@
 import UIKit
 
 class OrderCollectionViewCell: UICollectionViewCell {
+    @IBOutlet weak var view: CardViews!
     @IBOutlet weak var orderDate: UILabel!
     @IBOutlet weak var orderPaydType: UILabel!
     @IBOutlet weak var orderPrice: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
+        UIView.elevationCardView(view: view)
     }
     func cellSetUp(order:Order){
         let endCar = (order.createdAt?.firstIndex(of: "T"))!

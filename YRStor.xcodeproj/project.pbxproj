@@ -367,8 +367,8 @@
 		035B7DA82A3C67D3005B5C47 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				035B7DA92A3C67E7005B5C47 /* ShoppingCartViewModel.swift */,
 				035B7DAB2A3C682F005B5C47 /* ShoppingCellViewModel.swift */,
+				035B7DA92A3C67E7005B5C47 /* ShoppingCartViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1995,6 +1995,7 @@
 				DEVELOPMENT_TEAM = MA5HQ4D5A4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YRStor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Shopify;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "please enable location to specify your location for retrieving order";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "please enable location to specify your location for retrieving order";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -2028,6 +2029,7 @@
 				DEVELOPMENT_TEAM = MA5HQ4D5A4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YRStor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Shopify;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "please enable location to specify your location for retrieving order";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "please enable location to specify your location for retrieving order";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

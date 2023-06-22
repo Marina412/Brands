@@ -196,7 +196,7 @@ class mapViewController: UIViewController,CLLocationManagerDelegate,UISearchBarD
             self.searchTxtField.text = ""
             let pin = MKPointAnnotation()
             pin.coordinate = location.coordinate
-            pin.title = String(describing: places.name)
+            pin.title = places.name ?? ""
             self.mapView.addAnnotation(pin)
             let region = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
             self.mapView.setRegion(region, animated: true)

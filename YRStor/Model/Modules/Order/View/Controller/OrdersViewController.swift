@@ -57,7 +57,15 @@ extension OrdersViewController{
             self.navigationController?.pushViewController(orderDetailsVC, animated: true)
         }).disposed(by: disposeBag)
     }
+    
+    
 }
+extension OrdersViewController : UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+            return CGSize(width: 350, height: 150)
+        }
+    }
 
 extension OrdersViewController{
     private func registerXibCells(){

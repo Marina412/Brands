@@ -9,6 +9,7 @@ import UIKit
 
 class ProductCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var cardView: CardViews!
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productTitle: UILabel!
     @IBOutlet weak var productPrice: UILabel!
@@ -36,6 +37,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
         shoppingCart.layer.borderWidth = 0.5
         shoppingCart.layer.borderColor = UIColor.black.cgColor
         activityIndicator.isHidden = true
+        UIView.elevationCardView(view: cardView)
     }
     
     

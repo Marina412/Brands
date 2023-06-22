@@ -116,6 +116,7 @@
             <size key="customSize" width="87" height="109"/>
             <connections>
                 <outlet property="activityIndicator" destination="wDN-1Z-IHC" id="GRq-7h-hg2"/>
+                <outlet property="cardView" destination="fQR-H6-Q0p" id="BBb-Ve-ozk"/>
                 <outlet property="currencyLab" destination="wIp-XA-4EY" id="GZ6-Iw-hoZ"/>
                 <outlet property="favourit" destination="Pae-rI-5X8" id="8If-1F-N07"/>
                 <outlet property="productImage" destination="oB5-FQ-FNn" id="bXq-X5-op8"/>

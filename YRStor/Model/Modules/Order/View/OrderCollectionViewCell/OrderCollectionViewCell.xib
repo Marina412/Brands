@@ -109,6 +109,7 @@
                 <outlet property="orderDate" destination="0CD-ob-YN4" id="Kpr-Ns-ivW"/>
                 <outlet property="orderPaydType" destination="elg-BC-9QH" id="kd4-rn-ioR"/>
                 <outlet property="orderPrice" destination="umd-se-gYv" id="70O-NW-X9a"/>
+                <outlet property="view" destination="9Vq-Wk-OGh" id="iBN-c2-060"/>
             </connections>
             <point key="canvasLocation" x="36.641221374045799" y="-11.267605633802818"/>
         </collectionViewCell>

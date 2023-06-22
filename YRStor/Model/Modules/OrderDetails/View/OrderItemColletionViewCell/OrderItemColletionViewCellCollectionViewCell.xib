@@ -78,6 +78,7 @@
                 <outlet property="productTitle" destination="sFi-bI-ZZF" id="YhV-pi-7Gc"/>
                 <outlet property="productsCount" destination="td1-Rk-pww" id="eo6-e2-XxA"/>
                 <outlet property="productsTotalPrice" destination="UZ9-Uz-zRB" id="KNg-Du-YGc"/>
+                <outlet property="view" destination="d31-e8-IcO" id="JJJ-ne-IQR"/>
             </connections>
             <point key="canvasLocation" x="131.29770992366412" y="-11.267605633802818"/>
         </collectionViewCell>

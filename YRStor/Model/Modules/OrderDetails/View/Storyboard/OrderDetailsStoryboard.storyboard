@@ -131,6 +131,7 @@
                     </view>
                     <connections>
                         <outlet property="adress" destination="t6s-lE-kb4" id="oZm-Ps-Ot3"/>
+                        <outlet property="cardView" destination="fUh-Kl-NQl" id="iwE-uQ-9F7"/>
                         <outlet property="itemsCollectionView" destination="htl-jK-owG" id="LXV-ge-UfG"/>
                         <outlet property="orderDate" destination="Yp0-7X-xD0" id="zNd-aI-wel"/>
                         <outlet property="payedBy" destination="Lzd-dv-Vof" id="w5j-It-dcN"/>

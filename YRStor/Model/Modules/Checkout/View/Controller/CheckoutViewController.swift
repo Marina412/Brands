@@ -205,6 +205,8 @@ class CheckoutViewController: UIViewController,CheckOutDelegate{
                 }
                 else{
                     self.addOrder()
+                    let ordersVC = self.storyboard?.instantiateViewController(withIdentifier: "OrdersViewController") as! OrdersViewController
+                    self.navigationController?.pushViewController(ordersVC, animated: true)
                 }
             }))
             alert.addAction(UIAlertAction(title: "No", style: .cancel))
@@ -233,7 +235,7 @@ extension CheckoutViewController{
                 print("order done")
                 var cartViewModel = ShoppingCartViewModel(repo: Repo(networkManager: NetworkManager()))
                 cartViewModel.deleteFavListInDatabase(draftId: String(self.checkOutItems.draftId ?? 0), indexPath: nil) {
-                    cartViewModel.resDraft = nil
+                  
                 }
 
             }
@@ -248,6 +250,9 @@ extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
         controller.dismiss(animated: true) {
             let ordersVC = self.storyboard?.instantiateViewController(withIdentifier: "OrdersViewController") as! OrdersViewController
             self.navigationController?.pushViewController(ordersVC, animated: true)
+            if let navigationController = self.navigationController{
+                navigationController.popToRootViewController(animated: true)
+            }
         }
     }
     

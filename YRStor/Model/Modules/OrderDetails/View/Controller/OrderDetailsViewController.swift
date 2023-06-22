@@ -8,6 +8,7 @@
 import UIKit
 
 class OrderDetailsViewController: UIViewController, UICollectionViewDelegate {
+    @IBOutlet weak var cardView: CardViews!
     
     @IBOutlet weak var orderDate: UILabel!
     @IBOutlet weak var adress: UILabel!
@@ -19,6 +20,7 @@ class OrderDetailsViewController: UIViewController, UICollectionViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UIView.elevationCardView(view: cardView)
         itemsCollectionView.delegate = self
         itemsCollectionView.dataSource = self
         renderUi()
